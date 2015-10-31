@@ -33,25 +33,24 @@ private:
     void checkLineFold()
     {
         state = NORMAL;
-        while (*it == '\r') {
+        while (!isEnd() && *it == '\r') {
             ++it;
-            if (*it != '\n') {
+            if (isEnd() || *it != '\n') {
                 /* CR not followed by LF */
                 state = CR;
                 break;
             }
             ++it;
-            if (*it == ' ' || *it == '\t') {
-                /* CRLF followed by a space/tab */
-                /* ignored as per RFC5545, section 3.1 */
-                ++it;
-                pos.advanceLine();
-                pos.advanceColumn();
-            } else {
+            if (isEnd() || (*it != ' ' && *it != '\t')) {
                 /* just CRLF */
                 state = CRLF;
                 break;
             }
+            /* CRLF followed by a space/tab */
+            /* ignored as per RFC5545, section 3.1 */
+            ++it;
+            pos.advanceLine();
+            pos.advanceColumn();
         }
     }
 
