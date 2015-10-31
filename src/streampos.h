@@ -18,8 +18,8 @@ private:
     unsigned long line = 0;
 
 public:
-    unsigned long getLine() const { return line; }
-    unsigned long getColumn() const { return column; }
+    unsigned long getLine() const { return line + 1; }
+    unsigned long getColumn() const { return column + 1; }
 
     StreamPos() { }
 
