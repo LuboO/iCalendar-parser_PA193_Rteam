@@ -80,7 +80,7 @@ public:
 
     CharSet operator^(const CharSet &other) const noexcept
     {
-        return bs & other.bs;
+        return bs ^ other.bs;
     }
 };
 
