@@ -36,7 +36,7 @@ private:
         for (auto c = s; c <= e; c++) {
             res.set(c);
         }
-        return std::move(res);
+        return res;
     }
 
     bitset bs;
