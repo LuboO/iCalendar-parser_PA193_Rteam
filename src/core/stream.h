@@ -23,6 +23,12 @@ private:
 
     StreamPos pos;
 
+    /*
+     * If '\r' is encountered, we need to look ahead up to 3 characters
+     * (because "\r\n( |\t)" is to be ignored), therefore we keep track
+     * of which characters we have read from the iterator that haven't
+     * been read from us yet:
+     */
     enum {
         NORMAL,
         CRLF,
