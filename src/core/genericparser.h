@@ -172,11 +172,10 @@ private:
         }
 
         /** Parses the content of a component. */
-        void parseComponentContent(const WithPos<std::string> &componentName,
+        void parseComponentContent(const StreamPos &startPos,
+                                   const WithPos<std::string> &componentName,
                                    std::vector<WithPos<GenericComponent>> &out)
         {
-            StreamPos startPos = stream.getPosition();
-
             std::vector<WithPos<GenericProperty>> properties;
             std::vector<WithPos<GenericComponent>> subcomponents;
 
@@ -193,7 +192,7 @@ private:
 
                 WithPos<std::string> componentName = line->getValue();
                 normalize(componentName.value());
-                parseComponentContent(componentName, subcomponents);
+                parseComponentContent(line.pos(), componentName, subcomponents);
 
                 line = parseContentLine();
             }
@@ -240,7 +239,7 @@ private:
                 WithPos<std::string> componentName = line->getValue();
                 normalize(componentName.value());
 
-                parseComponentContent(componentName, res);
+                parseComponentContent(line.pos(), componentName, res);
             }
             return res;
         }
