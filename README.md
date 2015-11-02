@@ -1,4 +1,4 @@
-# PA193 Project -- Team R
+# PA193 Project &ndash; Team R
 
 ## Topic
 Parser of the iCalendar format ([RFC 5545](https://tools.ietf.org/html/rfc5545)).
