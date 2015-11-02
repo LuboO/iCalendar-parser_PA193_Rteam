@@ -8,7 +8,15 @@ QMAKE_CXXFLAGS_DEBUG += -DDEBUG
 
 SOURCES += main.cpp \
     core/genericparser.cpp \
-    components/vcalendar.cpp
+    components/vcalendar.cpp \
+    core/valueparser.cpp \
+    data/recurrencerule.cpp \
+    data/utcoffset.cpp \
+    data/date.cpp \
+    data/datetime.cpp \
+    data/duration.cpp \
+    data/period.cpp \
+    data/time.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -20,4 +28,12 @@ HEADERS += \
     core/withpos.h \
     streampos.h \
     components/vcalendar.h \
-    parserexception.h
+    parserexception.h \
+    core/valueparser.h \
+    data/date.h \
+    data/time.h \
+    data/datetime.h \
+    data/duration.h \
+    data/period.h \
+    data/recurrencerule.h \
+    data/utcoffset.h
