@@ -45,7 +45,8 @@ SOURCES += main.cpp \
     properties/uid.cpp \
     properties/ianaprop.cpp \
     properties/nonstdprop.cpp \
-    properties/requeststatus.cpp
+    properties/requeststatus.cpp \
+    core/utf8validator.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -94,4 +95,5 @@ HEADERS += \
     properties/uid.h \
     properties/ianaprop.h \
     properties/nonstdprop.h \
-    properties/requeststatus.h
+    properties/requeststatus.h \
+    core/utf8validator.h
