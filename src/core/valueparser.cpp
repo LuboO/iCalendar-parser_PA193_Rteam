@@ -7,7 +7,7 @@
 namespace ical {
 namespace core {
 
-bool ValueParser::parseBoolean(StreamPos pos,
+bool ValueParser::parseBoolean(const StreamPos &pos,
                                std::string::const_iterator begin,
                                std::string::const_iterator end)
 {
@@ -20,7 +20,7 @@ bool ValueParser::parseBoolean(StreamPos pos,
     }
 }
 
-double ValueParser::parseFloat(StreamPos pos,
+double ValueParser::parseFloat(const StreamPos &pos,
                                std::string::const_iterator begin,
                                std::string::const_iterator end)
 {
@@ -36,7 +36,7 @@ double ValueParser::parseFloat(StreamPos pos,
     }
 }
 
-int ValueParser::parseInteger(StreamPos pos,
+int ValueParser::parseInteger(const StreamPos &pos,
                               std::string::const_iterator begin,
                               std::string::const_iterator end)
 {
@@ -52,7 +52,7 @@ int ValueParser::parseInteger(StreamPos pos,
     }
 }
 
-std::string ValueParser::parseText(StreamPos pos,
+std::string ValueParser::parseText(const StreamPos &pos,
                                    std::string::const_iterator begin,
                                    std::string::const_iterator end)
 {
@@ -83,7 +83,7 @@ std::string ValueParser::parseText(StreamPos pos,
 }
 
 std::string ValueParser::parseCalendarAddress(
-        StreamPos pos,
+        const StreamPos &pos,
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {
@@ -98,7 +98,7 @@ std::string ValueParser::parseUri(StreamPos,
     return { begin, end };
 }
 
-static unsigned char base64value(StreamPos pos, char c)
+static unsigned char base64value(const StreamPos &pos, char c)
 {
     if (c >= 'A' && c <= 'Z') {
         return static_cast<unsigned char>(c - 'A');
@@ -115,7 +115,7 @@ static unsigned char base64value(StreamPos pos, char c)
     }
 }
 
-static std::string base64decode(StreamPos pos,
+static std::string base64decode(const StreamPos &pos,
                                 std::string::const_iterator begin,
                                 std::string::const_iterator end)
 {
@@ -161,7 +161,7 @@ static std::string base64decode(StreamPos pos,
     return res;
 }
 
-std::string ValueParser::parseBinary(StreamPos pos,
+std::string ValueParser::parseBinary(const StreamPos &pos,
                                      std::string::const_iterator begin,
                                      std::string::const_iterator end)
 {
@@ -201,7 +201,7 @@ static const std::size_t TIME_LENGTH_MIN = 6;
 
 static const std::size_t DATETIME_LENGTH_MIN = DATE_LENGTH + 1 + TIME_LENGTH_MIN;
 
-data::Date ValueParser::parseDate(StreamPos pos,
+data::Date ValueParser::parseDate(const StreamPos &pos,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
@@ -223,7 +223,7 @@ data::Date ValueParser::parseDate(StreamPos pos,
     return { year, month, day };
 }
 
-data::Time ValueParser::parseTime(StreamPos pos,
+data::Time ValueParser::parseTime(const StreamPos &pos,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
@@ -249,7 +249,7 @@ data::Time ValueParser::parseTime(StreamPos pos,
     return { hour, minute, second, local };
 }
 
-data::DateTime ValueParser::parseDateTime(StreamPos pos,
+data::DateTime ValueParser::parseDateTime(const StreamPos &pos,
                                           std::string::const_iterator begin,
                                           std::string::const_iterator end)
 {
@@ -264,7 +264,7 @@ data::DateTime ValueParser::parseDateTime(StreamPos pos,
     return { std::move(date), std::move(time) };
 }
 
-data::UTCOffset ValueParser::parseUTCOffset(StreamPos pos,
+data::UTCOffset ValueParser::parseUTCOffset(const StreamPos &pos,
                                             std::string::const_iterator begin,
                                             std::string::const_iterator end)
 {
@@ -272,7 +272,7 @@ data::UTCOffset ValueParser::parseUTCOffset(StreamPos pos,
     return {};
 }
 
-data::Duration ValueParser::parseDuration(StreamPos pos,
+data::Duration ValueParser::parseDuration(const StreamPos &pos,
                                           std::string::const_iterator begin,
                                           std::string::const_iterator end)
 {
@@ -371,7 +371,7 @@ data::Duration ValueParser::parseDuration(StreamPos pos,
     return { negative, weeks, days, hours, minutes, seconds };
 }
 
-data::Period ValueParser::parsePeriod(StreamPos pos,
+data::Period ValueParser::parsePeriod(const StreamPos &pos,
                                       std::string::const_iterator begin,
                                       std::string::const_iterator end)
 {
@@ -393,7 +393,7 @@ data::Period ValueParser::parsePeriod(StreamPos pos,
 }
 
 data::RecurrenceRule ValueParser::parseRecurrenceRule(
-        StreamPos pos,
+        const StreamPos &pos,
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {
