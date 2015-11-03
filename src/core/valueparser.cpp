@@ -90,7 +90,7 @@ std::string ValueParser::parseCalendarAddress(
     return parseUri(pos, begin, end);
 }
 
-std::string ValueParser::parseUri(StreamPos,
+std::string ValueParser::parseUri(const StreamPos &,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
@@ -233,6 +233,7 @@ data::Time ValueParser::parseTime(const StreamPos &pos,
     if (!std::regex_match(begin, end, m, RE_TIME)) {
         throw ParserException(pos, "Invalid time value!");
     }
+
     auto hour = parseNumber(m[1].first, 2);
     auto minute = parseNumber(m[2].first, 2);
     auto second = parseNumber(m[3].first, 2);
@@ -268,8 +269,29 @@ data::UTCOffset ValueParser::parseUTCOffset(const StreamPos &pos,
                                             std::string::const_iterator begin,
                                             std::string::const_iterator end)
 {
-    // TODO: finish this
-    return {};
+    const std::regex RE_UTC_OFFSET { "([+-])([0-9]{2})([0-9]{2})([0-9]{2})?" };
+    std::smatch m;
+    if (!std::regex_match(begin, end, m, RE_UTC_OFFSET)) {
+        throw ParserException(pos, "Invalid UTC offset value!");
+    }
+
+    bool negative = *m[1].first == '-';
+    unsigned int hours = parseNumber(m[2].first, 2);
+    unsigned int minutes = parseNumber(m[3].first, 2);
+    unsigned int seconds = m[4].matched ? parseNumber(m[4].first, 2) : 0;
+    if (hours >= 24) {
+        throw ParserException(pos, "Invalid hours!");
+    }
+    if (minutes >= 60) {
+        throw ParserException(pos, "Invalid minutes!");
+    }
+    if (seconds >= 60) {
+        throw ParserException(pos, "Invalid seconds!");
+    }
+    if (negative && hours == 0 && minutes == 0 && seconds == 0) {
+        throw ParserException(pos, "Negative zero UTC offset is not allowed!");
+    }
+    return { negative, hours, minutes, seconds };
 }
 
 data::Duration ValueParser::parseDuration(const StreamPos &pos,
