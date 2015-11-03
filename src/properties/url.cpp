@@ -7,7 +7,7 @@ void Url::print(std::ostream &out) {
 
 }
 
-Url Url::parse(const core::WithPos<core::GenericComponent> &generic) {
+Url Url::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

@@ -7,7 +7,7 @@ void Uid::print(std::ostream &out) {
 
 }
 
-Uid Uid::parse(const core::WithPos<core::GenericComponent> &generic) {
+Uid Uid::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

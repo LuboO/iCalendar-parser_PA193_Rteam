@@ -4,7 +4,7 @@
 #include <ostream>
 #include <vector>
 
-#include "core/genericcomponent.h"
+#include "core/genericpropertyparameter.h"
 #include "parserexception.h"
 
 namespace ical {
@@ -12,12 +12,16 @@ namespace parameters {
 
 class Language
 {
+private:
+    std::string value;
 public:
     Language() {}
 
+    const std::string &getValue() const noexcept { return value; }
+
     void print(std::ostream & out);
 
-    static Language parse(const core::WithPos<core::GenericComponent> &generic);
+    static Language parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };
 
 } // namespace parameters

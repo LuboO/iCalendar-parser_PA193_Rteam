@@ -7,7 +7,7 @@ void RequestStatus::print(std::ostream &out) {
 
 }
 
-RequestStatus RequestStatus::parse(const core::WithPos<core::GenericComponent> &generic) {
+RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

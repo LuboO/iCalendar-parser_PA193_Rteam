@@ -7,7 +7,7 @@ void TZUrl::print(std::ostream &out) {
 
 }
 
-TZUrl TZUrl::parse(const core::WithPos<core::GenericComponent> &generic) {
+TZUrl TZUrl::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

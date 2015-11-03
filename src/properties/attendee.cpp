@@ -7,7 +7,7 @@ void Attendee::print(std::ostream &out) {
 
 }
 
-Attendee Attendee::parse(const core::WithPos<core::GenericComponent> &generic) {
+Attendee Attendee::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

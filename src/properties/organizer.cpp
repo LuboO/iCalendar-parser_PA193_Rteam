@@ -7,7 +7,7 @@ void Organizer::print(std::ostream &out) {
 
 }
 
-Organizer Organizer::parse(const core::WithPos<core::GenericComponent> &generic) {
+Organizer Organizer::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

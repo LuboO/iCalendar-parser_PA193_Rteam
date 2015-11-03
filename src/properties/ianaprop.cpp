@@ -7,7 +7,7 @@ void IanaProp::print(std::ostream &out) {
 
 }
 
-IanaProp IanaProp::parse(const core::WithPos<core::GenericComponent> &generic) {
+IanaProp IanaProp::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 
