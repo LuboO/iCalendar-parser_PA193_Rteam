@@ -15,7 +15,7 @@ class Contact
 public:
     Contact() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static Contact parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };

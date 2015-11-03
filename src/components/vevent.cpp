@@ -5,7 +5,7 @@ namespace components {
 
 using namespace ical::core;
 
-void VEvent::print(std::ostream &out) {
+void VEvent::print(std::ostream &out) const {
 
 }
 

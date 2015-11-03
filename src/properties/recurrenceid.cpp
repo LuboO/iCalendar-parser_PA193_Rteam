@@ -3,7 +3,7 @@
 namespace ical {
 namespace properties {
 
-void RecurrenceId::print(std::ostream &out) {
+void RecurrenceId::print(std::ostream &out) const {
 
 }
 

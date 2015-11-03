@@ -15,7 +15,7 @@ class IanaProp
 public:
     IanaProp() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static IanaProp parse(const core::WithPos<core::GenericProperty> &generic);
 };

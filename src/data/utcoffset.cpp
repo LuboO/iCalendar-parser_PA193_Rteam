@@ -3,7 +3,7 @@
 namespace ical {
 namespace data {
 
-void UTCOffset::print(std::ostream &out)
+void UTCOffset::print(std::ostream &out) const
 {
     // TODO: finish this
 }

@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Language::print(std::ostream &out) {
+void Language::print(std::ostream &out) const {
     out << ";LANGUAGE=" << value;
 }
 

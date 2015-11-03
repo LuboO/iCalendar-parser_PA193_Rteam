@@ -3,7 +3,7 @@
 namespace ical {
 namespace components {
 
-void VTimeZone::print(std::ostream & out) {
+void VTimeZone::print(std::ostream &out) const {
 
 }
 

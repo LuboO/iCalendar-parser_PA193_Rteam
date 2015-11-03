@@ -3,7 +3,7 @@
 namespace ical {
 namespace properties {
 
-void Organizer::print(std::ostream &out) {
+void Organizer::print(std::ostream &out) const {
 
 }
 

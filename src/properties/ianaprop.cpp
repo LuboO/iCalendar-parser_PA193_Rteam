@@ -3,7 +3,7 @@
 namespace ical {
 namespace properties {
 
-void IanaProp::print(std::ostream &out) {
+void IanaProp::print(std::ostream &out) const {
 
 }
 

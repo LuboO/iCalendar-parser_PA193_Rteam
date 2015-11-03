@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Encoding::print(std::ostream &out) {
+void Encoding::print(std::ostream &out) const {
     out << ";ENCODING=" << value;
 }
 

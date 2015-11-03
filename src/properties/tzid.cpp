@@ -3,7 +3,7 @@
 namespace ical {
 namespace properties {
 
-void TZId::print(std::ostream &out) {
+void TZId::print(std::ostream &out) const {
 
 }
 

@@ -3,7 +3,7 @@
 namespace ical {
 namespace components {
 
-void VTodo::print(std::ostream &out) {
+void VTodo::print(std::ostream &out) const {
 
 }
 

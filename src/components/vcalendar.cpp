@@ -5,7 +5,7 @@ namespace components {
 
 using namespace ical::core;
 
-void VCalendar::print(std::ostream &out)
+void VCalendar::print(std::ostream &out) const
 {
     // TODO
 }

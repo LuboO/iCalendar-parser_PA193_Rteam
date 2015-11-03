@@ -16,7 +16,7 @@ private:
 public:
     VTodo() {}
 
-    void print(std::ostream &out);
+    void print(std::ostream &out) const;
 
     static VTodo parse(const core::WithPos<core::GenericComponent> &generic);
 };

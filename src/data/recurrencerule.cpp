@@ -3,7 +3,7 @@
 namespace ical {
 namespace data {
 
-void RecurrenceRule::print(std::ostream &out)
+void RecurrenceRule::print(std::ostream &out) const
 {
     // TODO: finish this
 }

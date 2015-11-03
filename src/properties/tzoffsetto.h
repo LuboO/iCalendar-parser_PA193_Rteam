@@ -15,7 +15,7 @@ class TZOffsetTo
 public:
     TZOffsetTo() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static TZOffsetTo parse(const core::WithPos<core::GenericProperty> &generic);
 };
