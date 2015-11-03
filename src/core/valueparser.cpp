@@ -7,7 +7,7 @@
 namespace ical {
 namespace core {
 
-bool ValueParser::parseBoolean(StreamPos pos,
+bool ValueParser::parseBoolean(const StreamPos &pos,
                                std::string::const_iterator begin,
                                std::string::const_iterator end)
 {
@@ -20,7 +20,7 @@ bool ValueParser::parseBoolean(StreamPos pos,
     }
 }
 
-double ValueParser::parseFloat(StreamPos pos,
+double ValueParser::parseFloat(const StreamPos &pos,
                                std::string::const_iterator begin,
                                std::string::const_iterator end)
 {
@@ -36,7 +36,7 @@ double ValueParser::parseFloat(StreamPos pos,
     }
 }
 
-int ValueParser::parseInteger(StreamPos pos,
+int ValueParser::parseInteger(const StreamPos &pos,
                               std::string::const_iterator begin,
                               std::string::const_iterator end)
 {
@@ -52,23 +52,45 @@ int ValueParser::parseInteger(StreamPos pos,
     }
 }
 
-std::string ValueParser::parseText(StreamPos,
+std::string ValueParser::parseText(const StreamPos &pos,
                                    std::string::const_iterator begin,
                                    std::string::const_iterator end)
 {
-    // TODO: finish this
-    return { begin, end };
+    std::string res;
+    while (begin != end) {
+        char c = *begin;
+        if (c == ';' || c == ',') {
+            throw ParserException(pos, "Invalid text character!");
+        }
+        if (c == '\\') {
+            if (++begin == end) {
+                throw ParserException(pos, "Incomplete escape sequence in text value!");
+            }
+            c = *begin;
+            if (c == '\\' || c == ';' || c == ',') {
+                res.push_back(c);
+            } else if (c == 'n' || c == 'N') {
+                res.push_back('\n');
+            } else {
+                throw ParserException(pos, "Invalid escape sequence in text value!");
+            }
+        } else {
+            res.push_back(c);
+        }
+        ++begin;
+    }
+    return res;
 }
 
 std::string ValueParser::parseCalendarAddress(
-        StreamPos pos,
+        const StreamPos &pos,
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {
     return parseUri(pos, begin, end);
 }
 
-std::string ValueParser::parseUri(StreamPos,
+std::string ValueParser::parseUri(const StreamPos &,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
@@ -76,18 +98,74 @@ std::string ValueParser::parseUri(StreamPos,
     return { begin, end };
 }
 
-static std::string base64decode(std::string::const_iterator begin,
-                                std::string::const_iterator end)
+static unsigned char base64value(const StreamPos &pos, char c)
 {
-    // TODO implement this
-    return { begin, end };
+    if (c >= 'A' && c <= 'Z') {
+        return static_cast<unsigned char>(c - 'A');
+    } else if (c >= 'a' && c <= 'z') {
+        return static_cast<unsigned char>(c - 'a') + 26;
+    } else if (c >= '0' && c <= '9') {
+        return static_cast<unsigned char>(c - '0') + 2 * 26;
+    } else if (c == '+') {
+        return 2 * 26 + 10;
+    } else if (c == '/') {
+        return 2 * 26 + 10 + 1;
+    } else {
+        throw ParserException(pos, "Invalid base64 character!");
+    }
 }
 
-std::string ValueParser::parseBinary(StreamPos pos,
+static std::string base64decode(const StreamPos &pos,
+                                std::string::const_iterator begin,
+                                std::string::const_iterator end)
+{
+    auto inLength = static_cast<std::size_t>(end - begin);
+    if (inLength % 4 != 0) {
+        throw ParserException(pos, "Base64 sequence has invalid length!");
+    }
+    if (inLength == 0) {
+        return {};
+    }
+
+    std::size_t outLength = (inLength / 4) * 3;
+    std::size_t padding = 0;
+    while (padding <= 2 && *(end - padding - 1) == '=') {
+        ++padding;
+    }
+    outLength -= padding;
+
+    std::string res;
+    res.reserve(outLength);
+    while (true) {
+        unsigned long int val;
+        for (std::size_t i = 0; i < 4; i++) {
+            val <<= 6;
+            if (static_cast<std::size_t>(end - begin) > padding) {
+                val |= base64value(pos, *begin);
+            }
+            ++begin;
+        }
+        res.push_back(static_cast<char>((val >> 16) & 0xFF)); --outLength;
+        if (outLength == 0) {
+            break;
+        }
+        res.push_back(static_cast<char>((val >>  8) & 0xFF)); --outLength;
+        if (outLength == 0) {
+            break;
+        }
+        res.push_back(static_cast<char>((val >>  0) & 0xFF)); --outLength;
+        if (outLength == 0) {
+            break;
+        }
+    }
+    return res;
+}
+
+std::string ValueParser::parseBinary(const StreamPos &pos,
                                      std::string::const_iterator begin,
                                      std::string::const_iterator end)
 {
-    return base64decode(begin, end);
+    return base64decode(pos, begin, end);
 }
 
 static unsigned int parseNumber(std::string::const_iterator it,
@@ -123,7 +201,7 @@ static const std::size_t TIME_LENGTH_MIN = 6;
 
 static const std::size_t DATETIME_LENGTH_MIN = DATE_LENGTH + 1 + TIME_LENGTH_MIN;
 
-data::Date ValueParser::parseDate(StreamPos pos,
+data::Date ValueParser::parseDate(const StreamPos &pos,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
@@ -145,7 +223,7 @@ data::Date ValueParser::parseDate(StreamPos pos,
     return { year, month, day };
 }
 
-data::Time ValueParser::parseTime(StreamPos pos,
+data::Time ValueParser::parseTime(const StreamPos &pos,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
@@ -155,6 +233,7 @@ data::Time ValueParser::parseTime(StreamPos pos,
     if (!std::regex_match(begin, end, m, RE_TIME)) {
         throw ParserException(pos, "Invalid time value!");
     }
+
     auto hour = parseNumber(m[1].first, 2);
     auto minute = parseNumber(m[2].first, 2);
     auto second = parseNumber(m[3].first, 2);
@@ -171,7 +250,7 @@ data::Time ValueParser::parseTime(StreamPos pos,
     return { hour, minute, second, local };
 }
 
-data::DateTime ValueParser::parseDateTime(StreamPos pos,
+data::DateTime ValueParser::parseDateTime(const StreamPos &pos,
                                           std::string::const_iterator begin,
                                           std::string::const_iterator end)
 {
@@ -186,15 +265,36 @@ data::DateTime ValueParser::parseDateTime(StreamPos pos,
     return { std::move(date), std::move(time) };
 }
 
-data::UTCOffset ValueParser::parseUTCOffset(StreamPos pos,
+data::UTCOffset ValueParser::parseUTCOffset(const StreamPos &pos,
                                             std::string::const_iterator begin,
                                             std::string::const_iterator end)
 {
-    // TODO: finish this
-    return {};
+    const std::regex RE_UTC_OFFSET { "([+-])([0-9]{2})([0-9]{2})([0-9]{2})?" };
+    std::smatch m;
+    if (!std::regex_match(begin, end, m, RE_UTC_OFFSET)) {
+        throw ParserException(pos, "Invalid UTC offset value!");
+    }
+
+    bool negative = *m[1].first == '-';
+    unsigned int hours = parseNumber(m[2].first, 2);
+    unsigned int minutes = parseNumber(m[3].first, 2);
+    unsigned int seconds = m[4].matched ? parseNumber(m[4].first, 2) : 0;
+    if (hours >= 24) {
+        throw ParserException(pos, "Invalid hours!");
+    }
+    if (minutes >= 60) {
+        throw ParserException(pos, "Invalid minutes!");
+    }
+    if (seconds >= 60) {
+        throw ParserException(pos, "Invalid seconds!");
+    }
+    if (negative && hours == 0 && minutes == 0 && seconds == 0) {
+        throw ParserException(pos, "Negative zero UTC offset is not allowed!");
+    }
+    return { negative, hours, minutes, seconds };
 }
 
-data::Duration ValueParser::parseDuration(StreamPos pos,
+data::Duration ValueParser::parseDuration(const StreamPos &pos,
                                           std::string::const_iterator begin,
                                           std::string::const_iterator end)
 {
@@ -293,7 +393,7 @@ data::Duration ValueParser::parseDuration(StreamPos pos,
     return { negative, weeks, days, hours, minutes, seconds };
 }
 
-data::Period ValueParser::parsePeriod(StreamPos pos,
+data::Period ValueParser::parsePeriod(const StreamPos &pos,
                                       std::string::const_iterator begin,
                                       std::string::const_iterator end)
 {
@@ -315,7 +415,7 @@ data::Period ValueParser::parsePeriod(StreamPos pos,
 }
 
 data::RecurrenceRule ValueParser::parseRecurrenceRule(
-        StreamPos pos,
+        const StreamPos &pos,
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {

@@ -15,7 +15,7 @@ class TZUrl
 public:
     TZUrl() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static TZUrl parse(const core::WithPos<core::GenericProperty> &generic);
 };

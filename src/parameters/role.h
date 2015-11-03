@@ -1,5 +1,5 @@
-#ifndef ICAL_PARAMETERS_FBTYPE_H
-#define ICAL_PARAMETERS_FBTYPE_H
+#ifndef ROLE_H
+#define ROLE_H
 
 #include <ostream>
 #include <vector>
@@ -9,23 +9,22 @@
 
 namespace ical {
 namespace parameters {
-
-class FBType
+class Role
 {
 private:
     std::string value;
 public:
-    FBType() {}
+    Role() {}
 
     const std::string &getValue() const noexcept { return value; }
 
-    void print(std::ostream &out) const;
+    void print(std::ostream & out);
 
-    static FBType parse(const core::WithPos<core::GenericPropertyParameter> &generic);
+    static Role parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };
-
-} // namespace parameters
+}// namespace parameters
 } // namespace ical
 
-#endif // ICAL_PARAMETERS_FBTYPE_H
 
+
+#endif // ROLE_H

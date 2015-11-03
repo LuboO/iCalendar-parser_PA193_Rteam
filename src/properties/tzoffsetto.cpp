@@ -3,7 +3,7 @@
 namespace ical {
 namespace properties {
 
-void TZOffsetTo::print(std::ostream &out) {
+void TZOffsetTo::print(std::ostream &out) const {
     out << "TZOFFSETTO:";
     value.print(out);
     out << "\r\n";

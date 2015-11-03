@@ -15,7 +15,7 @@ class Organizer
 public:
     Organizer() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static Organizer parse(const core::WithPos<core::GenericProperty> &generic);
 };

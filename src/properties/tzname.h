@@ -26,7 +26,7 @@ public:
         return langParam;
     }
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static TZName parse(const core::WithPos<core::GenericProperty> &generic);
 };

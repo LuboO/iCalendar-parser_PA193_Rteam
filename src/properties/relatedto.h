@@ -15,7 +15,7 @@ class RelatedTo
 public:
     RelatedTo() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static RelatedTo parse(const core::WithPos<core::GenericProperty> &generic);
 };

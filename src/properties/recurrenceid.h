@@ -15,7 +15,7 @@ class RecurrenceId
 public:
     RecurrenceId() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static RecurrenceId parse(const core::WithPos<core::GenericProperty> &generic);
 };

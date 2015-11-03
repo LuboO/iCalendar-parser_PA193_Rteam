@@ -1,10 +1,8 @@
-#ifndef ICAL_PARAMETERS_FMTTYPE_H
-#define ICAL_PARAMETERS_FMTTYPE_H
+#ifndef RSVP_H
+#define RSVP_H
 
 #include <ostream>
 #include <vector>
-#include <string>
-#include <regex>
 
 #include "core/genericpropertyparameter.h"
 #include "parserexception.h"
@@ -12,22 +10,21 @@
 namespace ical {
 namespace parameters {
 
-class FmtType
+class Rsvp
 {
-private:
     std::string value;
 public:
-    FmtType() {}
+    Rsvp() {}
 
     const std::string &getValue() const noexcept { return value; }
 
-    void print(std::ostream &out) const;
+    void print(std::ostream & out);
 
-    static FmtType parse(const core::WithPos<core::GenericPropertyParameter> &generic);
+    static Rsvp parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };
 
 } // namespace parameters
 } // namespace ical
 
-#endif // ICAL_PARAMETERS_FMTTYPE_H
 
+#endif // RSVP_H

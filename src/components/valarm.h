@@ -14,7 +14,7 @@ class VAlarm
 public:
     VAlarm() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static VAlarm parse(const core::WithPos<core::GenericComponent> &generic);
 };

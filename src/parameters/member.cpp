@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Member::print(std::ostream &out) {
+void Member::print(std::ostream &out) const {
     out << ";MEMBER=";
     for(size_t i = 0 ; i < value.size() ; i++) {
         out << "\"" << i << "\"";

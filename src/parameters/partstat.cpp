@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void PartStat::print(std::ostream &out) {
+void PartStat::print(std::ostream &out) const {
     out << ";PARTSTAT=" << value;
 }
 

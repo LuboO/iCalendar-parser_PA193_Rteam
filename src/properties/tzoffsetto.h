@@ -21,7 +21,7 @@ public:
 
     const data::UTCOffset &getValue() const noexcept { return value; }
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static TZOffsetTo parse(const core::WithPos<core::GenericProperty> &generic);
 };

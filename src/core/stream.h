@@ -14,7 +14,6 @@
 namespace ical {
 namespace core {
 
-// TODO: validate UTF-8
 /** A helper to read an iCalendar stream from char iterators. */
 template<class InputIterator>
 class Stream

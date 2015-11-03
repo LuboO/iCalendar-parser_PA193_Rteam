@@ -25,7 +25,7 @@ private:
 public:
     VEvent() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static VEvent parse(const core::WithPos<core::GenericComponent> &generic);
 };

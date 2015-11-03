@@ -15,7 +15,7 @@ class RequestStatus
 public:
     RequestStatus() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static RequestStatus parse(const core::WithPos<core::GenericProperty> &generic);
 };

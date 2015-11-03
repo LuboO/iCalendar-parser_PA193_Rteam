@@ -14,7 +14,7 @@ class VTimeZone
 public:
     VTimeZone() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static VTimeZone parse(const core::WithPos<core::GenericComponent> &generic);
 };

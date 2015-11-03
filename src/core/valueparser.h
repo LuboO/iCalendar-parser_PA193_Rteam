@@ -18,25 +18,25 @@ class ValueParser
 {
 public:
     template<class T>
-    using ParseFunc = T(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+    using ParseFunc = T(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
-    static bool parseBoolean(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static double parseFloat(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static int parseInteger(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static bool parseBoolean(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static double parseFloat(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static int parseInteger(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
-    static std::string parseText(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static std::string parseCalendarAddress(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static std::string parseUri(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static std::string parseBinary(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static std::string parseText(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static std::string parseCalendarAddress(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static std::string parseUri(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static std::string parseBinary(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
-    static data::Date parseDate(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::Time parseTime(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::DateTime parseDateTime(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::UTCOffset parseUTCOffset(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::UTCOffset parseUTCOffset(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
-    static data::Duration parseDuration(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::Period parsePeriod(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::RecurrenceRule parseRecurrenceRule(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::Duration parseDuration(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::Period parsePeriod(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::RecurrenceRule parseRecurrenceRule(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
     /**
      * Parse comma(or something else)-delimited sequence of values.
@@ -53,7 +53,7 @@ public:
      */
     template<class T>
     static std::vector<T> parseDelimited(
-            StreamPos pos,
+            const StreamPos &pos,
             std::string::const_iterator begin,
             std::string::const_iterator end,
             ParseFunc<T> elemParseFunc, char delimiter = ',')
@@ -61,16 +61,16 @@ public:
         std::vector<T> res;
         std::string::const_iterator delimIt;
         std::string::const_iterator elemIt = begin;
-        do {
+        while (true) {
             delimIt = std::find(elemIt, end, delimiter);
             res.emplace_back(std::move(elemParseFunc(pos, elemIt, delimIt)));
 
+            if (delimIt == end) {
+                break;
+            }
             /* skip the delimiter: */
             elemIt = delimIt + 1;
-            /* NOTE: the iterator may be moved beyond the end here,
-             * but it isn't derefenced then (the loop terminates),
-             * so it doesn't matter. */
-        } while (delimIt != end);
+        }
         return res;
     }
 };

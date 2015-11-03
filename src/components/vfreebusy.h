@@ -14,7 +14,7 @@ class VFreeBusy
 public:
     VFreeBusy() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static VFreeBusy parse(const core::WithPos<core::GenericComponent> &generic);
 };

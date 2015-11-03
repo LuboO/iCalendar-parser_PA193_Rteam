@@ -15,7 +15,7 @@ class Uid
 public:
     Uid() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static Uid parse(const core::WithPos<core::GenericProperty> &generic);
 };

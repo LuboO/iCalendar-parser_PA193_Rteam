@@ -1,5 +1,5 @@
-#ifndef ICAL_PARAMETERS_FBTYPE_H
-#define ICAL_PARAMETERS_FBTYPE_H
+#ifndef TZID_PARAM_H
+#define TZID_PARAM_H
 
 #include <ostream>
 #include <vector>
@@ -10,22 +10,20 @@
 namespace ical {
 namespace parameters {
 
-class FBType
+class Tzid_param
 {
-private:
     std::string value;
 public:
-    FBType() {}
+    Tzid_param() {}
 
     const std::string &getValue() const noexcept { return value; }
 
-    void print(std::ostream &out) const;
+    void print(std::ostream & out);
 
-    static FBType parse(const core::WithPos<core::GenericPropertyParameter> &generic);
+    static Tzid_param parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };
 
 } // namespace parameters
 } // namespace ical
 
-#endif // ICAL_PARAMETERS_FBTYPE_H
-
+#endif // TZID_PARAM_H

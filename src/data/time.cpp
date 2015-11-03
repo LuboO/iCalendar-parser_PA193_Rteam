@@ -3,7 +3,7 @@
 namespace ical {
 namespace data {
 
-void Time::print(std::ostream &out)
+void Time::print(std::ostream &out) const
 {
     // TODO: finish this
 }
