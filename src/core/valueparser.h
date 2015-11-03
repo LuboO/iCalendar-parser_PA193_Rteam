@@ -8,6 +8,8 @@
 #include "data/recurrencerule.h"
 
 #include <string>
+#include <vector>
+#include <algorithm>
 
 namespace ical {
 namespace core {
@@ -15,6 +17,9 @@ namespace core {
 class ValueParser
 {
 public:
+    template<class T>
+    using ParseFunc = T(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+
     static bool parseBoolean(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
     static double parseFloat(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
     static int parseInteger(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
@@ -32,6 +37,42 @@ public:
     static data::Duration parseDuration(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::Period parsePeriod(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::RecurrenceRule parseRecurrenceRule(StreamPos pos, std::string::const_iterator begin, std::string::const_iterator end);
+
+    /**
+     * Parse comma(or something else)-delimited sequence of values.
+     *
+     * Example:
+     * ```
+     * // parses a ';'-separated sequence of integers (like '1;2;3'):
+     * // NOTE: The template argument is inferred automatically,
+     * // so you don't have to specify it explicitly.
+     * std::vector<int> ints = ValueParser::parseDelimited(
+     *                              pos, begin, end,
+     *                              ValueParser::parseInteger, ';');
+     * ```
+     */
+    template<class T>
+    static std::vector<T> parseDelimited(
+            StreamPos pos,
+            std::string::const_iterator begin,
+            std::string::const_iterator end,
+            ParseFunc<T> elemParseFunc, char delimiter = ',')
+    {
+        std::vector<T> res;
+        std::string::const_iterator delimIt;
+        std::string::const_iterator elemIt = begin;
+        do {
+            delimIt = std::find(elemIt, end, delimiter);
+            res.emplace_back(std::move(elemParseFunc(pos, elemIt, delimIt)));
+
+            /* skip the delimiter: */
+            elemIt = delimIt + 1;
+            /* NOTE: the iterator may be moved beyond the end here,
+             * but it isn't derefenced then (the loop terminates),
+             * so it doesn't matter. */
+        } while (delimIt != end);
+        return res;
+    }
 };
 
 } // namespace core

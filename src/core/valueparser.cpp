@@ -2,7 +2,6 @@
 
 #include "parserexception.h"
 
-#include <algorithm>
 #include <regex>
 
 namespace ical {
