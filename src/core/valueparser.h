@@ -61,16 +61,16 @@ public:
         std::vector<T> res;
         std::string::const_iterator delimIt;
         std::string::const_iterator elemIt = begin;
-        do {
+        while (true) {
             delimIt = std::find(elemIt, end, delimiter);
             res.emplace_back(std::move(elemParseFunc(pos, elemIt, delimIt)));
 
+            if (delimIt == end) {
+                break;
+            }
             /* skip the delimiter: */
             elemIt = delimIt + 1;
-            /* NOTE: the iterator may be moved beyond the end here,
-             * but it isn't derefenced then (the loop terminates),
-             * so it doesn't matter. */
-        } while (delimIt != end);
+        }
         return res;
     }
 };
