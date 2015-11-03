@@ -15,7 +15,7 @@ class Url
 public:
     Url() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static Url parse(const core::WithPos<core::GenericProperty> &generic);
 };

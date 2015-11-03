@@ -35,7 +35,7 @@ private:
 public:
     VCalendar() {}
 
-    void print(std::ostream &out);
+    void print(std::ostream &out) const;
 
     static VCalendar parse(const core::WithPos<core::GenericComponent> &generic);
 };

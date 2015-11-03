@@ -15,7 +15,7 @@ class TZId
 public:
     TZId() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static TZId parse(const core::WithPos<core::GenericProperty> &generic);
 };

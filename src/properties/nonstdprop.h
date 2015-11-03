@@ -15,7 +15,7 @@ class NonStdProp
 public:
     NonStdProp() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static NonStdProp parse(const core::WithPos<core::GenericProperty> &generic);
 };

@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Range::print(std::ostream &out) {
+void Range::print(std::ostream &out) const {
     out << ";RANGE=" << value;
 }
 

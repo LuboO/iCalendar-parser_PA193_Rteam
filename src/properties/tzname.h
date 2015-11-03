@@ -15,7 +15,7 @@ class TZName
 public:
     TZName() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static TZName parse(const core::WithPos<core::GenericProperty> &generic);
 };

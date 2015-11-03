@@ -26,7 +26,7 @@ public:
     {
     }
 
-    void print(std::ostream &out);
+    void print(std::ostream &out) const;
 };
 
 } // namespace data

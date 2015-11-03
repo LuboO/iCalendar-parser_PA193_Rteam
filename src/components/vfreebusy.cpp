@@ -3,7 +3,7 @@
 namespace ical {
 namespace components {
 
-void VFreeBusy::print(std::ostream & out) {
+void VFreeBusy::print(std::ostream &out) const {
 
 }
 

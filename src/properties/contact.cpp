@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Contact::print(std::ostream &out) {
+void Contact::print(std::ostream &out) const {
 
 }
 

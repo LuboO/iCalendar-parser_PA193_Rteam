@@ -15,7 +15,7 @@ class Attendee
 public:
     Attendee() {}
 
-    void print(std::ostream & out);
+    void print(std::ostream &out) const;
 
     static Attendee parse(const core::WithPos<core::GenericProperty> &generic);
 };

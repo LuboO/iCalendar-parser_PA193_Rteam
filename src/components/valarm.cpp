@@ -3,7 +3,7 @@
 namespace ical {
 namespace components {
 
-void VAlarm::print(std::ostream & out) {
+void VAlarm::print(std::ostream &out) const {
 
 }
 
