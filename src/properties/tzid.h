@@ -12,8 +12,12 @@ namespace properties {
 
 class TZId
 {
+private:
+    std::string value;
 public:
     TZId() {}
+
+    const std::string &getValue() const noexcept { return value; }
 
     void print(std::ostream & out);
 

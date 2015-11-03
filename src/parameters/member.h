@@ -14,11 +14,11 @@ namespace parameters {
 class Member
 {
 private:
-    std::string value;
+    std::vector<std::string> value;
 public:
     Member() {}
 
-    const std::string &getValue() const noexcept { return value; }
+    const std::vector<std::string> &getValue() const noexcept { return value; }
 
     void print(std::ostream & out);
 

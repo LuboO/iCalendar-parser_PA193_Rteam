@@ -10,7 +10,7 @@ void Language::print(std::ostream &out) {
 Language Language::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "LANGUAGE")
         throw ParserException(generic.pos() , "invalid LANGUAGE parameter name");
-    /* Language tag is not verified, any string is accapted! */
+    /* Language tag is not verified, any string is accepted! */
     Language lang;
     lang.value = generic->getValue().value();
     return lang;
