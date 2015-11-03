@@ -4,7 +4,7 @@
 #include <ostream>
 #include <vector>
 
-#include "core/genericcomponent.h"
+#include "core/genericpropertyparameter.h"
 #include "parserexception.h"
 
 namespace ical {
@@ -12,12 +12,16 @@ namespace parameters {
 
 class PartStat
 {
+private:
+    std::string value;
 public:
     PartStat() {}
 
+    const std::string &getValue() const noexcept { return value; }
+
     void print(std::ostream & out);
 
-    static PartStat parse(const core::WithPos<core::GenericComponent> &generic);
+    static PartStat parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };
 
 } // namespace parameters

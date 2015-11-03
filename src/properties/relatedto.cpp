@@ -7,7 +7,7 @@ void RelatedTo::print(std::ostream &out) {
 
 }
 
-RelatedTo RelatedTo::parse(const core::WithPos<core::GenericComponent> &generic) {
+RelatedTo RelatedTo::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

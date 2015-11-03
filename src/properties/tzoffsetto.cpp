@@ -7,7 +7,7 @@ void TZOffsetTo::print(std::ostream &out) {
 
 }
 
-TZOffsetTo TZOffsetTo::parse(const core::WithPos<core::GenericComponent> &generic) {
+TZOffsetTo TZOffsetTo::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

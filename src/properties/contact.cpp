@@ -1,16 +1,16 @@
 #include "contact.h"
 
 namespace ical {
-namespace properties {
+namespace parameters {
 
 void Contact::print(std::ostream &out) {
 
 }
 
-Contact Contact::parse(const core::WithPos<core::GenericComponent> &generic) {
+Contact Contact::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     return {};
 }
 
-} // namespace properties
+} // namespace parameters
 } // namespace ical
 

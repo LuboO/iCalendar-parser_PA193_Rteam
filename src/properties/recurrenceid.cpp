@@ -7,7 +7,7 @@ void RecurrenceId::print(std::ostream &out) {
 
 }
 
-RecurrenceId RecurrenceId::parse(const core::WithPos<core::GenericComponent> &generic) {
+RecurrenceId RecurrenceId::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

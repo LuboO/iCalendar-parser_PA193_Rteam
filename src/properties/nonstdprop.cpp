@@ -7,7 +7,7 @@ void NonStdProp::print(std::ostream &out) {
 
 }
 
-NonStdProp NonStdProp::parse(const core::WithPos<core::GenericComponent> &generic) {
+NonStdProp NonStdProp::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

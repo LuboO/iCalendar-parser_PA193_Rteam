@@ -7,7 +7,7 @@ void TZId::print(std::ostream &out) {
 
 }
 
-TZId TZId::parse(const core::WithPos<core::GenericComponent> &generic) {
+TZId TZId::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

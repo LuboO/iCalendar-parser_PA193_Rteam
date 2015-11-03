@@ -1,14 +1,14 @@
-#ifndef ICAL_PROPERTIES_CONTACT_H
-#define ICAL_PROPERTIES_CONTACT_H
+#ifndef ICAL_PARAMETERS_CONTACT_H
+#define ICAL_PARAMETERS_CONTACT_H
 
 #include <ostream>
 #include <vector>
 
-#include "core/genericcomponent.h"
+#include "core/genericpropertyparameter.h"
 #include "parserexception.h"
 
 namespace ical {
-namespace properties {
+namespace parameters {
 
 class Contact
 {
@@ -17,10 +17,10 @@ public:
 
     void print(std::ostream & out);
 
-    static Contact parse(const core::WithPos<core::GenericComponent> &generic);
+    static Contact parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };
 
-} // namespace properties
+} // namespace parameters
 } // namespace ical
 
 #endif // ICAL_PARAMETERS_CONTACT_H

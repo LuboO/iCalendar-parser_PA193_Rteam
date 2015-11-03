@@ -4,7 +4,7 @@
 #include <ostream>
 #include <vector>
 
-#include "core/genericcomponent.h"
+#include "core/genericproperty.h"
 #include "parserexception.h"
 
 namespace ical {
@@ -17,7 +17,7 @@ public:
 
     void print(std::ostream & out);
 
-    static NonStdProp parse(const core::WithPos<core::GenericComponent> &generic);
+    static NonStdProp parse(const core::WithPos<core::GenericProperty> &generic);
 };
 
 } // namespace properties
