@@ -52,12 +52,34 @@ int ValueParser::parseInteger(StreamPos pos,
     }
 }
 
-std::string ValueParser::parseText(StreamPos,
+std::string ValueParser::parseText(StreamPos pos,
                                    std::string::const_iterator begin,
                                    std::string::const_iterator end)
 {
-    // TODO: finish this
-    return { begin, end };
+    std::string res;
+    while (begin != end) {
+        char c = *begin;
+        if (c == ';' || c == ',') {
+            throw ParserException(pos, "Invalid text character!");
+        }
+        if (c == '\\') {
+            if (++begin == end) {
+                throw ParserException(pos, "Incomplete escape sequence in text value!");
+            }
+            c = *begin;
+            if (c == '\\' || c == ';' || c == ',') {
+                res.push_back(c);
+            } else if (c == 'n' || c == 'N') {
+                res.push_back('\n');
+            } else {
+                throw ParserException(pos, "Invalid escape sequence in text value!");
+            }
+        } else {
+            res.push_back(c);
+        }
+        ++begin;
+    }
+    return res;
 }
 
 std::string ValueParser::parseCalendarAddress(
@@ -76,18 +98,74 @@ std::string ValueParser::parseUri(StreamPos,
     return { begin, end };
 }
 
-static std::string base64decode(std::string::const_iterator begin,
+static unsigned char base64value(StreamPos pos, char c)
+{
+    if (c >= 'A' && c <= 'Z') {
+        return static_cast<unsigned char>(c - 'A');
+    } else if (c >= 'a' && c <= 'z') {
+        return static_cast<unsigned char>(c - 'a') + 26;
+    } else if (c >= '0' && c <= '9') {
+        return static_cast<unsigned char>(c - '0') + 2 * 26;
+    } else if (c == '+') {
+        return 2 * 26 + 10;
+    } else if (c == '/') {
+        return 2 * 26 + 10 + 1;
+    } else {
+        throw ParserException(pos, "Invalid base64 character!");
+    }
+}
+
+static std::string base64decode(StreamPos pos,
+                                std::string::const_iterator begin,
                                 std::string::const_iterator end)
 {
-    // TODO implement this
-    return { begin, end };
+    auto inLength = static_cast<std::size_t>(end - begin);
+    if (inLength % 4 != 0) {
+        throw ParserException(pos, "Base64 sequence has invalid length!");
+    }
+    if (inLength == 0) {
+        return {};
+    }
+
+    std::size_t outLength = (inLength / 4) * 3;
+    std::size_t padding = 0;
+    while (padding <= 2 && *(end - padding - 1) == '=') {
+        ++padding;
+    }
+    outLength -= padding;
+
+    std::string res;
+    res.reserve(outLength);
+    while (true) {
+        unsigned long int val;
+        for (std::size_t i = 0; i < 4; i++) {
+            val <<= 6;
+            if (static_cast<std::size_t>(end - begin) > padding) {
+                val |= base64value(pos, *begin);
+            }
+            ++begin;
+        }
+        res.push_back(static_cast<char>((val >> 16) & 0xFF)); --outLength;
+        if (outLength == 0) {
+            break;
+        }
+        res.push_back(static_cast<char>((val >>  8) & 0xFF)); --outLength;
+        if (outLength == 0) {
+            break;
+        }
+        res.push_back(static_cast<char>((val >>  0) & 0xFF)); --outLength;
+        if (outLength == 0) {
+            break;
+        }
+    }
+    return res;
 }
 
 std::string ValueParser::parseBinary(StreamPos pos,
                                      std::string::const_iterator begin,
                                      std::string::const_iterator end)
 {
-    return base64decode(begin, end);
+    return base64decode(pos, begin, end);
 }
 
 static unsigned int parseNumber(std::string::const_iterator it,
