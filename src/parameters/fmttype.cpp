@@ -11,7 +11,7 @@ FmtType FmtType::parse(const core::WithPos<core::GenericPropertyParameter> &gene
     if(generic->getName().value() != "FMTTYPE")
         throw ParserException(generic.pos() , "invalid FMTTYPE parameter name");
     std::string type = generic->getValue().value();
-    const std::regex RE_FMTTYPE {"[a-zA-Z1-9!#$&.+\-^_]{1,127}\/[a-zA-Z1-9!#$&.+\-^_]{1,127}"};
+    const std::regex RE_FMTTYPE {"[a-zA-Z1-9!#$&.+\\-^_]{1,127}/[a-zA-Z1-9!#$&.+\\-^_]{1,127}"};
     if(!std::regex_match(type.begin() , type.end() , RE_FMTTYPE))
         throw ParserException(generic->getValue().pos() , "invalid value in FMTTYPE parameter");
 
