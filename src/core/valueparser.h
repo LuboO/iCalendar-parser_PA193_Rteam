@@ -25,9 +25,10 @@ public:
     static int parseInteger(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static unsigned int parseUnsignedInteger(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
+    static void validateCalendarAddress(const StreamPos &pos, const std::string &value);
+    static void validateUri(const StreamPos &pos, const std::string &value);
+
     static std::string parseText(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static std::string parseCalendarAddress(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static std::string parseUri(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static std::string parseBase64(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
     static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);

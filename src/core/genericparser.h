@@ -143,9 +143,14 @@ private:
             StreamPos pos = stream.getPosition();
             auto name = parseToken<true>(IANA_TOKEN);
             expectString("=");
-            auto value = parseParamValue();
+
+            std::vector<WithPos<std::string>> values;
+            do {
+                values.emplace_back(std::move(parseParamValue()));
+            } while (stream.peek() == ',');
+
             out.emplace_back(std::move(pos), GenericPropertyParameter(
-                                 std::move(name), std::move(value)));
+                                 std::move(name), std::move(values)));
         }
 
         /** Parses a content line and returns it as a `GenericProperty`. */

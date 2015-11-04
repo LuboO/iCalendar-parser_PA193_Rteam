@@ -74,6 +74,18 @@ unsigned int ValueParser::parseUnsignedInteger(
     }
 }
 
+void ValueParser::validateCalendarAddress(const StreamPos &pos,
+                                          const std::string &value)
+{
+    return validateUri(pos, value);
+}
+
+void ValueParser::validateUri(const StreamPos &,
+                              const std::string &)
+{
+    /* We decided not to validate this. */
+}
+
 std::string ValueParser::parseText(const StreamPos &pos,
                                    std::string::const_iterator begin,
                                    std::string::const_iterator end)
@@ -102,22 +114,6 @@ std::string ValueParser::parseText(const StreamPos &pos,
         ++begin;
     }
     return res;
-}
-
-std::string ValueParser::parseCalendarAddress(
-        const StreamPos &pos,
-        std::string::const_iterator begin,
-        std::string::const_iterator end)
-{
-    return parseUri(pos, begin, end);
-}
-
-std::string ValueParser::parseUri(const StreamPos &,
-                                  std::string::const_iterator begin,
-                                  std::string::const_iterator end)
-{
-    // TODO: should we even validate this?
-    return { begin, end };
 }
 
 static unsigned char base64value(const StreamPos &pos, char c)

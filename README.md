@@ -16,6 +16,7 @@ Due to limited time for the project and/or undue complexity of certain parts of 
 
  * The specification defines default encoding for iCalendar files to be UTF-8 ([section 3.1.4](https://tools.ietf.org/html/rfc5545#section-3.1.4)). Our parser validates UTF-8 encoding of the file, however all strings in the resulting in-memory structure are left UTF-8 encoded.
  * The parser does not validate URI references ([section 3.3.13](https://tools.ietf.org/html/rfc5545#section-3.3.13)) and calendar user addresses ([section 3.3.3](https://tools.ietf.org/html/rfc5545#section-3.3.3)).
+ * Where the specification mandates the property parameter values to be in quoted-string form, our parser accepts also the unquoted form.
  * In many places, the specification allows the occurence of extension components/properties/property parameters. Our parser rejects these entities (otherwise there wouldn't be much to validate about the format).
  * The format type tag ([section 3.2.8](https://tools.ietf.org/html/rfc5545#section-3.2.8)) is validated only for correct format (type-name/subtype-name) but not for valid names.
  * The language tag ([section 3.2.10](https://tools.ietf.org/html/rfc5545#section-3.2.10)) is not validated.
