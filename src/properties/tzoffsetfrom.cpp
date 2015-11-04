@@ -10,18 +10,20 @@ void TZOffsetFrom::print(std::ostream &out) const {
 }
 
 TZOffsetFrom TZOffsetFrom::parse(const core::WithPos<core::GenericProperty> &generic) {
+    auto &value = generic->getValue();
     if(generic->getName().value() != "TZOFFSETFROM")
         throw ParserException(generic.pos() , "invalid name of TZOFFSETFROM property");
     if(generic->getParameters().size() != 0)
         throw ParserException(generic.pos() , "invalid TZOFFSETFROM property parameters");
-    if(generic->getValue()->empty())
+    if(value->empty())
         throw ParserException(generic.pos() , "empty property");
+
     TZOffsetFrom tzoffsetfrom;
-    data::UTCOffset offset;
-    offset = core::ValueParser::parseUTCOffset(generic->getValue().pos() ,
-                                               generic->getValue()->begin() ,
-                                               generic->getValue()->end());
-    tzoffsetfrom.value = offset;
+    tzoffsetfrom.value = std::move(
+                core::ValueParser::parseUTCOffset(
+                    value.pos(),
+                    value->begin(),
+                    value->end()));
     return tzoffsetfrom;
 }
 
