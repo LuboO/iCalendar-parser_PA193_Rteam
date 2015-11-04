@@ -28,7 +28,7 @@ public:
     static std::string parseText(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static std::string parseCalendarAddress(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static std::string parseUri(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static std::string parseBinary(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static std::string parseBase64(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
     static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);

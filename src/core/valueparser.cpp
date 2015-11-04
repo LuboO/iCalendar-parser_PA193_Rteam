@@ -183,7 +183,7 @@ static std::string base64decode(const StreamPos &pos,
     return res;
 }
 
-std::string ValueParser::parseBinary(const StreamPos &pos,
+std::string ValueParser::parseBase64(const StreamPos &pos,
                                      std::string::const_iterator begin,
                                      std::string::const_iterator end)
 {
@@ -370,27 +370,27 @@ data::Duration ValueParser::parseDuration(const StreamPos &pos,
     unsigned int seconds = 0;
     if (m[2].matched) {
         /* dur-date */
-        days = parseNumber(m[3].first, m[3].length());
+        days = parseUnsignedInteger(pos, m[3].first, m[3].second);
         if (m[4].matched) {
             /* dur-time */
             if (m[5].matched) {
                 /* dur-hour */
-                hours = parseNumber(m[6].first, m[6].length());
+                hours = parseUnsignedInteger(pos, m[6].first, m[6].second);
                 if (m[7].matched) {
-                    minutes = parseNumber(m[8].first, m[8].length());
+                    minutes = parseUnsignedInteger(pos, m[8].first, m[8].second);
                     if (m[9].matched) {
-                        seconds = parseNumber(m[10].first, m[10].length());
+                        seconds = parseUnsignedInteger(pos, m[10].first, m[10].second);
                     }
                 }
             } else if (m[11].matched) {
                 /* dur-minute */
-                minutes = parseNumber(m[12].first, m[12].length());
+                minutes = parseUnsignedInteger(pos, m[12].first, m[12].second);
                 if (m[13].matched) {
-                    seconds = parseNumber(m[14].first, m[14].length());
+                    seconds = parseUnsignedInteger(pos, m[14].first, m[14].second);
                 }
             } else if (m[15].matched) {
                 /* dur-second */
-                seconds = parseNumber(m[16].first, m[16].length());
+                seconds = parseUnsignedInteger(pos, m[16].first, m[16].second);
             } else {
                 /* this shouldn't happen... */
                 throw std::logic_error("Application logic error (check stack trace)!");
@@ -400,28 +400,28 @@ data::Duration ValueParser::parseDuration(const StreamPos &pos,
         /* dur-time */
         if (m[18].matched) {
             /* dur-hour */
-            hours = parseNumber(m[19].first, m[19].length());
+            hours = parseUnsignedInteger(pos, m[19].first, m[19].second);
             if (m[20].matched) {
-                minutes = parseNumber(m[21].first, m[21].length());
+                minutes = parseUnsignedInteger(pos, m[21].first, m[21].second);
                 if (m[22].matched) {
-                    seconds = parseNumber(m[23].first, m[23].length());
+                    seconds = parseUnsignedInteger(pos, m[23].first, m[23].second);
                 }
             }
         } else if (m[24].matched) {
             /* dur-minute */
-            minutes = parseNumber(m[25].first, m[25].length());
+            minutes = parseUnsignedInteger(pos, m[25].first, m[25].second);
             if (m[26].matched) {
-                seconds = parseNumber(m[27].first, m[27].length());
+                seconds = parseUnsignedInteger(pos, m[27].first, m[27].second);
             }
         } else if (m[28].matched) {
             /* dur-second */
-            seconds = parseNumber(m[29].first, m[29].length());
+            seconds = parseUnsignedInteger(pos, m[29].first, m[29].second);
         } else {
             /* this shouldn't happen... */
             throw std::logic_error("Application logic error (check stack trace)!");
         }
     } else if (m[30].matched) {
-        weeks = parseNumber(m[31].first, m[31].length());
+        weeks = parseUnsignedInteger(pos, m[31].first, m[31].second);
     } else {
         /* this shouldn't happen... */
         throw std::logic_error("Application logic error (check stack trace)!");
