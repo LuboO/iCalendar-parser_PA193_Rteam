@@ -443,6 +443,9 @@ data::Period ValueParser::parsePeriod(const StreamPos &pos,
     if (firstCharOfSecondPart == '-' || firstCharOfSecondPart == '+' ||
             firstCharOfSecondPart == 'P') {
         auto duration = parseDuration(pos, slash + 1, end);
+        if (duration.isNegative()) {
+            throw ParserException(pos, "Period duration must be positive!");
+        }
         return { std::move(startTime), std::move(duration) };
     } else {
         auto endTime = parseDateTime(pos, slash + 1, end);
