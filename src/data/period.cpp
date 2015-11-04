@@ -5,7 +5,13 @@ namespace data {
 
 void Period::print(std::ostream &out) const
 {
-    // TODO: finish this
+    start.print(out);
+    out << '/';
+    if (explicit_) {
+        end.print(out);
+    } else {
+        duration.print(out);
+    }
 }
 
 } // namespace data

@@ -5,7 +5,11 @@ namespace data {
 
 void DateTime::print(std::ostream &out) const
 {
-    // TODO: finish this
+    date.print(out);
+    if (timeValid) {
+        out << 'T';
+        time.print(out);
+    }
 }
 
 } // namespace data
