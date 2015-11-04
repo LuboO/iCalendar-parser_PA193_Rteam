@@ -20,7 +20,7 @@ public:
     const Date &getDate() const noexcept { return date; }
 
     bool hasTime() const noexcept { return timeValid; }
-    const Time &getTime() const noexcept
+    const Time &getTime() const
     {
         if (!timeValid) {
             throw std::logic_error("Time not set!");

@@ -22,7 +22,7 @@ public:
     const DateTime &getStartTime() const noexcept { return start; }
 
     /* invalid if isExplicit() returns false: */
-    const DateTime &getEndTime() const noexcept
+    const DateTime &getEndTime() const
     {
         if (!explicit_) {
             throw std::logic_error("Period not explicit!");
@@ -30,7 +30,7 @@ public:
         return end;
     }
     /* invalid if isExplicit() returns true: */
-    const Duration &getDuration() const noexcept
+    const Duration &getDuration() const
     {
         if (explicit_) {
             throw std::logic_error("Period is explicit!");
