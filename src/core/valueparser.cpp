@@ -3,6 +3,7 @@
 #include "parserexception.h"
 
 #include <regex>
+#include <climits>
 
 namespace ical {
 namespace core {
@@ -44,11 +45,32 @@ int ValueParser::parseInteger(const StreamPos &pos,
     if (!std::regex_match(begin, end, RE_INTEGER)) {
         throw ParserException(pos, "Invalid float value!");
     }
-    /* the regex already ensures correct format for std::stof: */
+    /* the regex already ensures correct format for std::stoi: */
     try {
         return std::stoi(std::string(begin, end));
     } catch (std::out_of_range &) {
-        throw ParserException(pos, "Float value out of range for double!");
+        throw ParserException(pos, "Integer value out of range for int!");
+    }
+}
+
+unsigned int ValueParser::parseUnsignedInteger(
+        const StreamPos &pos,
+        std::string::const_iterator begin,
+        std::string::const_iterator end)
+{
+    const std::regex RE_UINTEGER { "([0-9]+)" };
+    if (!std::regex_match(begin, end, RE_UINTEGER)) {
+        throw ParserException(pos, "Invalid float value!");
+    }
+    /* the regex already ensures correct format for std::stou: */
+    try {
+        auto ul = std::stoul(std::string(begin, end));
+        if (ul > UINT_MAX) {
+            throw std::out_of_range("");
+        }
+        return static_cast<unsigned int>(ul);
+    } catch (std::out_of_range &) {
+        throw ParserException(pos, "Unsigned integer value out of range for unsigned int!");
     }
 }
 
@@ -190,7 +212,9 @@ unsigned int getDaysInMonth(unsigned int year, unsigned int month)
     case 11:
         return 30;
     case 2:
-        return year % 4 == 0 ? 29 : 28;
+        return year % 4 == 0 &&
+                (year % 100 != 0 || year % 400 == 0)
+                ? 29 : 28;
     default:
         return 31;
     }
@@ -252,16 +276,28 @@ data::Time ValueParser::parseTime(const StreamPos &pos,
 
 data::DateTime ValueParser::parseDateTime(const StreamPos &pos,
                                           std::string::const_iterator begin,
-                                          std::string::const_iterator end)
+                                          std::string::const_iterator end,
+                                          bool timeIsOptional)
 {
-    if (end - begin < static_cast<std::ptrdiff_t>(DATE_LENGTH + 1)) {
+    if (static_cast<std::size_t>(end - begin) <
+            DATE_LENGTH + (timeIsOptional ? 1 : 0)) {
         throw ParserException(pos, "Invalid datetime value!");
     }
     data::Date date = std::move(parseDate(pos, begin, begin + DATE_LENGTH));
-    if (*(begin + DATE_LENGTH) != 'T') {
+    begin += DATE_LENGTH;
+    if (timeIsOptional && begin == end) {
+        return { std::move(date) };
+    }
+    /* If execution gets here, then either:
+     * timeIsOptional == false (therefore total length is >= DATE_LENGTH + 1)
+     * OR
+     * timeIsOptional == true && begin != end  (end - begin >= 1)
+     * In both cases, it is safe to read from begin here:
+     */
+    if (*begin != 'T') {
         throw ParserException(pos, "Invalid datetime value!");
     }
-    data::Time time = std::move(parseTime(pos, begin + DATE_LENGTH + 1, end));
+    data::Time time = std::move(parseTime(pos, begin + 1, end));
     return { std::move(date), std::move(time) };
 }
 
@@ -414,13 +450,324 @@ data::Period ValueParser::parsePeriod(const StreamPos &pos,
     }
 }
 
+static data::WeekdayNumber parseWeekdayNum(
+        const StreamPos &pos,
+        std::string::const_iterator begin,
+        std::string::const_iterator end)
+{
+    const std::regex RE_WEEKDAYNUM { "([-+]?[0-9]{1,2}})?(SU|MO|TU|WE|TH|FR|SA)" };
+    std::smatch m;
+    if (!std::regex_match(begin, end, m, RE_WEEKDAYNUM)) {
+        throw ParserException(pos, "Invalid numbered weekday!");
+    }
+    int number = 0;
+    if (m[1].matched) {
+        number = ValueParser::parseInteger(pos, m[1].first, m[1].second);
+        if (number == 0 || number < -53 || number > 53) {
+            throw ParserException(pos, "Invalid weekday number!");
+        }
+    }
+    return { number, m[2].str() };
+}
+
 data::RecurrenceRule ValueParser::parseRecurrenceRule(
         const StreamPos &pos,
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {
-    // TODO: finish this
-    return {};
+    std::string freq {};
+
+    bool limitSet = false;
+    bool limitByCount {};
+    data::DateTime until {};
+    unsigned int count {};
+
+    bool intervalSet = false;
+    unsigned int interval = 1;
+
+    std::vector<unsigned int> bySecond;
+    std::vector<unsigned int> byMinute;
+    std::vector<unsigned int> byHour;
+    std::vector<data::WeekdayNumber> byDay;
+    std::vector<int> byMonthDay;
+    std::vector<int> byYearDay;
+    std::vector<int> byWeekNumber;
+    std::vector<int> byMonth;
+    std::vector<int> bySetPos;
+
+    bool weekStartSet = false;
+    std::string weekStart { "MO" };
+
+    std::string::const_iterator delimIt;
+    std::string::const_iterator elemIt = begin;
+    while (true) {
+        delimIt = std::find(elemIt, end, ';');
+
+        auto eqSignIt = std::find(elemIt, delimIt, '=');
+        if (eqSignIt == delimIt) {
+            throw ParserException(pos, "Invalid reccurence rule format!");
+        }
+        std::string name { elemIt, eqSignIt };
+        if (name == "FREQ") {
+            if (!freq.empty()) {
+                throw ParserException(pos, "Frequency cannot be specified multiple times!");
+            }
+
+            static const std::regex RE_FREQ { "SECONDLY|MINUTELY|HOURLY|DAILY|WEEKLY|MONTHLY|YEARLY" };
+            if (!std::regex_match(eqSignIt + 1, delimIt, RE_FREQ)) {
+                throw ParserException(pos, "Invalid frequency value!");
+            }
+            freq.assign(eqSignIt + 1, delimIt);
+        } else if (name == "UNTIL") {
+            if (limitSet) {
+                throw ParserException(pos, "UNTIL/COUNT cannot be specified multiple times!");
+            }
+
+            limitByCount = false;
+            until = std::move(parseDateTime(pos, eqSignIt + 1, delimIt, true));
+
+            limitSet = true;
+        } else if (name == "COUNT") {
+            if (limitSet) {
+                throw ParserException(pos, "UNTIL/COUNT cannot be specified multiple times!");
+            }
+
+            limitByCount = true;
+            count = parseUnsignedInteger(pos, eqSignIt + 1, delimIt);
+
+            limitSet = true;
+        } else if (name == "INTERVAL") {
+            if (intervalSet) {
+                throw ParserException(pos, "INTERVAL cannot be specified multiple times!");
+            }
+
+            interval = parseUnsignedInteger(pos, eqSignIt + 1, delimIt);
+            if (interval == 0) {
+                throw ParserException(pos, "INTERVAL value cannot be zero!");
+            }
+
+            intervalSet = true;
+        } else if (name == "BYSECOND") {
+            if (!bySecond.empty()) {
+                throw ParserException(pos, "BYSECOND cannot be specified multiple times!");
+            }
+
+            bySecond = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                                parseUnsignedInteger, ','));
+
+            if (bySecond.empty()) {
+                throw ParserException(pos, "BYSECOND cannot be empty!");
+            }
+
+            for (unsigned int i : bySecond) {
+                if (i > 60) {
+                    throw ParserException(pos, "Invalid seconds value!");
+                }
+            }
+        } else if (name == "BYMINUTE") {
+            if (!byMinute.empty()) {
+                throw ParserException(pos, "BYMINUTE cannot be specified multiple times!");
+            }
+
+            byMinute = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                                parseUnsignedInteger, ','));
+
+            if (byMinute.empty()) {
+                throw ParserException(pos, "BYMINUTE cannot be empty!");
+            }
+
+            for (unsigned int i : byMinute) {
+                if (i > 59) {
+                    throw ParserException(pos, "Invalid minutes value!");
+                }
+            }
+        } else if (name == "BYHOUR") {
+            if (!byHour.empty()) {
+                throw ParserException(pos, "BYHOUR cannot be specified multiple times!");
+            }
+
+            byHour = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                              parseUnsignedInteger, ','));
+            if (byHour.empty()) {
+                throw ParserException(pos, "BYHOUR cannot be empty!");
+            }
+
+            for (unsigned int i : byHour) {
+                if (i > 23) {
+                    throw ParserException(pos, "Invalid hour value!");
+                }
+            }
+        } else if (name == "BYDAY") {
+            if (!byDay.empty()) {
+                throw ParserException(pos, "BYDAY cannot be specified multiple times!");
+            }
+
+            byDay = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                             parseWeekdayNum, ','));
+            if (byDay.empty()) {
+                throw ParserException(pos, "BYDAY cannot be empty!");
+            }
+        } else if (name == "BYMONTHDAY") {
+            if (!byMonthDay.empty()) {
+                throw ParserException(pos, "BYMONTHDAY cannot be specified multiple times!");
+            }
+
+            byMonthDay = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                                  parseInteger, ','));
+            if (byMonthDay.empty()) {
+                throw ParserException(pos, "BYMONTHDAY cannot be empty!");
+            }
+
+            for (int i : byMonthDay) {
+                if (i == 0 || i < -31 || i > 31) {
+                    throw ParserException(pos, "Invalid month day value!");
+                }
+            }
+        } else if (name == "BYYEARDAY") {
+            if (!byYearDay.empty()) {
+                throw ParserException(pos, "BYYEARDAY cannot be specified multiple times!");
+            }
+
+            byYearDay = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                                 parseInteger, ','));
+            if (byYearDay.empty()) {
+                throw ParserException(pos, "BYYEARDAY cannot be empty!");
+            }
+
+            for (int i : byYearDay) {
+                if (i == 0 || i < -366 || i > 366) {
+                    throw ParserException(pos, "Invalid year day value!");
+                }
+            }
+        } else if (name == "BYWEEKNO") {
+            if (!byWeekNumber.empty()) {
+                throw ParserException(pos, "BYWEEKNO cannot be specified multiple times!");
+            }
+
+            byWeekNumber = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                                    parseInteger, ','));
+            if (byWeekNumber.empty()) {
+                throw ParserException(pos, "BYWEEKNO cannot be empty!");
+            }
+
+            for (int i : byWeekNumber) {
+                if (i == 0 || i < -53 || i > 53) {
+                    throw ParserException(pos, "Invalid week number value!");
+                }
+            }
+        } else if (name == "BYMONTH") {
+            if (!byMonth.empty()) {
+                throw ParserException(pos, "BYMONTH cannot be specified multiple times!");
+            }
+
+            byMonth = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                               parseInteger, ','));
+            if (byMonth.empty()) {
+                throw ParserException(pos, "BYMONTH cannot be empty!");
+            }
+
+            for (int i : byMonth) {
+                if (i == 0 || i < -12 || i > 12) {
+                    throw ParserException(pos, "Invalid week number value!");
+                }
+            }
+        } else if (name == "BYSETPOS") {
+            if (!bySetPos.empty()) {
+                throw ParserException(pos, "BYSETPOS cannot be specified multiple times!");
+            }
+
+            bySetPos = std::move(parseDelimited(pos, eqSignIt + 1, delimIt,
+                                                parseInteger, ','));
+            if (bySetPos.empty()) {
+                throw ParserException(pos, "BYSETPOS cannot be empty!");
+            }
+
+            for (int i : bySetPos) {
+                if (i == 0 || i < -366 || i > 366) {
+                    throw ParserException(pos, "Invalid year day value!");
+                }
+            }
+        } else if (name == "WKST") {
+            if (weekStartSet) {
+                throw ParserException(pos, "WKST cannot be specified multiple times!");
+            }
+
+            const std::regex RE_WEEKDAY { "SU|MO|TU|WE|TH|FR|SA" };
+            if (!std::regex_match(begin, end, RE_WEEKDAY)) {
+                throw ParserException(pos, "Invalid weekday!");
+            }
+
+            weekStart.assign(eqSignIt + 1, delimIt);
+            weekStartSet = true;
+        } else {
+            throw ParserException(pos, "Invalid reccurence rule part name!");
+        }
+
+        if (delimIt == end) {
+            break;
+        }
+        /* skip the delimiter: */
+        elemIt = delimIt + 1;
+    }
+
+    if (freq.empty()) {
+        throw ParserException(pos, "Frequency is mandatory in recurrence rule!");
+    }
+
+    if ((freq != "MONTHLY" && freq != "YEARLY") ||
+            (freq == "YEARLY" && !byWeekNumber.empty())) {
+        for (auto &wd : byDay) {
+            if (wd.getWeekNumber() != 0) {
+                throw ParserException(pos,
+                                      "Week numbers must not be specified "
+                                      "when frequency is not MONTHLY or "
+                                      "YEARLY, or when frequency is YEARLY "
+                                      "and the BYWEEKNO part is specified!");
+            }
+        }
+    }
+    if (!byMonthDay.empty() && freq == "WEEKLY") {
+        throw ParserException(pos,
+                              "The BYMONTHDAY part must not be specified "
+                              "if frequency is WEEKLY!");
+    }
+    if (!byWeekNumber.empty() && freq != "YEARLY") {
+        throw ParserException(pos,
+                              "The BYWEEKNO part must not be specified "
+                              "if frequency is not YEARLY!");
+    }
+    if (!byYearDay.empty() &&
+            (freq == "DAILY" || freq == "WEEKLY" || freq == "MONTHLY")) {
+        throw ParserException(pos,
+                              "The BYYEARDAY part must not be specified "
+                              "if frequency is DAILY, WEEKLY or MONTHLY!");
+    }
+    if (!bySetPos.empty() &&
+            bySecond.empty() && byMinute.empty() && byHour.empty() &&
+            byWeekNumber.empty() && byMonthDay.empty() && byYearDay.empty() &&
+            byMonth.empty()) {
+        throw ParserException(pos,
+                              "The BYSETPOS part can only be specified "
+                              "with another BYxxx part!");
+    }
+
+    data::RecurrenceRuleOptions opts {
+        interval,
+        std::move(bySecond), std::move(byMinute), std::move(byHour),
+        std::move(byDay), std::move(byMonthDay), std::move(byYearDay),
+        std::move(byWeekNumber), std::move(byMonth), std::move(bySetPos),
+        std::move(weekStart)
+    };
+
+    if (!limitSet) {
+        return { std::move(freq), std::move(opts) };
+    }
+
+    if (limitByCount) {
+        return { std::move(freq), count, std::move(opts) };
+    } else {
+        return { std::move(freq), std::move(until), std::move(opts) };
+    }
 }
 
 } // namespace core

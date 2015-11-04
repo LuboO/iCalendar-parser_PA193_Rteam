@@ -23,6 +23,7 @@ public:
     static bool parseBoolean(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static double parseFloat(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static int parseInteger(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static unsigned int parseUnsignedInteger(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
     static std::string parseText(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static std::string parseCalendarAddress(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
@@ -31,7 +32,8 @@ public:
 
     static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
+    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end,
+                                        bool timeIsOptional = false);
     static data::UTCOffset parseUTCOffset(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
     static data::Duration parseDuration(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
