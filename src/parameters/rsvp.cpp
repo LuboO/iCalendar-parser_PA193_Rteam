@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Rsvp::print(std::ostream &out) {
+void Rsvp::print(std::ostream &out) const {
     out << ";RSVP=" << value;
 }
 

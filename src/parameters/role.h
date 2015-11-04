@@ -18,7 +18,7 @@ public:
 
     const std::string &getValue() const noexcept { return value; }
 
-    void print(std::ostream & out);
+    void print(std::ostream & out) const;
 
     static Role parse(const core::WithPos<core::GenericPropertyParameter> &generic);
 };

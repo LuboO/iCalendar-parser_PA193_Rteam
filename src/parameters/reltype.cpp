@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Reltype::print(std::ostream &out) {
+void Reltype::print(std::ostream &out) const {
     out << ";RELTYPE=" << value;
 }
 

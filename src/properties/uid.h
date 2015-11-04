@@ -12,12 +12,16 @@ namespace properties {
 
 class Uid
 {
+private:
+    std::string value;
 public:
     Uid() {}
 
     void print(std::ostream &out) const;
 
     static Uid parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const std::string getValue() const noexcept {return value;}
 };
 
 } // namespace properties

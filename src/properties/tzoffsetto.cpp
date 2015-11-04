@@ -12,7 +12,7 @@ void TZOffsetTo::print(std::ostream &out) const {
 TZOffsetTo TZOffsetTo::parse(const core::WithPos<core::GenericProperty> &generic) {
     if(generic->getName().value() != "TZOFFSETTO")
         throw ParserException(generic.pos() , "invalid name of TZOFFSETTO property");
-    if(generic->getParameters().size() != 0)
+    if(!generic->getParameters().empty())
             throw ParserException(generic.pos() , "invalid TZOFFSETTO property parameters");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");

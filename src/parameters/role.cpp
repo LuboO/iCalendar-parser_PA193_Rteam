@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Role::print(std::ostream &out) {
+void Role::print(std::ostream &out) const {
     out << ";ROLE=" << value;
 }
 
