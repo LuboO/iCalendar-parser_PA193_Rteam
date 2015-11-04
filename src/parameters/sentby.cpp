@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void SentBy::print(std::ostream &out) {
+void SentBy::print(std::ostream &out) const {
     out << ";SENT-BY=" << value;
 }
 

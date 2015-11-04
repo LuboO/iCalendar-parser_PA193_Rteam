@@ -5,32 +5,28 @@ namespace properties {
 
 void TZName::print(std::ostream &out) const {
     out << "TZNAME";
-    if(langParam.size() > 0)
-        langParam[0].print(out);
+    for(auto &i : langParam) i.print(out);
     out << ":" << value << "\r\n";
 }
 
 TZName TZName::parse(const core::WithPos<core::GenericProperty> &generic) {
     if(generic->getName().value() != "TZNAME")
         throw ParserException(generic.pos() , "invalid name in TZNAME property");
+    if(generic->getValue()->empty())
+        throw ParserException(generic.pos() , "empty property");
 
     TZName tzname;
-    for(const core::WithPos<core::GenericPropertyParameter> & i : generic->getParameters()) {
+    tzname.value = generic->getValue().value();
+
+    for(const auto &i : generic->getParameters()) {
         if(i->getName().value() == "LANGUAGE") {
-            if(tzname.langParam.size() == 0) {
-                parameters::Language lang = parameters::Language::parse(i);
-                tzname.langParam.push_back(lang);
-            } else {
-                throw ParserException(generic.pos() ,
-                                      "only one parameter in TZNAME is allowed");
-            }
+            if(!tzname.langParam.empty())
+                throw ParserException(i.pos() , "parameter LANGUAGE can't occur multiple times");
+            tzname.langParam.push_back(parameters::Language::parse(i));
         } else {
             throw ParserException(generic.pos() , "invalid parameters in TZNAME property");
         }
     }
-    if(generic->getValue()->empty())
-        throw ParserException(generic.pos() , "empty property");
-    tzname.value = generic->getValue().value();
     return tzname;
 }
 

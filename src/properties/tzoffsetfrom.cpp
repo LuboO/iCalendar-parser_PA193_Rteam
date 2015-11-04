@@ -10,11 +10,11 @@ void TZOffsetFrom::print(std::ostream &out) const {
 }
 
 TZOffsetFrom TZOffsetFrom::parse(const core::WithPos<core::GenericProperty> &generic) {
-    auto &value = generic->getValue();
     if(generic->getName().value() != "TZOFFSETFROM")
         throw ParserException(generic.pos() , "invalid name of TZOFFSETFROM property");
-    if(generic->getParameters().size() != 0)
+    if(!generic->getParameters().empty())
         throw ParserException(generic.pos() , "invalid TZOFFSETFROM property parameters");
+    auto &value = generic->getValue();
     if(value->empty())
         throw ParserException(generic.pos() , "empty property");
 

@@ -12,8 +12,12 @@ namespace properties {
 
 class TZUrl
 {
+private:
+    std::string value;
 public:
     TZUrl() {}
+
+    const std::string &getValue() const noexcept { return value; }
 
     void print(std::ostream &out) const;
 

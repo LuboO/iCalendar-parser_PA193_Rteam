@@ -46,7 +46,13 @@ SOURCES += main.cpp \
     properties/ianaprop.cpp \
     properties/nonstdprop.cpp \
     properties/requeststatus.cpp \
-    core/utf8validator.cpp
+    core/utf8validator.cpp \
+    parameters/reltype.cpp \
+    parameters/role.cpp \
+    parameters/rsvp.cpp \
+    parameters/sentby.cpp \
+    parameters/tzid_param.cpp \
+    parameters/value.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -96,4 +102,10 @@ HEADERS += \
     properties/ianaprop.h \
     properties/nonstdprop.h \
     properties/requeststatus.h \
-    core/utf8validator.h
+    core/utf8validator.h \
+    parameters/reltype.h \
+    parameters/role.h \
+    parameters/rsvp.h \
+    parameters/sentby.h \
+    parameters/tzid_param.h \
+    parameters/value.h
