@@ -22,8 +22,9 @@ Member Member::parse(const core::WithPos<core::GenericPropertyParameter> &generi
 
     Member mem;
     for (auto &value : generic->getValues()) {
-        core::ValueParser::validateCalendarAddress(value.pos(), *value);
-        mem.value.push_back(*value);
+        std::string unquoted = std::move(core::ValueParser::parseQuoted(value.pos(), *value));
+        core::ValueParser::validateCalendarAddress(value.pos(), unquoted);
+        mem.value.emplace_back(std::move(unquoted));
     }
     return mem;
 }

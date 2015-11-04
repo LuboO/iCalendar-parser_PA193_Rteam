@@ -769,6 +769,26 @@ data::RecurrenceRule ValueParser::parseRecurrenceRule(
     }
 }
 
+std::string ValueParser::parseQuoted(const StreamPos &pos, const std::string &value)
+{
+    /* no need to check value.back() -- GenericParser would have caught it: */
+    if (value.size() < 2 || value.front() != '"') {
+        throw ParserException(pos, "Expected a quoted string!");
+    }
+    return value.substr(1, value.size() - 1);
+}
+
+std::string ValueParser::parsePossiblyQuoted(const StreamPos &, const std::string &value)
+{
+    if (value.size() == 0) {
+        return value;
+    } else if (value.front() == '"') {
+        return value.substr(1, value.size() - 1);
+    } else {
+        return value;
+    }
+}
+
 } // namespace core
 } // namespace ical
 

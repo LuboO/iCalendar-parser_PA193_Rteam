@@ -41,6 +41,9 @@ public:
     static data::Period parsePeriod(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::RecurrenceRule parseRecurrenceRule(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
+    static std::string parseQuoted(const StreamPos &pos, const std::string &value);
+    static std::string parsePossiblyQuoted(const StreamPos &pos, const std::string &value);
+
     /**
      * Parse comma(or something else)-delimited sequence of values.
      *

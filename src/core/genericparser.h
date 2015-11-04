@@ -129,7 +129,7 @@ private:
             char c = stream.peek();
             if (c == '"') {
                 stream.advance();
-                value = *parseToken<true>(QSAFE_CHAR);
+                value = "\"" + *parseToken<true>(QSAFE_CHAR) + "\"";
                 expectString("\"");
             } else {
                 value = *parseToken<true>(SAFE_CHAR);
