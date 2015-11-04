@@ -14,11 +14,13 @@ private:
     unsigned int day;
 
 public:
-    constexpr unsigned int getYear() const noexcept { return year; }
-    constexpr unsigned int getMonth() const noexcept { return month; }
-    constexpr unsigned int getDay() const noexcept { return day; }
+    unsigned int getYear() const noexcept { return year; }
+    unsigned int getMonth() const noexcept { return month; }
+    unsigned int getDay() const noexcept { return day; }
 
-    constexpr Date(unsigned int year, unsigned int month, unsigned int day)
+    Date() { }
+
+    Date(unsigned int year, unsigned int month, unsigned int day)
         : year(year), month(month), day(day)
     {
     }

@@ -13,18 +13,38 @@ class DateTime
 {
 private:
     Date date;
+    bool timeValid;
     Time time;
 
 public:
     const Date &getDate() const noexcept { return date; }
-    const Time &getTime() const noexcept { return time; }
+
+    bool hasTime() const noexcept { return timeValid; }
+    const Time &getTime() const noexcept
+    {
+        if (!timeValid) {
+            throw std::logic_error("Time not set!");
+        }
+        return time;
+    }
+
+    DateTime() { }
+
+    DateTime(const Date &date)
+        : date(date), timeValid(false), time()
+    {
+    }
+    DateTime(Date &&date)
+        : date(std::move(date)), timeValid(false), time()
+    {
+    }
 
     DateTime(const Date &date, const Time &time)
-        : date(date), time(time)
+        : date(date), timeValid(true), time(time)
     {
     }
     DateTime(Date &&date, Time &&time)
-        : date(std::move(date)), time(std::move(time))
+        : date(std::move(date)), timeValid(true), time(std::move(time))
     {
     }
 

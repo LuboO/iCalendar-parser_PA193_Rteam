@@ -15,13 +15,15 @@ private:
     bool local;
 
 public:
-    constexpr unsigned int getHour() const noexcept { return hour; }
-    constexpr unsigned int getMinute() const noexcept { return minute; }
-    constexpr unsigned int getSecond() const noexcept { return second; }
-    constexpr bool isLocal() const noexcept { return local; }
+    unsigned int getHour() const noexcept { return hour; }
+    unsigned int getMinute() const noexcept { return minute; }
+    unsigned int getSecond() const noexcept { return second; }
+    bool isLocal() const noexcept { return local; }
 
-    constexpr Time(unsigned int hour, unsigned int minute,
-                   unsigned int second, bool local)
+    Time() { }
+
+    Time(unsigned int hour, unsigned int minute, unsigned int second,
+         bool local)
         : hour(hour), minute(minute), second(second), local(local)
     {
     }

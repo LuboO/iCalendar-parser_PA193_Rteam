@@ -15,13 +15,15 @@ private:
     unsigned int seconds;
 
 public:
-    constexpr bool isNegative() const noexcept { return negative; }
-    constexpr unsigned int getHours() const noexcept { return hours; }
-    constexpr unsigned int getMinutes() const noexcept { return minutes; }
-    constexpr unsigned int getSeconds() const noexcept { return seconds; }
+    bool isNegative() const noexcept { return negative; }
+    unsigned int getHours() const noexcept { return hours; }
+    unsigned int getMinutes() const noexcept { return minutes; }
+    unsigned int getSeconds() const noexcept { return seconds; }
 
-    constexpr UTCOffset(bool negative, unsigned int hours,
-                        unsigned int minutes, unsigned int seconds)
+    UTCOffset() { }
+
+    UTCOffset(bool negative, unsigned int hours,
+              unsigned int minutes, unsigned int seconds)
         : negative(negative), hours(hours), minutes(minutes), seconds(seconds)
     {
     }

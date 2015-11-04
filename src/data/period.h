@@ -20,28 +20,42 @@ public:
     bool isExplicit() const noexcept { return explicit_; }
 
     const DateTime &getStartTime() const noexcept { return start; }
+
     /* invalid if isExplicit() returns false: */
-    const DateTime &getEndTime() const noexcept { return start; }
+    const DateTime &getEndTime() const noexcept
+    {
+        if (!explicit_) {
+            throw std::logic_error("Period not explicit!");
+        }
+        return end;
+    }
     /* invalid if isExplicit() returns true: */
-    const Duration &getDuration() const noexcept { return duration; }
+    const Duration &getDuration() const noexcept
+    {
+        if (explicit_) {
+            throw std::logic_error("Period is explicit!");
+        }
+        return duration;
+    }
+
+    Period() { }
 
     Period(const DateTime &start, const DateTime &end)
-        : start(start), end(end), duration(false, 0, 0, 0, 0, 0)
+        : explicit_(true), start(start), end(end), duration()
     {
     }
     Period(DateTime &&start, DateTime &&end)
-        : start(std::move(start)), end(std::move(end)),
-          duration(false, 0, 0, 0, 0, 0)
+        : explicit_(true), start(std::move(start)), end(std::move(end)),
+          duration()
     {
     }
 
     Period(const DateTime &start, const Duration &duration)
-        : start(start), end(Date { 0, 0, 0 }, Time { 0, 0, 0, false }),
-          duration(duration)
+        : explicit_(false), start(start), end(), duration(duration)
     {
     }
     Period(DateTime &&start, Duration &&duration)
-        : start(std::move(start)), end(Date { 0, 0, 0 }, Time { 0, 0, 0, false }),
+        : explicit_(false), start(std::move(start)), end(),
           duration(std::move(duration))
     {
     }
