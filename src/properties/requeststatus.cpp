@@ -10,7 +10,7 @@ void RequestStatus::print(std::ostream &out) const {
 }
 
 RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getValue().value() != "REQUEST-STATUS")
+    if(generic->getName().value() != "REQUEST-STATUS")
         throw ParserException(generic.pos() , "invalid name in REQUEST-STATUS property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
