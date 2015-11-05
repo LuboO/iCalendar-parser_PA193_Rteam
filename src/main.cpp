@@ -24,8 +24,18 @@ int main()
     s << "ORGANIZER;CN=John Doe:MAILTO:john.doe@example.com\r\n";
     s << "DTSTART:19970714T170000Z\r\n";
     s << "DTEND:19970715T035959Z\r\n";
+    s << "DURATION:PT15M\r\n";
     s << "SUMMARY:Bastille Day Party\r\n";
     s << "END:VEVENT\r\n";
+    s << "BEGIN:VJOURNAL\r\n";
+    s << "DTSTAMP:19970714T170000Z\r\n";
+    s << "UID:uid1@example.com\r\n";
+    s << "END:VJOURNAL\r\n";
+    s << "BEGIN:VTODO\r\n";
+    s << "UID:uid1@example.com\r\n";
+    s << "DTSTAMP:19970714T170000Z\r\n";
+    s << "DUE:19970715T035959Z\r\n";
+    s << "END:VTODO\r\n";
     s << "END:VCALENDAR\r\n";
     std::string test = s.str();
 
@@ -38,6 +48,7 @@ int main()
         }
         ical::components::VCalendar root;
         root = ical::components::VCalendar::parse(comps[0]);
+        std::cout << "iCalendar is valid.\n";
     } catch (ical::ParserException ex) {
         std::cout << "[ERROR] " << ex.what() << std::endl;
     }
