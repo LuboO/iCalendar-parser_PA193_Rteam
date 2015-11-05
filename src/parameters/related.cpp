@@ -10,11 +10,13 @@ void Related::print(std::ostream &out) const {
 Related Related::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "RELATED")
         throw ParserException(generic.pos() , "invalid RELATED parameter name");
-    if(generic->getValue().value() != "START" &&
-       generic->getValue().value() != "END")
+    auto &value = generic->getValue().value();
+    if(value.empty())
+        throw ParserException(generic.pos() , "empty parameter");
+    if(value != "START" && value != "END")
         throw ParserException(generic->getValue().pos() , "invalid value in RELATED parameter");
     Related rel;
-    rel.value = generic->getValue().value();
+    rel.value = value;
     return rel;
 }
 

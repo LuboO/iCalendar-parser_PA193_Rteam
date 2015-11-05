@@ -10,10 +10,13 @@ void Reltype::print(std::ostream &out) const {
 Reltype Reltype::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "RELTYPE")
         throw ParserException(generic.pos() , "invalid RELTYPE parameter name");
-    if(generic->getValue().value() != "PARENT" &&  generic->getValue().value() != "CHILD" &&  generic->getValue().value() != "SIBLING")
+    auto &value = generic->getValue().value();
+    if(value.empty())
+        throw ParserException(generic.pos() , "empty parameter");
+    if(value != "PARENT" &&  value != "CHILD" &&  value != "SIBLING")
         throw ParserException(generic->getValue().pos() , "invalid value in RELTYPE parameter");
     Reltype x;
-    x.value = generic->getValue().value();
+    x.value = value;
     return x;
 }
 

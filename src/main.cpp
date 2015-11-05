@@ -16,7 +16,7 @@ int main()
     // Testing stream
     std::stringstream s;
     s << "BEGIN:VCALENDAR\r\n";
-    s << "VERSION:2.0\r\n";
+    s << "VERSION;UID=:2.0\r\n";
     s << "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r\n";
     s << "BEGIN:VEVENT\r\n";
     s << "UID:uid1@example.com\r\n";
@@ -26,8 +26,6 @@ int main()
     s << "DTEND:19970715T035959Z\r\n";
     s << "SUMMARY:Bastille Day Party\r\n";
     s << "END:VEVENT\r\n";
-    s << "BEGIN:VJRNAL\r\n";
-    s << "END:VJRNAL\r\n";
     s << "END:VCALENDAR\r\n";
     std::string test = s.str();
 
