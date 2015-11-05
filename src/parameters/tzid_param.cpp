@@ -3,7 +3,7 @@
 namespace ical {
 namespace parameters {
 
-void Tzid_param::print(std::ostream &out) {
+void Tzid_param::print(std::ostream &out) const {
     out << ";TZID=" << value;
 }
 
