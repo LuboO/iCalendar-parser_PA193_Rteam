@@ -8,6 +8,22 @@
 #include "parserexception.h"
 
 /* Properties */
+#include "properties/dtstamp.h"
+#include "properties/uid.h"
+//#include "properties/class.h"
+#include "properties/created.h"
+//#include "properties/description.h"
+//#include "properties/geo.h"
+#include "properties/lastmodified.h"
+//#include "properties/location.h"
+#include "properties/organizer.h"
+//#include "properties/priority.h"
+#include "properties/sequence.h"
+//#include "properties/status.h"
+//#include "properties/summary.h"
+//#include "properties/transp.h"
+#include "properties/url.h"
+#include "properties/recurrenceid.h"
 
 /* Components */
 #include "components/valarm.h"

@@ -9,6 +9,8 @@
 
 #include "parameters/sentby.h"
 #include "parameters/language.h"
+#include "parameters/commonname.h"
+#include "parameters/direntryref.h"
 
 namespace ical {
 namespace properties {
@@ -17,8 +19,8 @@ class Organizer
 {
 private:
     std::string value;
-    //std::vector<parameters::CN> cnParam;
-    //std::vector<parameters::Dir> dirParam;
+    std::vector<parameters::CommonName> commonNameParam;
+    std::vector<parameters::DirEntryRef> dirEntryRefParam;
     std::vector<parameters::SentBy> sentByParam;
     std::vector<parameters::Language> languageParam;
 public:
@@ -29,8 +31,8 @@ public:
     static Organizer parse(const core::WithPos<core::GenericProperty> &generic);
 
     const std::string &getValue() const noexcept { return value; }
-    //const std::vector<parameters::CN> &getCnParam() const noexcept { return cnParam; }
-    //const std::vector<parameters::Dir> &getDirParam() const noexcept { return dirParam; }
+    const std::vector<parameters::CommonName> &getCommonNameParam() const noexcept { return commonNameParam; }
+    const std::vector<parameters::DirEntryRef> &getDirEntryRefParam() const noexcept { return dirEntryRefParam; }
     const std::vector<parameters::SentBy> &getSentByParam() const noexcept { return sentByParam; }
     const std::vector<parameters::Language> getLanguageParam() const noexcept { return languageParam; }
 };

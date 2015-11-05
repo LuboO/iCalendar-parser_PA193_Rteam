@@ -24,6 +24,7 @@ RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &g
             if(!status.languageParam.empty())
                 throw ParserException(i.pos() , "LANGUAGE parameter can't occurr multiple times");
             status.languageParam.push_back(parameters::Language::parse(i));
+
         } else {
             throw ParserException(i.pos() , "invalid parameter in REQUEST-STATUS property");
         }

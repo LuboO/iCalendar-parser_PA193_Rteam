@@ -23,6 +23,7 @@ public:
     void print(std::ostream &out) const;
 
     static RequestStatus parse(const core::WithPos<core::GenericProperty> &generic);
+
     const std::string &getValue() const noexcept {return value;}
     const std::vector<parameters::Language> &getLanguageParam() const noexcept {return languageParam;}
 };

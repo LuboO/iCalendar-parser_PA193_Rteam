@@ -8,6 +8,7 @@
 #include "parserexception.h"
 
 #include "parameters/language.h"
+#include "parameters/altrep.h"
 
 namespace ical {
 namespace properties {
@@ -16,9 +17,8 @@ class Contact
 {
 private:
     std::string value;
-    //std::vector<parameters::Altrep> altrepParam;
+    std::vector<parameters::AltRep> altRepParam;
     std::vector<parameters::Language> languageParam;
-
 public:
     Contact() {}
 
@@ -27,7 +27,7 @@ public:
     static Contact parse(const core::WithPos<core::GenericProperty> &generic);
 
     const std::string &getValue() const noexcept { return value; }
-    //const std::vector<parameters::Altrep> getAltrepParam() const noexcept { return altrepParam; }
+    const std::vector<parameters::AltRep> getAltRepParam() const noexcept { return altRepParam; }
     const std::vector<parameters::Language> &getLanguageParam() const noexcept { return languageParam; }
 };
 

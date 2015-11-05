@@ -16,19 +16,17 @@ class TZName
 {
 private:
     std::string value;
-    std::vector<parameters::Language> langParam;
+    std::vector<parameters::Language> languageParam;
 public:
     TZName() {}
 
     const std::string &getValue() const noexcept { return value; }
 
-    const std::vector<parameters::Language> &getLangParameter() const noexcept {
-        return langParam;
-    }
-
     void print(std::ostream &out) const;
 
     static TZName parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const std::vector<parameters::Language> &getLanguageParam() const noexcept {return languageParam;}
 };
 
 } // namespace properties

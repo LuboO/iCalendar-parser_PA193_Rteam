@@ -21,8 +21,10 @@ RelatedTo RelatedTo::parse(const core::WithPos<core::GenericProperty> &generic) 
     for(const auto &i : generic->getParameters()) {
         if(i->getName().value() == "RELTYPE") {
             if(!relto.reltypeParam.empty())
-                throw ParserException(i.pos() , "RELTYPE parameter can't occurr multiple times");
+                throw ParserException(i.pos() ,
+                                      "RELTYPE parameter can't occurr multiple times");
             relto.reltypeParam.push_back(parameters::Reltype::parse(i));
+
         } else {
             throw ParserException(i.pos() , "invalid parameter in RELATED-TO property");
         }

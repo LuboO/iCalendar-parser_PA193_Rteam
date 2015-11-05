@@ -66,7 +66,26 @@ SOURCES += main.cpp \
     parameters/commonname.cpp \
     parameters/delegatedfrom.cpp \
     parameters/delegatedto.cpp \
-    parameters/direntryref.cpp
+    parameters/direntryref.cpp \
+    properties/attach.cpp \
+    properties/categories.cpp \
+    properties/class.cpp \
+    properties/comment.cpp \
+    properties/description.cpp \
+    properties/geo.cpp \
+    properties/location.cpp \
+    properties/percentcomplete.cpp \
+    properties/priority.cpp \
+    properties/resources.cpp \
+    properties/status.cpp \
+    properties/summary.cpp \
+    properties/completed.cpp \
+    properties/dtend.cpp \
+    properties/due.cpp \
+    properties/dtstart.cpp \
+    properties/freebusy.cpp \
+    properties/transp.cpp \
+    properties/durationprop.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -136,4 +155,23 @@ HEADERS += \
     parameters/commonname.h \
     parameters/delegatedfrom.h \
     parameters/delegatedto.h \
-    parameters/direntryref.h
+    parameters/direntryref.h \
+    properties/attach.h \
+    properties/categories.h \
+    properties/class.h \
+    properties/comment.h \
+    properties/description.h \
+    properties/geo.h \
+    properties/location.h \
+    properties/percentcomplete.h \
+    properties/priority.h \
+    properties/resources.h \
+    properties/status.h \
+    properties/summary.h \
+    properties/completed.h \
+    properties/dtend.h \
+    properties/due.h \
+    properties/dtstart.h \
+    properties/freebusy.h \
+    properties/transp.h \
+    properties/durationprop.h

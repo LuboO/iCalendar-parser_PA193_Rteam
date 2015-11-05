@@ -5,8 +5,8 @@ namespace properties {
 
 void Organizer::print(std::ostream &out) const {
     out << "ORGANIZER";
-    //for(auto &i : cnParam) i.print(out);
-    //for(auto &i : dirParam) i.print(out);
+    for(auto &i : commonNameParam) i.print(out);
+    for(auto &i : dirEntryRefParam) i.print(out);
     for(auto &i : sentByParam) i.print(out);
     for(auto &i : languageParam) i.print(out);
     out << ":" << value << "\r\n";
@@ -22,17 +22,29 @@ Organizer Organizer::parse(const core::WithPos<core::GenericProperty> &generic) 
 
     for(const auto &i : generic->getParameters()) {
         if(i->getName().value() == "CN") {
-            //wait for impl
+            if(!organizer.commonNameParam.empty())
+                throw ParserException(i.pos() ,
+                                      "CN parameter can't occurr multiple times");
+            organizer.dirEntryRefParam.push_back((parameters::DirEntryRef::parse(i)));
+
         } else if(i->getName().value() == "DIR") {
-            //wait for impl
+            if(!organizer.dirEntryRefParam.empty())
+                throw ParserException(i.pos() ,
+                                      "DIR parameter can't occurr multiple times");
+            organizer.dirEntryRefParam.push_back(parameters::DirEntryRef::parse(i));
+
         } else if(i->getName().value() == "SENT-BY") {
             if(!organizer.sentByParam.empty())
-                throw ParserException(i.pos() , "SENT-BY parameter can't occurr multiple times");
+                throw ParserException(i.pos() ,
+                                      "SENT-BY parameter can't occurr multiple times");
             organizer.sentByParam.push_back(parameters::SentBy::parse(i));
+
         } else if(i->getName().value() == "LANGUAGE") {
             if(!organizer.languageParam.empty())
-                throw ParserException(i.pos() , "LANGUAGE parameter can't occurr multiple times");
+                throw ParserException(i.pos() ,
+                                      "LANGUAGE parameter can't occurr multiple times");
             organizer.languageParam.push_back(parameters::Language::parse(i));
+
         } else {
             throw ParserException(i.pos() , "invalid parameter in ORGANIZER property");
         }
