@@ -6,16 +6,40 @@
 #include "core/genericproperty.h"
 #include "parserexception.h"
 
+#include "data/datetime.h"
+
+#include "parameters/tzid_param.h"
+
 namespace ical {
 namespace properties {
 
 class ExDate
 {
 private:
-    // TODO
+    std::vector<data::DateTime> values;
+
+    std::vector<parameters::Tzid_param> tzid;
 
 public:
-    ExDate() {}
+    const std::vector<data::DateTime> &getValue() const noexcept
+    {
+        return values;
+    }
+
+    const std::vector<parameters::Tzid_param> &getTzidParam() const noexcept
+    {
+        return tzid;
+    }
+
+    ExDate() : values(), tzid()
+    {
+    }
+
+    ExDate(std::vector<data::DateTime> &&values,
+           std::vector<parameters::Tzid_param> &&tzid)
+        : values(std::move(values)), tzid(std::move(tzid))
+    {
+    }
 
     void print(std::ostream &out) const;
 
