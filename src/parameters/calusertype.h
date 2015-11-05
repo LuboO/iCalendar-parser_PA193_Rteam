@@ -12,9 +12,11 @@ namespace parameters {
 class CalUserType
 {
 private:
-    // TODO
+    std::string value;
 
 public:
+    const std::string &getValue() const noexcept { return value; }
+
     CalUserType() {}
 
     void print(std::ostream &out) const;

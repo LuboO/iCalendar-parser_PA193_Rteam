@@ -12,9 +12,11 @@ namespace parameters {
 class CommonName
 {
 private:
-    // TODO
+    std::string value;
 
 public:
+    const std::string &getValue() const noexcept { return value; }
+
     CommonName() {}
 
     void print(std::ostream &out) const;

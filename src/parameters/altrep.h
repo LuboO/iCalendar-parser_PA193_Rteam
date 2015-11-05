@@ -12,9 +12,11 @@ namespace parameters {
 class AltRep
 {
 private:
-    // TODO
+    std::string value;
 
 public:
+    const std::string &getValue() const noexcept { return value; }
+
     AltRep() {}
 
     void print(std::ostream &out) const;

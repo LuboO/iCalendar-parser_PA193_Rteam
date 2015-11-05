@@ -12,9 +12,11 @@ namespace parameters {
 class DelegatedTo
 {
 private:
-    // TODO
+    std::vector<std::string> values;
 
 public:
+    const std::vector<std::string> &getValues() const noexcept { return values; }
+
     DelegatedTo() {}
 
     void print(std::ostream &out) const;

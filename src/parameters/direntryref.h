@@ -12,9 +12,11 @@ namespace parameters {
 class DirEntryRef
 {
 private:
-    // TODO
+    std::string value;
 
 public:
+    const std::string &getValue() const noexcept { return value; }
+
     DirEntryRef() {}
 
     void print(std::ostream &out) const;
