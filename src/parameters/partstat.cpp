@@ -11,13 +11,12 @@ PartStat PartStat::parse(const core::WithPos<core::GenericPropertyParameter> &ge
     if(generic->getName().value() != "PARTSTAT")
         throw ParserException(generic.pos() , "invalid PARTSTAT parameter name");
     std::string status = generic->getValue().value();
+    if(status.empty())
+        throw ParserException(generic.pos() , "empty parameter");
+
     /* Other values are not allowed */
-    if(status != "NEEDS-ACTION" &&
-       status != "ACCEPTED" &&
-       status != "DECLINED" &&
-       status != "TENTATIVE" &&
-       status != "DELEGATED" &&
-       status != "COMPLETED" &&
+    if(status != "NEEDS-ACTION" && status != "ACCEPTED" && status != "DECLINED" &&
+       status != "TENTATIVE" && status != "DELEGATED" && status != "COMPLETED" &&
        status != "IN-PROCESS")
         throw ParserException(generic->getValue().pos() , "invalid value in PARTSTAT parameter");
     PartStat partStat;

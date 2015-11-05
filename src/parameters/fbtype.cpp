@@ -10,13 +10,14 @@ void FBType::print(std::ostream &out) const {
 FBType FBType::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "FBTYPE")
         throw ParserException(generic.pos() , "invalid FBTYPE parameter name");
-    if(generic->getValue().value() != "FREE" &&
-       generic->getValue().value() != "BUSY" &&
-       generic->getValue().value() != "BUSY-UNAVAILABLE" &&
-       generic->getValue().value() != "BUSY-TENTATIVE" )
+    auto &value = generic->getValue().value();
+    if(value.empty())
+        throw ParserException(generic.pos() , "empty parameter");
+    if(value != "FREE" && value != "BUSY" && value != "BUSY-UNAVAILABLE" &&
+            value != "BUSY-TENTATIVE" )
         throw ParserException(generic->getValue().pos() , "invalid value in FBTYPE parameter");
     FBType fbtype;
-    fbtype.value = generic->getValue().value();
+    fbtype.value = value;
     return fbtype;
 }
 

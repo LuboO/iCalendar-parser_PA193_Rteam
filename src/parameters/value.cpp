@@ -11,6 +11,8 @@ Value Value::parse(const core::WithPos<core::GenericPropertyParameter> &generic)
     if(generic->getName().value() != "VALUE")
         throw ParserException(generic.pos() , "invalid VALUE parameter name");
     std::string value = generic->getValue().value();
+    if(value.empty())
+        throw ParserException(generic.pos() , "empty parameter");
     if(value != "BINARY" &&
        value != "BOOLEAN" &&
        value != "CAL-ADDRESS" &&
@@ -27,7 +29,7 @@ Value Value::parse(const core::WithPos<core::GenericPropertyParameter> &generic)
        value != "UTC-OFFSET")
         throw ParserException(generic->getValue().pos() , "invalid value in VALUE parameter");
     Value x;
-    x.value = generic->getValue().value();
+    x.value = value;
     return x;
 }
 

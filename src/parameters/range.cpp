@@ -10,6 +10,8 @@ void Range::print(std::ostream &out) const {
 Range Range::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "RANGE")
         throw ParserException(generic.pos() , "invalid RANGE parameter name");
+    if(generic->getValue()->empty())
+        throw ParserException(generic.pos() , "empty parameter");
     /* Only one accepted value */
     /* THISANDPRIOR is deprecated*/
     if(generic->getValue().value() != "THISANDFUTURE")

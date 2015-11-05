@@ -10,11 +10,16 @@ void Role::print(std::ostream &out) const {
 Role Role::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "ROLE")
         throw ParserException(generic.pos() , "invalid ROLE parameter name");
-    if(generic->getValue().value() != "CHAIR" &&  generic->getValue().value() != "REQ-PARTICIPANT" &&
-            generic->getValue().value() != "OPT-PARTICIPANT" && generic->getValue().value() != "NON-PARTICIPANT")
+    auto &value = generic->getValue().value();
+    if(value.empty())
+        throw ParserException(generic.pos() , "empty parameter");
+    if(value != "CHAIR" &&
+            value != "REQ-PARTICIPANT" &&
+            value != "OPT-PARTICIPANT" &&
+            value != "NON-PARTICIPANT")
         throw ParserException(generic->getValue().pos() , "invalid value in ROLE parameter");
     Role x;
-    x.value = generic->getValue().value();
+    x.value = value;
     return x;
 }
 

@@ -10,6 +10,8 @@ void Tzid_param::print(std::ostream &out) {
 Tzid_param Tzid_param::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
     if(generic->getName().value() != "TZID")
         throw ParserException(generic.pos() , "invalid TZID parameter name");
+    if(generic->getValue()->empty())
+        throw ParserException(generic.pos() , "empty parameter");
     /* tzidparam  = "TZID" "=" [tzidprefix] paramtext ??? */
     Tzid_param x;
     x.value = generic->getValue().value();
