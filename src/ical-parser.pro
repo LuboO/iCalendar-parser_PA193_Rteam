@@ -52,7 +52,23 @@ SOURCES += main.cpp \
     parameters/rsvp.cpp \
     parameters/sentby.cpp \
     parameters/tzid_param.cpp \
-    parameters/value.cpp
+    parameters/value.cpp \
+    properties/action.cpp \
+    properties/created.cpp \
+    properties/dtstamp.cpp \
+    properties/exdate.cpp \
+    properties/lastmodified.cpp \
+    properties/rdate.cpp \
+    properties/repeat.cpp \
+    properties/rrule.cpp \
+    properties/sequence.cpp \
+    properties/trigger.cpp \
+    parameters/altrep.cpp \
+    parameters/calusertype.cpp \
+    parameters/commonname.cpp \
+    parameters/delegatedfrom.cpp \
+    parameters/delegatedto.cpp \
+    parameters/direntryref.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -108,4 +124,20 @@ HEADERS += \
     parameters/rsvp.h \
     parameters/sentby.h \
     parameters/tzid_param.h \
-    parameters/value.h
+    parameters/value.h \
+    properties/action.h \
+    properties/created.h \
+    properties/dtstamp.h \
+    properties/exdate.h \
+    properties/lastmodified.h \
+    properties/rdate.h \
+    properties/repeat.h \
+    properties/rrule.h \
+    properties/sequence.h \
+    properties/trigger.h \
+    parameters/altrep.h \
+    parameters/calusertype.h \
+    parameters/commonname.h \
+    parameters/delegatedfrom.h \
+    parameters/delegatedto.h \
+    parameters/direntryref.h
