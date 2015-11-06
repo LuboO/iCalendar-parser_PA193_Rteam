@@ -1,20 +1,30 @@
 #include "properties/sequence.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
 void Sequence::print(std::ostream &out) const
 {
-    // TODO
+    if (seqNum == 0) {
+        return;
+    }
+
+    out << "SEQUENCE:" << seqNum << "\r\n";
 }
 
 Sequence Sequence::parse(const core::WithPos<core::GenericProperty> &generic)
 {
-    // TODO
+    if (!generic->getParameters().empty()) {
+        throw ParserException(generic.pos(), "The REPEAT property must have no parameters!");
+    }
 
-    Sequence res;
-    // TODO
-    return res;
+    auto &value = generic->getValue();
+    return {
+        core::ValueParser::parseUnsignedInteger(
+                    value.pos(), value->begin(), value->end())
+    };
 }
 
 } // namespace properties

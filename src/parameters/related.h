@@ -14,8 +14,15 @@ class Related
 {
 private:
     std::string value;
+
 public:
-    Related() {}
+    Related() : value("START")
+    {
+    }
+
+    Related(std::string &&value) : value(std::move(value))
+    {
+    }
 
     const std::string &getValue() const noexcept { return value; }
 

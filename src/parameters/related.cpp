@@ -4,6 +4,10 @@ namespace ical {
 namespace parameters {
 
 void Related::print(std::ostream &out) const {
+    if (value == "START") {
+        return;
+    }
+
     out << ";RELATED=" << value;
 }
 
@@ -15,9 +19,8 @@ Related Related::parse(const core::WithPos<core::GenericPropertyParameter> &gene
         throw ParserException(generic.pos() , "empty parameter");
     if(value != "START" && value != "END")
         throw ParserException(generic->getValue().pos() , "invalid value in RELATED parameter");
-    Related rel;
-    rel.value = value;
-    return rel;
+
+    return { std::string(value) };
 }
 
 } // namespace parameters
