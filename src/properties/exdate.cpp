@@ -13,11 +13,12 @@ void ExDate::print(std::ostream &out) const
         return;
     }
     out << "EXDATE";
-    if (!values.front().hasTime()) {
-        out << ";VALUE=DATE";
-    }
     for (auto &t : tzid) {
         t.print(out);
+    }
+    /* DATE-TIME is default */
+    if (!values.front().hasTime()) {
+        out << ";VALUE=DATE";
     }
     out << ":";
     for (std::size_t i = 0; i < values.size(); i++) {
