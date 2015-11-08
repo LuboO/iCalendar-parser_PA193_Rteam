@@ -1,5 +1,7 @@
 #include "tzurl.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -12,12 +14,13 @@ TZUrl TZUrl::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos() , "invalid name in TZURL property");
     if(!generic->getParameters().empty())
         throw ParserException(generic.pos() , "invalid parameters in TZURL property");
-    /* URI is not parsed and validated */
-    auto &value = generic->getValue().value();
-    if(value.empty())
-        throw ParserException(generic.pos() , "empty property value");
+
+    auto &value = generic->getValue();
+
+    core::ValueParser::validateUri(value.pos(), *value);
+
     TZUrl tzurl;
-    tzurl.value = value;
+    tzurl.value = *value;
     return tzurl;
 }
 

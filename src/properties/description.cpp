@@ -1,5 +1,7 @@
 #include "description.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -7,7 +9,7 @@ void Description::print(std::ostream &out) const {
     out << "DESCRIPTION";
     for(auto &i : altRepParam) i.print(out);
     for(auto &i : languageParam) i.print(out);
-    out << ":" << value << "\r\n";
+    out << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Description Description::parse(const core::WithPos<core::GenericProperty> &generic) {
@@ -15,8 +17,12 @@ Description Description::parse(const core::WithPos<core::GenericProperty> &gener
         throw ParserException(generic.pos() , "invalid name in DESCRIPTION property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty DESCRIPTION property");
+
+    auto &value = generic->getValue();
+
     Description description;
-    description.value = generic->getValue().value();
+    description.value = std::move(core::ValueParser::parseText(
+                                      value.pos(), value->begin(), value->end()));
     for(auto &i : generic->getParameters()) {
         if(i->getName().value() == "ALTREP") {
             if(!description.altRepParam.empty())

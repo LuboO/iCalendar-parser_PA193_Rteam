@@ -1,5 +1,7 @@
 #include "location.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -7,7 +9,7 @@ void Location::print(std::ostream &out) const {
     out << "LOCATION";
     for(auto &i : altRepParam) i.print(out);
     for(auto &i : languageParam) i.print(out);
-    out << ":" << value << "\r\n";
+    out << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Location Location::parse(const core::WithPos<core::GenericProperty> &generic) {
@@ -15,8 +17,12 @@ Location Location::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos() , "invalid name in LOCATION property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty LOCATION property");
+
+    auto &value = generic->getValue();
+
     Location location;
-    location.value = generic->getValue().value();
+    location.value = std::move(core::ValueParser::parseText(
+                                   value.pos(), value->begin(), value->end()));
     for(auto &i : generic->getParameters()) {
         if(i->getName().value() == "ALTREP") {
             if(!location.altRepParam.empty())

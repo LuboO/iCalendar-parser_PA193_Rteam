@@ -1,5 +1,7 @@
 #include "summary.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -7,7 +9,7 @@ void Summary::print(std::ostream &out) const{
     out << "SUMMARY";
     for(auto &i : altRepParam) i.print(out);
     for(auto &i : languageParam) i.print(out);
-    out << ":" << value << "\r\n";
+    out << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Summary Summary::parse(const core::WithPos<core::GenericProperty> &generic) {
@@ -15,8 +17,13 @@ Summary Summary::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos() , "invalid name in SUMMARY property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty SUMMARY property");
+
+    auto &value = generic->getValue();
+
     Summary summary;
-    summary.value = generic->getValue().value();
+    summary.value = std::move(core::ValueParser::parseText(
+                                  value.pos(), value->begin(), value->end()));
+
     for(auto &i : generic->getParameters()) {
         if(i->getName().value() == "ALTREP") {
             if(!summary.altRepParam.empty())

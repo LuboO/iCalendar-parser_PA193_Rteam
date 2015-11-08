@@ -1,5 +1,7 @@
 #include "contact.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -7,7 +9,7 @@ void Contact::print(std::ostream &out) const {
     out << "CONTACT";
     for(auto &i : altRepParam) i.print(out);
     for(auto &i : languageParam) i.print(out);
-    out << ":" << value << "\r\n";
+    out << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Contact Contact::parse(const core::WithPos<core::GenericProperty> &generic) {
@@ -15,8 +17,13 @@ Contact Contact::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos() , "invalid name in CONTACT property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
+
+    auto &value = generic->getValue();
+
     Contact contact;
-    contact.value = generic->getValue().value();
+    contact.value = std::move(core::ValueParser::parseText(
+                                  value.pos(), value->begin(), value->end()));
+
     for(auto &i : generic->getParameters()) {
         if(i->getName().value() == "ALTREP") {
             if(!contact.altRepParam.empty())
