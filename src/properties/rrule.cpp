@@ -1,20 +1,28 @@
 #include "properties/rrule.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
 void RRule::print(std::ostream &out) const
 {
-    // TODO
+    out << "RRULE:";
+    value.print(out);
+    out << "\r\n";
 }
 
 RRule RRule::parse(const core::WithPos<core::GenericProperty> &generic)
 {
-    // TODO
+    if (!generic->getParameters().empty()) {
+        throw ParserException(generic.pos(), "The RRULE property must have no parameters!");
+    }
 
-    RRule res;
-    // TODO
-    return res;
+    auto &value = generic->getValue();
+    return {
+        std::move(core::ValueParser::parseRecurrenceRule(
+                      value.pos(), value->begin(), value->end()))
+    };
 }
 
 } // namespace properties

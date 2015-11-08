@@ -12,10 +12,14 @@ namespace properties {
 class Action
 {
 private:
-    // TODO
+    std::string value;
 
 public:
-    Action() {}
+    const std::string &getValue() { return value; }
+
+    Action(std::string &&value) : value(std::move(value))
+    {
+    }
 
     void print(std::ostream &out) const;
 

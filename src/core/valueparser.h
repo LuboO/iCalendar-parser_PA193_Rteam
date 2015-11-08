@@ -34,7 +34,12 @@ public:
     static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end,
-                                        bool timeIsOptional = false);
+                                        bool timeIsOptional);
+    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end)
+    {
+        return parseDateTime(pos, begin, end, false);
+    }
+
     static data::UTCOffset parseUTCOffset(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
     static data::Duration parseDuration(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);

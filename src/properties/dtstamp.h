@@ -6,16 +6,25 @@
 #include "core/genericproperty.h"
 #include "parserexception.h"
 
+#include "data/datetime.h"
+
 namespace ical {
 namespace properties {
 
 class DTStamp
 {
 private:
-    // TODO
+    data::DateTime value;
 
 public:
-    DTStamp() {}
+    const data::DateTime &getValue() const noexcept
+    {
+        return value;
+    }
+
+    DTStamp(data::DateTime &&value) : value(std::move(value))
+    {
+    }
 
     void print(std::ostream &out) const;
 

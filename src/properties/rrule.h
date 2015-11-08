@@ -6,16 +6,25 @@
 #include "core/genericproperty.h"
 #include "parserexception.h"
 
+#include "data/recurrencerule.h"
+
 namespace ical {
 namespace properties {
 
 class RRule
 {
 private:
-    // TODO
+    data::RecurrenceRule value;
 
 public:
-    RRule() {}
+    const data::RecurrenceRule &getValue() const noexcept
+    {
+        return value;
+    }
+
+    RRule(data::RecurrenceRule &&value) : value(std::move(value))
+    {
+    }
 
     void print(std::ostream &out) const;
 

@@ -12,10 +12,17 @@ namespace properties {
 class Sequence
 {
 private:
-    // TODO
+    unsigned int seqNum;
 
 public:
-    Sequence() {}
+    unsigned int getValue() const noexcept { return seqNum; }
+
+    Sequence() : seqNum(0)
+    {
+    }
+    Sequence(unsigned int seqNum) : seqNum(seqNum)
+    {
+    }
 
     void print(std::ostream &out) const;
 

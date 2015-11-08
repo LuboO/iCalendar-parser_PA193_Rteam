@@ -6,16 +6,25 @@
 #include "core/genericproperty.h"
 #include "parserexception.h"
 
+#include "data/datetime.h"
+
 namespace ical {
 namespace properties {
 
 class Created
 {
 private:
-    // TODO
+    data::DateTime value;
 
 public:
-    Created() {}
+    const data::DateTime &getValue() const noexcept
+    {
+        return value;
+    }
+
+    Created(data::DateTime &&value) : value(std::move(value))
+    {
+    }
 
     void print(std::ostream &out) const;
 

@@ -12,10 +12,17 @@ namespace properties {
 class Repeat
 {
 private:
-    // TODO
+    int count;
 
 public:
-    Repeat() {}
+    int getValue() const noexcept { return count; }
+
+    Repeat() : count(0)
+    {
+    }
+    Repeat(int count) : count(count)
+    {
+    }
 
     void print(std::ostream &out) const;
 
