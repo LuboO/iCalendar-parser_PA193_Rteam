@@ -3,6 +3,12 @@
 
 #include "core/genericcomponent.h"
 
+#include "properties/tzid.h"
+#include "properties/lastmodified.h"
+#include "properties/tzurl.h"
+
+#include "components/timezonerules.h"
+
 #include <ostream>
 #include <vector>
 
@@ -11,8 +17,33 @@ namespace components {
 
 class VTimeZone
 {
+private:
+    properties::TZId tzid;
+    std::vector<properties::LastModified> lastModified;
+    std::vector<properties::TZUrl> tzUrl;
+    std::vector<components::TimeZoneRules> standardRules;
+    std::vector<components::TimeZoneRules> dstRules;
+
 public:
-    VTimeZone() {}
+    const properties::TZId &getTZID() const noexcept { return tzid; }
+    const std::vector<properties::LastModified> &getLastModified() const noexcept
+    {
+        return lastModified;
+    }
+    const std::vector<properties::TZUrl> &getTZUrl() const noexcept
+    {
+        return tzUrl;
+    }
+    const std::vector<components::TimeZoneRules> &getStandardTimeRules() const noexcept
+    {
+        return standardRules;
+    }
+    const std::vector<components::TimeZoneRules> &getDSTRules() const noexcept
+    {
+        return dstRules;
+    }
+
+    VTimeZone() : lastModified(), tzUrl(), standardRules(), dstRules() { }
 
     void print(std::ostream &out) const;
 

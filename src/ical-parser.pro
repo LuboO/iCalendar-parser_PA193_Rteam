@@ -89,7 +89,8 @@ SOURCES += main.cpp \
     properties/prodid.cpp \
     properties/version.cpp \
     properties/calscale.cpp \
-    properties/method.cpp
+    properties/method.cpp \
+    components/timezonerules.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -182,4 +183,5 @@ HEADERS += \
     properties/prodid.h \
     properties/version.h \
     properties/calscale.h \
-    properties/method.h
+    properties/method.h \
+    components/timezonerules.h

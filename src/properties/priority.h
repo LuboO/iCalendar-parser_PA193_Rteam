@@ -12,12 +12,16 @@ namespace properties {
 
 class Priority
 {
+private:
+    int value;
 public:
     Priority() {}
 
     void print(std::ostream & out) const;
 
     static Priority parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const int getValue() const noexcept { return value; }
 };
 
 } // namespace properties

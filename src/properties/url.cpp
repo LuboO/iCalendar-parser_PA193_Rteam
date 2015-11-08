@@ -1,5 +1,7 @@
 #include "url.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -15,9 +17,12 @@ Url Url::parse(const core::WithPos<core::GenericProperty> &generic) {
     if(!generic->getParameters().empty())
         throw ParserException(generic.pos() , "invalid parameter in URL property");
 
-    /* URI value is not validated */
+    auto &value = generic->getValue();
+
+    core::ValueParser::validateUri(value.pos(), *value);
+
     Url url;
-    url.value = generic->getValue().value();
+    url.value = *value;
     return url;
 }
 

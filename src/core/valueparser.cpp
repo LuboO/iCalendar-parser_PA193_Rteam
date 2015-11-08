@@ -155,7 +155,7 @@ static std::string base64decode(const StreamPos &pos,
     std::string res;
     res.reserve(outLength);
     while (true) {
-        unsigned long int val;
+        unsigned long int val = 0;
         for (std::size_t i = 0; i < 4; i++) {
             val <<= 6;
             if (static_cast<std::size_t>(end - begin) > padding) {
@@ -179,11 +179,78 @@ static std::string base64decode(const StreamPos &pos,
     return res;
 }
 
+static std::string base64encode(const std::string &data)
+{
+    static const char *ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    std::size_t outLength = (data.size() * 4) / 3;
+
+    std::string res;
+    res.reserve(outLength);
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        unsigned long int b = (*it & 0xFC) >> 2;
+        res.push_back(ALPHABET[b]);
+
+        b = (*it & 0x03) << 4;
+        if (++it == data.end()) {
+            res.push_back(ALPHABET[b]);
+            res.push_back('=');
+            res.push_back('=');
+            break;
+        }
+
+        b |= (*it & 0xF0) >> 4;
+        res.push_back(ALPHABET[b]);
+
+        b = (*it & 0x0F) << 2;
+        if (++it == data.end()) {
+            res.push_back(ALPHABET[b]);
+            res.push_back('=');
+            break;
+        }
+
+        b |= (*it & 0xC0) >> 6;
+        res.push_back(ALPHABET[b]);
+
+        b = *it & 0x3F;
+        res.push_back(ALPHABET[b]);
+    }
+    return res;
+}
+
 std::string ValueParser::parseBase64(const StreamPos &pos,
                                      std::string::const_iterator begin,
                                      std::string::const_iterator end)
 {
     return base64decode(pos, begin, end);
+}
+
+std::string ValueParser::encodeText(const std::string &value)
+{
+    std::string res;
+    for (char c : value) {
+        switch (c) {
+        case '\n':
+            res.push_back('\\');
+            res.push_back('n');
+            break;
+        case ';':
+        case ',':
+        case '\\':
+            res.push_back('\\');
+            res.push_back(c);
+            break;
+        default:
+            res.push_back(c);
+            break;
+        }
+    }
+    return res;
+}
+
+std::string ValueParser::encodeBase64(const std::string &value)
+{
+    return base64encode(value);
 }
 
 static unsigned int parseNumber(std::string::const_iterator it,
@@ -217,9 +284,6 @@ unsigned int getDaysInMonth(unsigned int year, unsigned int month)
 }
 
 static const std::size_t DATE_LENGTH = 8;
-static const std::size_t TIME_LENGTH_MIN = 6;
-
-static const std::size_t DATETIME_LENGTH_MIN = DATE_LENGTH + 1 + TIME_LENGTH_MIN;
 
 data::Date ValueParser::parseDate(const StreamPos &pos,
                                   std::string::const_iterator begin,

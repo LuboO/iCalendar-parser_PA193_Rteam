@@ -12,12 +12,16 @@ namespace properties {
 
 class Status
 {
+private:
+    std::string value;
 public:
     Status() {}
 
     void print(std::ostream & out) const;
 
     static Status parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const std::string &getValue() const noexcept { return value; }
 };
 
 } // namespace properties

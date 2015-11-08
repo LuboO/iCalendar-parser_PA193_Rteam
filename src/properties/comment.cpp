@@ -1,14 +1,47 @@
 #include "comment.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
 void Comment::print(std::ostream &out) const {
-
+    out << "COMMENT";
+    for(auto &i : altRepParam) i.print(out);
+    for(auto &i : languageParam) i.print(out);
+    out << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Comment Comment::parse(const core::WithPos<core::GenericProperty> &generic) {
-    return {};
+    if(generic->getName().value() != "COMMENT")
+        throw ParserException(generic.pos() , "invalid name in COMMENT property");
+    if(generic->getValue()->empty())
+        throw ParserException(generic.pos() , "empty COMMENT property");
+
+    auto &value = generic->getValue();
+
+    Comment comment;
+    comment.value = std::move(core::ValueParser::parseText(
+                                  value.pos(), value->begin(), value->end()));
+
+    for(auto &i : generic->getParameters()) {
+        if(i->getName().value() == "ALTREP") {
+            if(!comment.altRepParam.empty())
+                throw ParserException(i.pos() ,
+                                      "ALTREP parameter can't occurr multiple times");
+            comment.altRepParam.push_back(parameters::AltRep::parse(i));
+
+        } else if(i->getName().value() == "LANGUAGE") {
+            if(!comment.languageParam.empty())
+                throw ParserException(i.pos() ,
+                                      "LANGUAGE parameter can't occurr multiple times");
+            comment.languageParam.push_back(parameters::Language::parse(i));
+
+        } else {
+            throw ParserException(i.pos() , "invalid COMMENT property parameter");
+        }
+    }
+    return comment;
 }
 
 } // namespace properties

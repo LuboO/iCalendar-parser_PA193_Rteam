@@ -31,6 +31,10 @@ public:
     static std::string parseText(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static std::string parseBase64(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
+    /* functions to encode back to formatted values: */
+    static std::string encodeText(const std::string &value);
+    static std::string encodeBase64(const std::string &value);
+
     static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end,

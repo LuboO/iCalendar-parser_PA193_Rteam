@@ -12,12 +12,16 @@ namespace properties {
 
 class PercentComplete
 {
+private:
+    int value;
 public:
     PercentComplete() {}
 
     void print(std::ostream & out) const;
 
     static PercentComplete parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const int getValue() const noexcept { return value; }
 };
 
 } // namespace properties

@@ -1,5 +1,7 @@
 #include "attendee.h"
 
+#include "core/valueparser.h"
+
 namespace ical {
 namespace properties {
 
@@ -24,8 +26,13 @@ Attendee Attendee::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos() , "invalid name in ATTENDEE property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
+
+    auto &value = generic->getValue();
+
+    core::ValueParser::validateCalendarAddress(value.pos(), *value);
+
     Attendee attendee;
-    attendee.value = generic->getValue().value();
+    attendee.value = *value;
 
     for(auto &i : generic->getParameters()) {
         if(i->getName().value() == "CUTYPE") {
