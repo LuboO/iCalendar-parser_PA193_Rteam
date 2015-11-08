@@ -85,7 +85,8 @@ SOURCES += main.cpp \
     properties/dtstart.cpp \
     properties/freebusy.cpp \
     properties/transp.cpp \
-    properties/durationprop.cpp
+    properties/durationprop.cpp \
+    components/timezonerules.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -174,4 +175,5 @@ HEADERS += \
     properties/dtstart.h \
     properties/freebusy.h \
     properties/transp.h \
-    properties/durationprop.h
+    properties/durationprop.h \
+    components/timezonerules.h
