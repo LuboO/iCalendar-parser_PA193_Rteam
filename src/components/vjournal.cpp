@@ -4,7 +4,31 @@ namespace ical {
 namespace components {
 
 void VJournal::print(std::ostream &out) const {
-    //journal
+    out << "BEGIN:VJOURNAL\r\n";
+    for(auto &i : dtStampProp) i.print(out);
+    for(auto &i : uidProp) i.print(out);
+    for(auto &i : classProp) i.print(out);
+    for(auto &i : createdProp) i.print(out);
+    for(auto &i : dtStartProp) i.print(out);
+    for(auto &i : lastModifiedProp) i.print(out);
+    for(auto &i : organizerProp) i.print(out);
+    for(auto &i : recurrenceIdProp) i.print(out);
+    for(auto &i : sequenceProp) i.print(out);
+    for(auto &i : statusProp) i.print(out);
+    for(auto &i : summaryProp) i.print(out);
+    for(auto &i : urlProp) i.print(out);
+    for(auto &i : rruleProp) i.print(out);
+    for(auto &i : attachProps) i.print(out);
+    for(auto &i : attendeeProps) i.print(out);
+    for(auto &i : categoriesProps) i.print(out);
+    for(auto &i : commentProps) i.print(out);
+    for(auto &i : contactProps) i.print(out);
+    for(auto &i : descriptionProps) i.print(out);
+    for(auto &i : exDateProps) i.print(out);
+    for(auto &i : relatedToProps) i.print(out);
+    for(auto &i : rDateProps) i.print(out);
+    for(auto &i : requestStatusProps) i.print(out);
+    out << "END:VJOURNAL\r\n";
 }
 
 VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic) {
@@ -97,6 +121,14 @@ VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic) {
     //////////////// TODO ////////////////////
     //////////////////////////////////////////
     /* remaining checks after implementation of DTStart/DTEnd */
+    
+    // WHEN status is implemented uncomment this
+    /*if(journal.statusProp.size() == 1) {
+        if(journal.statusProp.at(0).getValue() != "DRAFT" &&
+                journal.statusProp.at(0).getValue() != "FINAL" &&
+                journal.statusProp.at(0).getValue() != "CANCELLED")
+            throw ParserException(generic.pos() , "invalid value in STATUS property");
+    }*/
 
     return journal;
 }

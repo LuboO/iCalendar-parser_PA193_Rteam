@@ -85,7 +85,11 @@ SOURCES += main.cpp \
     properties/dtstart.cpp \
     properties/freebusy.cpp \
     properties/transp.cpp \
-    properties/durationprop.cpp
+    properties/durationprop.cpp \
+    properties/prodid.cpp \
+    properties/version.cpp \
+    properties/calscale.cpp \
+    properties/method.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -174,4 +178,8 @@ HEADERS += \
     properties/dtstart.h \
     properties/freebusy.h \
     properties/transp.h \
-    properties/durationprop.h
+    properties/durationprop.h \
+    properties/prodid.h \
+    properties/version.h \
+    properties/calscale.h \
+    properties/method.h

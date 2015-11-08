@@ -4,7 +4,40 @@ namespace ical {
 namespace components {
 
 void VTodo::print(std::ostream &out) const {
-    //todo
+    out << "BEGIN:VTODO\r\n";
+    for(auto &i : dtStampProp) i.print(out);
+    for(auto &i : uidProp) i.print(out);
+    for(auto &i : classProp) i.print(out);
+    for(auto &i : completedProp) i.print(out);
+    for(auto &i : createdProp) i.print(out);
+    for(auto &i : descriptionProp) i.print(out);
+    for(auto &i : dtStartProp) i.print(out);
+    for(auto &i : geoProp) i.print(out);
+    for(auto &i : lastModifiedProp) i.print(out);
+    for(auto &i : locationProp) i.print(out);
+    for(auto &i : organizerProp) i.print(out);
+    for(auto &i : percentCompleteProp) i.print(out);
+    for(auto &i : priorityProp) i.print(out);
+    for(auto &i : recurrenceIdProp) i.print(out);
+    for(auto &i : sequenceProp) i.print(out);
+    for(auto &i : statusProp) i.print(out);
+    for(auto &i : summaryProp) i.print(out);
+    for(auto &i : urlProp) i.print(out);
+    for(auto &i : rruleProp) i.print(out);
+    for(auto &i : dueProp) i.print(out);
+    for(auto &i : durationProp) i.print(out);
+    for(auto &i : attachProps) i.print(out);
+    for(auto &i : attendeeProps) i.print(out);
+    for(auto &i : categoriesProps) i.print(out);
+    for(auto &i : commentProps) i.print(out);
+    for(auto &i : contactProps) i.print(out);
+    for(auto &i : exDateProps) i.print(out);
+    for(auto &i : requestStatusProps) i.print(out);
+    for(auto &i : relatedToProps) i.print(out);
+    for(auto &i : resourcesProps) i.print(out);
+    for(auto &i : rDateProps) i.print(out);
+    for(auto &i : alarmComps) i.print(out);
+    out << "END:VTODO\r\n";
 }
 
 VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic) {
@@ -134,12 +167,21 @@ VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic) {
     //////////////// TODO ////////////////////
     //////////////////////////////////////////
     /* remaining checks after implementation of DTStart/DTEnd */
+    
+    // WHEN STATUS is implemented, uncomment this
+    /*if(todo.statusProp.size() == 1) {
+        if(todo.statusProp.at(0).getValue() != "NEEDS-ACTION" &&
+                todo.statusProp.at(0).getValue() != "COMPLETED" &&
+                todo.statusProp.at(0).getValue() != "IN-PROCESS" &&
+                todo.statusProp.at(0).getValue() != "CANCELLED")
+            throw ParserException(generic.pos() , "inalid value in STATUS property");
+
+    }*/
 
     /* Storing subcomponents */
     for(const auto &i : generic->getSubcomponents()) {
         if(i->getName().value() == "VALARM") {
             todo.alarmComps.push_back(components::VAlarm::parse(i));
-
         } else {
             throw ParserException(i.pos() ,
                                   "invalid component in VEVENT component");

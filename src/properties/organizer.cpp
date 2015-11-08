@@ -25,7 +25,7 @@ Organizer Organizer::parse(const core::WithPos<core::GenericProperty> &generic) 
             if(!organizer.commonNameParam.empty())
                 throw ParserException(i.pos() ,
                                       "CN parameter can't occurr multiple times");
-            organizer.dirEntryRefParam.push_back((parameters::DirEntryRef::parse(i)));
+            organizer.commonNameParam.push_back((parameters::CommonName::parse(i)));
 
         } else if(i->getName().value() == "DIR") {
             if(!organizer.dirEntryRefParam.empty())

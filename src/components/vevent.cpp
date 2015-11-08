@@ -4,7 +4,39 @@ namespace ical {
 namespace components {
 
 void VEvent::print(std::ostream &out) const {
-    //todo
+    out << "BEGIN:VEVENT\r\n";
+    for(auto &i : dtStampProp) i.print(out);
+    for(auto &i : uidProp) i.print(out);
+    for(auto &i : dtStartProp) i.print(out);
+    for(auto &i : classProp) i.print(out);
+    for(auto &i : createdProp) i.print(out);
+    for(auto &i : descriptionProp) i.print(out);
+    for(auto &i : geoProp) i.print(out);
+    for(auto &i : lastModifiedProp) i.print(out);
+    for(auto &i : locationProp) i.print(out);
+    for(auto &i : organizerProp) i.print(out);
+    for(auto &i : priorityProp) i.print(out);
+    for(auto &i : sequenceProp) i.print(out);
+    for(auto &i : statusProp) i.print(out);
+    for(auto &i : summaryProp) i.print(out);
+    for(auto &i : transpProp) i.print(out);
+    for(auto &i : urlProp) i.print(out);
+    for(auto &i : recurrenceIdProp) i.print(out);
+    for(auto &i : rruleProp) i.print(out);
+    for(auto &i : dtEndProp) i.print(out);
+    for(auto &i : durationProp) i.print(out);
+    for(auto &i : attachProps) i.print(out);
+    for(auto &i : attendeeProps) i.print(out);
+    for(auto &i : categoriesProps) i.print(out);
+    for(auto &i : commentProps) i.print(out);
+    for(auto &i : contactProps) i.print(out);
+    for(auto &i : exDateProps) i.print(out);
+    for(auto &i : requestStatusProps) i.print(out);
+    for(auto &i : relatedToProps) i.print(out);
+    for(auto &i : resourcesProps) i.print(out);
+    for(auto &i : rDateProps) i.print(out);
+    for(auto &i : alarmComps) i.print(out);
+    out << "END:VEVENT\r\n";
 }
 
 VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic) {
@@ -130,6 +162,14 @@ VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic) {
     //////////////// TODO ////////////////////
     //////////////////////////////////////////
     /* remaining checks after implementation of DTStart/DTEnd */
+    
+    // WHEN STATUS is implemented, uncomment this
+    /*if(event.statusProp.size() == 1) {
+        if(event.statusProp.at(0).getValue() != "TENTATIVE" &&
+                event.statusProp.at(0).getValue() != "CONFIRMED" &&
+                event.statusProp.at(0).getValue() != "CANCELLED")
+            throw ParserException(generic.pos() , "invalid value in STATUS property");
+    }*/
 
     /* Storing subcomponents */
     for(const auto &i : generic->getSubcomponents()) {
