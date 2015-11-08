@@ -13,7 +13,8 @@ Status Status::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos(), "The STATUS property must have no parameters!");
 
     auto &value = generic->getValue();
-    if (*value != "AUDIO" && *value != "DISPLAY" && *value != "EMAIL") {
+    if (*value != "TENTATIVE" && *value != "CONFIRMED" && *value != "CANCELLED"
+            && *value != "NEEDS-ACTION" && *value != "COMPLETED" && *value != "IN-PROCESS") {
             throw ParserException(value.pos(), "Invalid STATUS property value!");
             }
         Status status;
