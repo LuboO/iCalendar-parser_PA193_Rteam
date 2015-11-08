@@ -155,7 +155,7 @@ static std::string base64decode(const StreamPos &pos,
     std::string res;
     res.reserve(outLength);
     while (true) {
-        unsigned long int val;
+        unsigned long int val = 0;
         for (std::size_t i = 0; i < 4; i++) {
             val <<= 6;
             if (static_cast<std::size_t>(end - begin) > padding) {
@@ -217,9 +217,6 @@ unsigned int getDaysInMonth(unsigned int year, unsigned int month)
 }
 
 static const std::size_t DATE_LENGTH = 8;
-static const std::size_t TIME_LENGTH_MIN = 6;
-
-static const std::size_t DATETIME_LENGTH_MIN = DATE_LENGTH + 1 + TIME_LENGTH_MIN;
 
 data::Date ValueParser::parseDate(const StreamPos &pos,
                                   std::string::const_iterator begin,
