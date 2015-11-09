@@ -43,7 +43,14 @@ TimeZoneRules TimeZoneRules::parse(const core::WithPos<core::GenericComponent> &
 
             res.start = std::move(properties::Dtstart::parse(prop));
 
-            // TODO: assert 'start' is in local form
+            if (!res.start.getValue().hasTime() ||
+                    !res.start.getValue().getTime().isLocal()) {
+                throw ParserException(
+                            prop.pos(),
+                            "The value of the DTSTART property in this "
+                            "component must be a date-time with the time in "
+                            "the local format!");
+            }
 
             startSeen = true;
         } else if (*name == "TZOFFSETFROM") {
