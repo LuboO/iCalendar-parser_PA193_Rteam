@@ -43,7 +43,7 @@ public:
         }
         return dateTimeValue;
     }
-    const data::Date &getDateValue() const noexcept
+    const data::Date &getDateValue() const
     {
         if (!isDate()) {
             throw std::logic_error("The property has a date-time value!");
