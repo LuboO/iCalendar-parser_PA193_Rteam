@@ -2,6 +2,7 @@
 #define ICAL_COMPONENTS_VTIMEZONE_H
 
 #include "core/genericcomponent.h"
+#include "core/uniqueidregistry.h"
 
 #include "properties/tzid.h"
 #include "properties/lastmodified.h"
@@ -47,7 +48,8 @@ public:
 
     void print(std::ostream &out) const;
 
-    static VTimeZone parse(const core::WithPos<core::GenericComponent> &generic);
+    static VTimeZone parse(const core::WithPos<core::GenericComponent> &generic,
+                           core::UniqueIdRegistry &tzidRegistry);
 };
 
 } // namespace components

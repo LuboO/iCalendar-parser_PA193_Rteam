@@ -7,7 +7,9 @@ void VFreeBusy::print(std::ostream &out) const {
 
 }
 
-VFreeBusy VFreeBusy::parse(const core::WithPos<core::GenericComponent> &generic) {
+VFreeBusy VFreeBusy::parse(const core::WithPos<core::GenericComponent> &generic,
+                           core::UniqueIdRegistry &uidRegistry)
+{
     return {};
 }
 

@@ -40,7 +40,9 @@ void VTodo::print(std::ostream &out) const {
     out << "END:VTODO\r\n";
 }
 
-VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic) {
+VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic,
+                   core::UniqueIdRegistry &uidRegistry)
+{
     if(generic->getName().value() != "VTODO")
         throw ParserException(generic.pos() , "invalid name in VTODO component");
 
@@ -163,11 +165,15 @@ VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic) {
     if(!todo.dueProp.empty() && !todo.durationProp.empty())
         throw ParserException(generic.pos() , "DUE and DURATION cen't be both present");
 
+    if (!uidRegistry.registerId(event.uidProp[0].getValue())) {
+        throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
+    }
+
     //////////////////////////////////////////
     //////////////// TODO ////////////////////
     //////////////////////////////////////////
     /* remaining checks after implementation of DTStart/DTEnd */
-    
+
     // WHEN STATUS is implemented, uncomment this
     /*if(todo.statusProp.size() == 1) {
         if(todo.statusProp.at(0).getValue() != "NEEDS-ACTION" &&

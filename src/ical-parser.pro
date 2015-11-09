@@ -184,4 +184,5 @@ HEADERS += \
     properties/version.h \
     properties/calscale.h \
     properties/method.h \
-    components/timezonerules.h
+    components/timezonerules.h \
+    core/uniqueidregistry.h

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "core/genericcomponent.h"
+#include "core/uniqueidregistry.h"
 #include "parserexception.h"
 
 /** Properties **/
@@ -70,7 +71,8 @@ public:
 
     void print(std::ostream &out) const;
 
-    static VJournal parse(const core::WithPos<core::GenericComponent> &generic);
+    static VJournal parse(const core::WithPos<core::GenericComponent> &generic,
+                          core::UniqueIdRegistry &uidRegistry);
 
     /* Another nice set of getters */
     const std::vector<properties::DTStamp> getDtStampProp() const noexcept{return dtStampProp;}

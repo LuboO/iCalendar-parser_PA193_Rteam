@@ -39,7 +39,9 @@ void VEvent::print(std::ostream &out) const {
     out << "END:VEVENT\r\n";
 }
 
-VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic) {
+VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic,
+                     core::UniqueIdRegistry &uidRegistry)
+{
     if(generic->getName().value() != "VEVENT")
         throw ParserException(generic.pos() , "invalid name in VEVENT component");
 
@@ -157,12 +159,15 @@ VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic) {
     if(!event.dtEndProp.empty() && !event.durationProp.empty())
         throw ParserException(generic.pos() , "DTEND and DURATION can't be both present");
 
+    if (!uidRegistry.registerId(event.uidProp[0].getValue())) {
+        throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
+    }
 
     //////////////////////////////////////////
     //////////////// TODO ////////////////////
     //////////////////////////////////////////
     /* remaining checks after implementation of DTStart/DTEnd */
-    
+
     // WHEN STATUS is implemented, uncomment this
     /*if(event.statusProp.size() == 1) {
         if(event.statusProp.at(0).getValue() != "TENTATIVE" &&

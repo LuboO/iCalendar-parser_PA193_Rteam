@@ -22,7 +22,8 @@ void VTimeZone::print(std::ostream &out) const
     out << "END:VTIMEZONE\r\n";
 }
 
-VTimeZone VTimeZone::parse(const core::WithPos<core::GenericComponent> &generic)
+VTimeZone VTimeZone::parse(const core::WithPos<core::GenericComponent> &generic,
+                           core::UniqueIdRegistry &tzidRegistry)
 {
     VTimeZone res;
 
@@ -40,6 +41,12 @@ VTimeZone VTimeZone::parse(const core::WithPos<core::GenericComponent> &generic)
             }
 
             res.tzid = std::move(properties::TZId::parse(prop));
+            if (!tzidRegistry.registerId(res.tzid.getValue())) {
+                throw ParserException(
+                            prop.pos(),
+                            "The value of the TZID property must be unique for "
+                            "each VTIMEZONE component!");
+            }
 
             tzidSeen = true;
         } else if (*name =="LAST-MODIFIED") {

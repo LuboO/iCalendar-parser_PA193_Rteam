@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "core/genericcomponent.h"
+#include "core/uniqueidregistry.h"
 #include "parserexception.h"
 
 /** Properties **/
@@ -94,7 +95,8 @@ public:
 
     void print(std::ostream &out) const;
 
-    static VEvent parse(const core::WithPos<core::GenericComponent> &generic);
+    static VEvent parse(const core::WithPos<core::GenericComponent> &generic,
+                        core::UniqueIdRegistry &uidRegistry);
 
     /* GETTERS FOR EVERYONE!!! */
     const std::vector<properties::DTStamp> &getDtStampProp() const noexcept{return dtStampProp;}

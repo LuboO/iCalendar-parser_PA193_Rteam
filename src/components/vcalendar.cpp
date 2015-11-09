@@ -23,6 +23,8 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
         throw ParserException(generic.pos() , "invalid name in VCALENDAR object");
 
     VCalendar calendar;
+    core::UniqueIdRegistry uidRegistry;
+    core::UniqueIdRegistry tzidRegistry;
 
     /* Storing properties */
     for(const auto &i : generic->getProperties()) {
@@ -54,15 +56,15 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
     /* Storing components */
     for(const auto &i : generic->getSubcomponents()) {
         if(i->getName().value() == "VEVENT") {
-            calendar.eventComps.push_back(VEvent::parse(i));
+            calendar.eventComps.push_back(VEvent::parse(i, uidRegistry));
         } else if (i->getName().value() == "VJOURNAL") {
-            calendar.journalComps.push_back(VJournal::parse(i));
+            calendar.journalComps.push_back(VJournal::parse(i, uidRegistry));
         } else if (i->getName().value() == "VTODO") {
-            calendar.todoComps.push_back(VTodo::parse(i));
+            calendar.todoComps.push_back(VTodo::parse(i, uidRegistry));
         } else if (i->getName().value() == "VFREEBUSY") {
-            calendar.freeBusyComps.push_back(VFreeBusy::parse(i));
+            calendar.freeBusyComps.push_back(VFreeBusy::parse(i, uidRegistry));
         } else if (i->getName().value() == "VTIMEZONE") {
-            calendar.timeZoneComps.push_back(VTimeZone::parse(i));
+            calendar.timeZoneComps.push_back(VTimeZone::parse(i, tzidRegistry));
         } else {
             throw ParserException(i.pos() , "invalid component in VCALENDAR component");
         }

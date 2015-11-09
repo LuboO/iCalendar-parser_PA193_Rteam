@@ -2,6 +2,7 @@
 #define ICAL_COMPONENTS_VFREEBUSY_H
 
 #include "core/genericcomponent.h"
+#include "core/uniqueidregistry.h"
 
 #include <ostream>
 #include <vector>
@@ -16,7 +17,8 @@ public:
 
     void print(std::ostream &out) const;
 
-    static VFreeBusy parse(const core::WithPos<core::GenericComponent> &generic);
+    static VFreeBusy parse(const core::WithPos<core::GenericComponent> &generic,
+                           core::UniqueIdRegistry &uidRegistry);
 };
 
 } // namespace components

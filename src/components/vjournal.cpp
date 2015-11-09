@@ -31,7 +31,7 @@ void VJournal::print(std::ostream &out) const {
     out << "END:VJOURNAL\r\n";
 }
 
-VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic) {
+VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic, core::UniqueIdRegistry &uidRegistry) {
     if(generic->getName().value() != "VJOURNAL")
         throw ParserException(generic.pos() , "invalid name in VJOURNAL component");
 
@@ -117,11 +117,15 @@ VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic) {
     if(journal.urlProp.size() > 1)
         throw ParserException(generic.pos() , "URL property can't occurr multiple times");
 
+    if (!uidRegistry.registerId(event.uidProp[0].getValue())) {
+        throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
+    }
+
     //////////////////////////////////////////
     //////////////// TODO ////////////////////
     //////////////////////////////////////////
     /* remaining checks after implementation of DTStart/DTEnd */
-    
+
     // WHEN status is implemented uncomment this
     /*if(journal.statusProp.size() == 1) {
         if(journal.statusProp.at(0).getValue() != "DRAFT" &&
