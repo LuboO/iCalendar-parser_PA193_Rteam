@@ -3,6 +3,8 @@
 namespace ical {
 namespace components {
 
+const std::string VAlarm::NAME = "VALARM";
+
 void VAlarm::print(std::ostream &out) const {
 
 }

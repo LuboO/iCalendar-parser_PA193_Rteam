@@ -15,6 +15,8 @@ class SentBy
 {
     std::string value;
 public:
+    static const std::string NAME;
+
     SentBy() {}
 
     const std::string &getValue() const noexcept { return value; }

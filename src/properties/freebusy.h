@@ -13,6 +13,8 @@ namespace properties {
 class FREEBUSY
 {
 public:
+    static const std::string NAME;
+
     FREEBUSY() {}
 
     void print(std::ostream & out) const;

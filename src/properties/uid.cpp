@@ -5,22 +5,24 @@
 namespace ical {
 namespace properties {
 
+const std::string Uid::NAME = "UID";
+
 void Uid::print(std::ostream &out) const {
-    out << "UID:" << core::ValueParser::encodeText(value) << "\r\n";
+    out << NAME << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Uid Uid::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getName().value() != "UID")
-        throw ParserException(generic.pos() , "invalid name id UID property");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name id " + NAME + " property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
     if(!generic->getParameters().empty())
-        throw ParserException(generic.pos() , "invalid parameter in UID property");
+        throw ParserException(generic.pos() , "invalid parameter in " + NAME + " property");
 
 
     auto &value = generic->getValue();
 
-    /* this should be unique... how to achieve that? :D */
+    /* Uniqueness of this value is checked elsewhere */
     Uid uid;
     uid.value = std::move(core::ValueParser::parseText(
                               value.pos(), value->begin(), value->end()));

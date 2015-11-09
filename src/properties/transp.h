@@ -13,6 +13,8 @@ namespace properties {
 class Transp
 {
 public:
+    static const std::string NAME;
+
     Transp() {}
 
     void print(std::ostream & out) const;

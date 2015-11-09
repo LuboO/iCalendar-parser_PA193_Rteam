@@ -13,6 +13,8 @@ namespace properties {
 class Due
 {
 public:
+    static const std::string NAME;
+
     Due() {}
 
     void print(std::ostream & out) const;

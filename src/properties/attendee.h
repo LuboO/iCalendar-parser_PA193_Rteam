@@ -38,6 +38,8 @@ private:
     std::vector<parameters::DirEntryRef> dirEntryRefParam;
     std::vector<parameters::Language> languageParam;
 public:
+    static const std::string NAME;
+
     Attendee() {}
 
     void print(std::ostream &out) const;

@@ -5,8 +5,10 @@
 namespace ical {
 namespace properties {
 
+const std::string Attendee::NAME = "ATTENDEE";
+
 void Attendee::print(std::ostream &out) const {
-    out << "ATTENDEE";
+    out << NAME;
     for(auto &i : calUserTypeParam) i.print(out);
     for(auto &i : memberParam) i.print(out);
     for(auto &i : roleParam) i.print(out);
@@ -22,8 +24,8 @@ void Attendee::print(std::ostream &out) const {
 }
 
 Attendee Attendee::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getName().value() != "ATTENDEE")
-        throw ParserException(generic.pos() , "invalid name in ATTENDEE property");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
 
@@ -35,74 +37,74 @@ Attendee Attendee::parse(const core::WithPos<core::GenericProperty> &generic) {
     attendee.value = *value;
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "CUTYPE") {
+        if(i->getName().value() == parameters::CalUserType::NAME) {
             if(!attendee.calUserTypeParam.empty())
                 throw ParserException(i.pos() ,
-                                      "CUTYPE parameter can't occurr multiple times");
+                                      parameters::CalUserType::NAME + " parameter can't occurr multiple times");
             attendee.calUserTypeParam.push_back(parameters::CalUserType::parse(i));
 
-        } else if(i->getName().value() == "MEMBER") {
+        } else if(i->getName().value() == parameters::Member::NAME) {
             if(!attendee.memberParam.empty())
                 throw ParserException(i.pos() ,
-                                      "MEMBER parameter can't occur multiple times");
+                                      parameters::Member::NAME + " parameter can't occur multiple times");
             attendee.memberParam.push_back(parameters::Member::parse(i));
 
-        } else if(i->getName().value() == "ROLE") {
+        } else if(i->getName().value() == parameters::Role::NAME) {
             if(!attendee.roleParam.empty())
                 throw ParserException(i.pos() ,
-                                      "ROLE parameter can't occur multiple times");
+                                      parameters::Role::NAME + " parameter can't occur multiple times");
             attendee.roleParam.push_back(parameters::Role::parse(i));
 
-        } else if(i->getName().value() == "PARTSTAT") {
+        } else if(i->getName().value() == parameters::PartStat::NAME) {
             if(!attendee.partStatParam.empty())
                 throw ParserException(i.pos() ,
-                                      "PARSTAT parameter can't occur multiple times");
+                                      parameters::PartStat::NAME + " parameter can't occur multiple times");
             attendee.partStatParam.push_back(parameters::PartStat::parse(i));
 
-        } else if(i->getName().value() == "RSVP") {
+        } else if(i->getName().value() == parameters::Rsvp::NAME) {
             if(!attendee.rsvpParam.empty())
                 throw ParserException(i.pos() ,
-                                      "RSVP parameter can't occur multiple times");
+                                      parameters::Rsvp::NAME + " parameter can't occur multiple times");
             attendee.rsvpParam.push_back(parameters::Rsvp::parse(i));
 
-        } else if(i->getName().value() == "DELEGATED-TO") {
+        } else if(i->getName().value() == parameters::DelegatedTo::NAME) {
             if(!attendee.delegatedToParam.empty())
                 throw ParserException(i.pos() ,
-                                      "DELEGATED-TO parameter can't occurr multiple times");
+                                      parameters::DelegatedTo::NAME + " parameter can't occurr multiple times");
             attendee.delegatedToParam.push_back(parameters::DelegatedTo::parse(i));
 
-        } else if(i->getName().value() == "DELEGATED-FROM") {
+        } else if(i->getName().value() == parameters::DelegatedFrom::NAME) {
             if(!attendee.delegatedFromParam.empty())
                 throw ParserException(i.pos() ,
-                                      "DELEGATED-FROM parameter can't occurr multiple times");
+                                      parameters::DelegatedFrom::NAME + " parameter can't occurr multiple times");
             attendee.delegatedFromParam.push_back(parameters::DelegatedFrom::parse(i));
 
-        } else if(i->getName().value() == "SENT-BY") {
+        } else if(i->getName().value() == parameters::SentBy::NAME) {
             if(!attendee.sentByParam.empty())
                 throw ParserException(i.pos() ,
-                                      "SENT-BY parameter can't occur multiple times");
+                                      parameters::SentBy::NAME + " parameter can't occur multiple times");
             attendee.sentByParam.push_back(parameters::SentBy::parse(i));
 
-        } else if(i->getName().value() == "CN") {
+        } else if(i->getName().value() == parameters::CommonName::NAME) {
             if(!attendee.commonNameParam.empty())
                 throw ParserException(i.pos() ,
-                                      "CN parameter can't occurr multiple times");
+                                      parameters::CommonName::NAME + " parameter can't occurr multiple times");
             attendee.commonNameParam.push_back(parameters::CommonName::parse(i));
 
-        } else if(i->getName().value() == "DIR") {
+        } else if(i->getName().value() == parameters::DirEntryRef::NAME) {
             if(!attendee.dirEntryRefParam.empty())
                 throw ParserException(i.pos() ,
-                                      "DIR parameter can't occurr multiple times");
+                                      parameters::DirEntryRef::NAME + " parameter can't occurr multiple times");
             attendee.dirEntryRefParam.push_back(parameters::DirEntryRef::parse(i));
 
-        } else if(i->getName().value() == "LANGUAGE") {
+        } else if(i->getName().value() == parameters::Language::NAME) {
             if(!attendee.languageParam.empty())
                 throw ParserException(i.pos() ,
-                                      "LANGUAGE parameter can't occur multiple times");
+                                      parameters::Language::NAME + " parameter can't occur multiple times");
             attendee.languageParam.push_back(parameters::Language::parse(i));
 
         } else {
-            throw ParserException(i.pos() , "invalid ATTENDEE property parameter");
+            throw ParserException(i.pos() , "invalid " + NAME + " property parameter");
         }
     }
     return attendee;

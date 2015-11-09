@@ -17,6 +17,8 @@ private:
     data::DateTime value;
 
 public:
+    static const std::string NAME;
+
     const data::DateTime &getValue() const noexcept
     {
         return value;

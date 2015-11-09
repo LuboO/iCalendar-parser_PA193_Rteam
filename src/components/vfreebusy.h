@@ -13,6 +13,8 @@ namespace components {
 class VFreeBusy
 {
 public:
+    static const std::string NAME;
+
     VFreeBusy() {}
 
     void print(std::ostream &out) const;

@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Categories::NAME = "CATEGORIES";
+
 void Categories::print(std::ostream &out) const {
 
 }

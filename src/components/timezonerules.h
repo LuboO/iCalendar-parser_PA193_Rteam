@@ -17,7 +17,7 @@ namespace components {
 class TimeZoneRules
 {
 private:
-    properties::Dtstart start;
+    properties::DTStart start;
     properties::TZOffsetFrom from;
     properties::TZOffsetTo to;
 
@@ -28,7 +28,7 @@ private:
     std::vector<properties::TZName> names;
 
 public:
-    const properties::Dtstart &getStart() const noexcept { return start; }
+    const properties::DTStart &getStart() const noexcept { return start; }
     const properties::TZOffsetFrom &getOffsetFrom() const noexcept { return from; }
     const properties::TZOffsetTo &getOffsetTo() const noexcept { return to; }
 

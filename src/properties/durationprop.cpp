@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string DurationProp::NAME = "DURATION";
+
 void DurationProp::print(std::ostream &out) const{
 
 }

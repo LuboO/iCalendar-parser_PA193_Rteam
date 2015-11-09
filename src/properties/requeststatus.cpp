@@ -3,15 +3,17 @@
 namespace ical {
 namespace properties {
 
+const std::string RequestStatus::NAME = "REQUEST-STATUS";
+
 void RequestStatus::print(std::ostream &out) const {
-    out << "REQUEST-STATUS";
+    out << NAME;
     for(auto &i :languageParam) i.print(out);
     out << ":" << value << "\r\n";
 }
 
 RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getName().value() != "REQUEST-STATUS")
-        throw ParserException(generic.pos() , "invalid name in REQUEST-STATUS property");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
 
@@ -20,13 +22,13 @@ RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &g
     status.value = generic->getValue().value();
 
     for(const auto &i : generic->getParameters()) {
-        if(i->getName().value() == "LANGUAGE") {
+        if(i->getName().value() == parameters::Language::NAME) {
             if(!status.languageParam.empty())
-                throw ParserException(i.pos() , "LANGUAGE parameter can't occurr multiple times");
+                throw ParserException(i.pos() , parameters::Language::NAME + " parameter can't occurr multiple times");
             status.languageParam.push_back(parameters::Language::parse(i));
 
         } else {
-            throw ParserException(i.pos() , "invalid parameter in REQUEST-STATUS property");
+            throw ParserException(i.pos() , "invalid parameter in " + NAME + " property");
         }
     }
     return status;

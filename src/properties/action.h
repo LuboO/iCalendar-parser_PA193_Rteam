@@ -15,6 +15,8 @@ private:
     std::string value;
 
 public:
+    static const std::string NAME;
+
     const std::string &getValue() { return value; }
 
     Action(std::string &&value) : value(std::move(value))

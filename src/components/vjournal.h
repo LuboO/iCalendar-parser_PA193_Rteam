@@ -46,7 +46,7 @@ private:
     /* OPTIONAL max ONCE */
     std::vector<properties::Class> classProp;
     std::vector<properties::Created> createdProp;
-    std::vector<properties::Dtstart> dtStartProp;
+    std::vector<properties::DTStart> dtStartProp;
     std::vector<properties::LastModified> lastModifiedProp;
     std::vector<properties::Organizer> organizerProp;
     std::vector<properties::RecurrenceId> recurrenceIdProp;
@@ -67,6 +67,8 @@ private:
     std::vector<properties::RDate> rDateProps;
     std::vector<properties::RequestStatus> requestStatusProps;
 public:
+    static const std::string NAME;
+
     VJournal() {}
 
     void print(std::ostream &out) const;
@@ -79,7 +81,7 @@ public:
     const std::vector<properties::Uid> getUidProp() const noexcept{return uidProp;}
     const std::vector<properties::Class> getClassProp() const noexcept{return classProp;}
     const std::vector<properties::Created> getCreatedProp() const noexcept{return createdProp;}
-    const std::vector<properties::Dtstart> getDtStartProp() const noexcept{return dtStartProp;}
+    const std::vector<properties::DTStart> getDtStartProp() const noexcept{return dtStartProp;}
     const std::vector<properties::LastModified> getLastModifiedProp() const noexcept{return lastModifiedProp;}
     const std::vector<properties::Organizer> getOrganizerProp() const noexcept{return organizerProp;}
     const std::vector<properties::RecurrenceId> getRecurrenceIdProp() const noexcept{return recurrenceIdProp;}

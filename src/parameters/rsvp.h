@@ -14,6 +14,8 @@ class Rsvp
 {
     std::string value;
 public:
+    static const std::string NAME;
+
     Rsvp() {}
 
     const std::string &getValue() const noexcept { return value; }

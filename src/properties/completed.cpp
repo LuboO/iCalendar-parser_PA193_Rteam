@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Completed::NAME = "COMPLETED";
+
 void Completed::print(std::ostream &out) const{
 
 }

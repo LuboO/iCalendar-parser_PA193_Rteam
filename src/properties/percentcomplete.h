@@ -15,6 +15,8 @@ class PercentComplete
 private:
     int value;
 public:
+    static const std::string NAME;
+
     PercentComplete() {}
 
     void print(std::ostream & out) const;

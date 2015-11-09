@@ -3,13 +3,15 @@
 namespace ical {
 namespace parameters {
 
+const std::string Role::NAME = "ROLE";
+
 void Role::print(std::ostream &out) const {
-    out << ";ROLE=" << value;
+    out << ";" << NAME << "=" << value;
 }
 
 Role Role::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
-    if(generic->getName().value() != "ROLE")
-        throw ParserException(generic.pos() , "invalid ROLE parameter name");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid " + NAME + " parameter name");
     auto &value = generic->getValue().value();
     if(value.empty())
         throw ParserException(generic.pos() , "empty parameter");
@@ -17,7 +19,7 @@ Role Role::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
             value != "REQ-PARTICIPANT" &&
             value != "OPT-PARTICIPANT" &&
             value != "NON-PARTICIPANT")
-        throw ParserException(generic->getValue().pos() , "invalid value in ROLE parameter");
+        throw ParserException(generic->getValue().pos() , "invalid value in " + NAME + " parameter");
     Role x;
     x.value = value;
     return x;

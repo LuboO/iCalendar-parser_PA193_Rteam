@@ -3,13 +3,15 @@
 namespace ical {
 namespace parameters {
 
+const std::string PartStat::NAME = "PARTSTAT";
+
 void PartStat::print(std::ostream &out) const {
-    out << ";PARTSTAT=" << value;
+    out << ";" << NAME << "=" << value;
 }
 
 PartStat PartStat::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
-    if(generic->getName().value() != "PARTSTAT")
-        throw ParserException(generic.pos() , "invalid PARTSTAT parameter name");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid " + NAME + " parameter name");
     std::string status = generic->getValue().value();
     if(status.empty())
         throw ParserException(generic.pos() , "empty parameter");
@@ -18,7 +20,7 @@ PartStat PartStat::parse(const core::WithPos<core::GenericPropertyParameter> &ge
     if(status != "NEEDS-ACTION" && status != "ACCEPTED" && status != "DECLINED" &&
        status != "TENTATIVE" && status != "DELEGATED" && status != "COMPLETED" &&
        status != "IN-PROCESS")
-        throw ParserException(generic->getValue().pos() , "invalid value in PARTSTAT parameter");
+        throw ParserException(generic->getValue().pos() , "invalid value in " + NAME + " parameter");
     PartStat partStat;
     partStat.value = status;
     return partStat;

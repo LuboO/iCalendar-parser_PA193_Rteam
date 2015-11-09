@@ -10,14 +10,16 @@
 namespace ical {
 namespace properties {
 
-class Dtstart
+class DTStart
 {
 public:
-    Dtstart() {}
+    static const std::string NAME;
+
+    DTStart() {}
 
     void print(std::ostream & out) const;
 
-    static Dtstart parse(const core::WithPos<core::GenericProperty> &generic);
+    static DTStart parse(const core::WithPos<core::GenericProperty> &generic);
 };
 
 } // namespace properties

@@ -5,8 +5,10 @@
 namespace ical {
 namespace parameters {
 
+const std::string Member::NAME = "MEMBER";
+
 void Member::print(std::ostream &out) const {
-    out << ";MEMBER=";
+    out << ";" << NAME << "=";
     for (size_t i = 0 ; i < value.size() ; i++) {
         if (i != 0) {
             out << ",";
@@ -16,8 +18,8 @@ void Member::print(std::ostream &out) const {
 }
 
 Member Member::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
-    if (generic->getName().value() != "MEMBER") {
-        throw ParserException(generic.pos() , "invalid MEMBER parameter name");
+    if (generic->getName().value() != NAME) {
+        throw ParserException(generic.pos() , "invalid " + NAME + " parameter name");
     }
 
     Member mem;

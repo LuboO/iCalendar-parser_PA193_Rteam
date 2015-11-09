@@ -21,6 +21,8 @@ private:
     std::vector<parameters::Tzid_param> tzid;
 
 public:
+    static const std::string NAME;
+
     const std::vector<data::DateTime> &getValue() const noexcept
     {
         return values;

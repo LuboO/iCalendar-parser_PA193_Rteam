@@ -59,7 +59,7 @@ private:
     std::vector<properties::Completed> completedProp;
     std::vector<properties::Created> createdProp;
     std::vector<properties::Description> descriptionProp;
-    std::vector<properties::Dtstart> dtStartProp;
+    std::vector<properties::DTStart> dtStartProp;
     std::vector<properties::Geo> geoProp;
     std::vector<properties::LastModified> lastModifiedProp;
     std::vector<properties::Location> locationProp;
@@ -91,6 +91,8 @@ private:
     /* OPTIONAL more than ONCE */
     std::vector<components::VAlarm> alarmComps;
 public:
+    static const std::string NAME;
+
     VTodo() {}
 
     void print(std::ostream &out) const;
@@ -105,7 +107,7 @@ public:
     const std::vector<properties::Completed> &getCompletedProp() const noexcept{return completedProp;}
     const std::vector<properties::Created> &getCreatedProp() const noexcept{return createdProp;}
     const std::vector<properties::Description> &getDescriptionProp() const noexcept{return descriptionProp;}
-    const std::vector<properties::Dtstart> &getDtStartProp() const noexcept{return dtStartProp;}
+    const std::vector<properties::DTStart> &getDtStartProp() const noexcept{return dtStartProp;}
     const std::vector<properties::Geo> &getGeoProp() const noexcept{return geoProp;}
     const std::vector<properties::LastModified> &getLastModifiedProp() const noexcept{return lastModifiedProp;}
     const std::vector<properties::Location> &getLocationProp() const noexcept{return locationProp;}

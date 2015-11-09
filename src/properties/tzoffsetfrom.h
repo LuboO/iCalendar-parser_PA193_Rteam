@@ -17,6 +17,8 @@ class TZOffsetFrom
 private:
     data::UTCOffset value;
 public:
+    static const std::string NAME;
+
     TZOffsetFrom() {}
 
     const data::UTCOffset &getValue() const noexcept { return value; }

@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Transp::NAME = "TRANSP";
+
 void Transp::print(std::ostream &out) const{
 
 }

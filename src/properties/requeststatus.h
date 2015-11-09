@@ -18,6 +18,8 @@ private:
     std::string value;
     std::vector<parameters::Language> languageParam;
 public:
+    static const std::string NAME;
+
     RequestStatus() {}
 
     void print(std::ostream &out) const;

@@ -3,11 +3,13 @@
 namespace ical {
 namespace properties {
 
-void Dtstart::print(std::ostream &out) const{
+const std::string DTStart::NAME = "DTSTART";
+
+void DTStart::print(std::ostream &out) const{
 
 }
 
-Dtstart Dtstart::parse(const core::WithPos<core::GenericProperty> &generic) {
+DTStart DTStart::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

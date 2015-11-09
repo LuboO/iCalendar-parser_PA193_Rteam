@@ -5,9 +5,11 @@
 namespace ical {
 namespace parameters {
 
+const std::string CommonName::NAME = "CN";
+
 void CommonName::print(std::ostream &out) const
 {
-    out << ";CN=";
+    out << ";" << NAME << "=";
     if (value.find_first_of(",;:") != std::string::npos) {
         out << "\"" << value << "\"";
     } else {
@@ -17,8 +19,8 @@ void CommonName::print(std::ostream &out) const
 
 CommonName CommonName::parse(const core::WithPos<core::GenericPropertyParameter> &generic)
 {
-    if (generic->getName().value() != "CN") {
-        throw ParserException(generic.pos() , "Invalid CN parameter name!");
+    if (generic->getName().value() != NAME) {
+        throw ParserException(generic.pos() , "Invalid " + NAME + " parameter name!");
     }
 
     auto &value = generic->getValue();

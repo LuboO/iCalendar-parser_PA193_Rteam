@@ -18,6 +18,8 @@ private:
     std::string value;
     std::vector<parameters::Language> languageParam;
 public:
+    static const std::string NAME;
+
     TZName() {}
 
     const std::string &getValue() const noexcept { return value; }

@@ -15,6 +15,8 @@ class Url
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Url() {}
 
     void print(std::ostream &out) const;

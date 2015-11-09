@@ -3,8 +3,10 @@
 namespace ical {
 namespace components {
 
+const std::string VEvent::NAME = "VEVENT";
+
 void VEvent::print(std::ostream &out) const {
-    out << "BEGIN:VEVENT\r\n";
+    out << "BEGIN:" << NAME << "\r\n";
     for(auto &i : dtStampProp) i.print(out);
     for(auto &i : uidProp) i.print(out);
     for(auto &i : dtStartProp) i.print(out);
@@ -36,131 +38,132 @@ void VEvent::print(std::ostream &out) const {
     for(auto &i : resourcesProps) i.print(out);
     for(auto &i : rDateProps) i.print(out);
     for(auto &i : alarmComps) i.print(out);
-    out << "END:VEVENT\r\n";
+    out << "END:" << NAME << "\r\n";
 }
 
 VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic,
                      core::UniqueIdRegistry &uidRegistry)
 {
-    if(generic->getName().value() != "VEVENT")
-        throw ParserException(generic.pos() , "invalid name in VEVENT component");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " component");
 
     VEvent event;
 
     /* Storing properties */
     for(const auto &i : generic->getProperties()) {
-        if(i->getName().value() == "DTSTAMP") {
+        if(i->getName().value() == properties::DTStamp::NAME) {
             event.dtStampProp.push_back(properties::DTStamp::parse(i));
-        } else if (i->getName().value() == "UID") {
+        } else if (i->getName().value() == properties::Uid::NAME) {
             event.uidProp.push_back(properties::Uid::parse(i));
-        } else if (i->getName().value() == "DTSTART") {
-            event.dtStartProp.push_back(properties::Dtstart::parse(i));
-        } else if (i->getName().value() == "CLASS") {
+        } else if (i->getName().value() == properties::DTStart::NAME) {
+            event.dtStartProp.push_back(properties::DTStart::parse(i));
+        } else if (i->getName().value() == properties::Class::NAME) {
             event.classProp.push_back(properties::Class::parse(i));
-        } else if (i->getName().value() == "CREATED") {
+        } else if (i->getName().value() == properties::Created::NAME) {
             event.createdProp.push_back(properties::Created::parse(i));
-        } else if (i->getName().value() == "DESCRIPTION") {
+        } else if (i->getName().value() == properties::Description::NAME) {
             event.descriptionProp.push_back(properties::Description::parse(i));
-        } else if (i->getName().value() == "GEO") {
+        } else if (i->getName().value() == properties::Geo::NAME) {
             event.geoProp.push_back(properties::Geo::parse(i));
-        } else if (i->getName().value() == "LAST-MODIFIED") {
+        } else if (i->getName().value() == properties::LastModified::NAME) {
             event.lastModifiedProp.push_back(properties::LastModified::parse(i));
-        } else if (i->getName().value() == "LOCATION") {
+        } else if (i->getName().value() == properties::Location::NAME) {
             event.locationProp.push_back(properties::Location::parse(i));
-        } else if (i->getName().value() == "ORGANIZER") {
+        } else if (i->getName().value() == properties::Organizer::NAME) {
             event.organizerProp.push_back(properties::Organizer::parse(i));
-        } else if (i->getName().value() == "PRIORITY") {
+        } else if (i->getName().value() == properties::Priority::NAME) {
             event.priorityProp.push_back(properties::Priority::parse(i));
-        } else if (i->getName().value() == "SEQUENCE") {
+        } else if (i->getName().value() == properties::Sequence::NAME) {
             event.sequenceProp.push_back(properties::Sequence::parse(i));
-        } else if (i->getName().value() == "STATUS") {
+        } else if (i->getName().value() == properties::Status::NAME) {
             event.statusProp.push_back(properties::Status::parse(i));
-        } else if (i->getName().value() == "SUMMARY") {
+        } else if (i->getName().value() == properties::Summary::NAME) {
             event.summaryProp.push_back(properties::Summary::parse(i));
-        } else if (i->getName().value() == "TRANSP") {
+        } else if (i->getName().value() == properties::Transp::NAME) {
             event.transpProp.push_back(properties::Transp::parse(i));
-        } else if (i->getName().value() == "URL") {
+        } else if (i->getName().value() == properties::Url::NAME) {
             event.urlProp.push_back(properties::Url::parse(i));
-        } else if (i->getName().value() == "RECURRENCE-ID") {
+        } else if (i->getName().value() == properties::RecurrenceId::NAME) {
             event.recurrenceIdProp.push_back(properties::RecurrenceId::parse(i));
-        } else if (i->getName().value() == "RRULE") {
+        } else if (i->getName().value() == properties::RRule::NAME) {
             event.rruleProp.push_back(properties::RRule::parse(i));
-        } else if (i->getName().value() == "DTEND") {
-            event.dtEndProp.push_back(properties::DTEND::parse(i));
-        } else if (i->getName().value() == "DURATION") {
+        } else if (i->getName().value() == properties::DTEnd::NAME) {
+            event.dtEndProp.push_back(properties::DTEnd::parse(i));
+        } else if (i->getName().value() == properties::DurationProp::NAME) {
             event.durationProp.push_back(properties::DurationProp::parse(i));
-        } else if (i->getName().value() == "ATTACH") {
+        } else if (i->getName().value() == properties::Attach::NAME) {
             event.attachProps.push_back(properties::Attach::parse(i));
-        } else if (i->getName().value() == "ATTENDEE") {
+        } else if (i->getName().value() == properties::Attendee::NAME) {
             event.attendeeProps.push_back(properties::Attendee::parse(i));
-        } else if (i->getName().value() == "CATEGORIES") {
+        } else if (i->getName().value() == properties::Categories::NAME) {
             event.categoriesProps.push_back(properties::Categories::parse(i));
-        } else if (i->getName().value() == "COMMENT") {
+        } else if (i->getName().value() == properties::Comment::NAME) {
             event.commentProps.push_back(properties::Comment::parse(i));
-        } else if (i->getName().value() == "CONTACT") {
+        } else if (i->getName().value() == properties::Contact::NAME) {
             event.contactProps.push_back(properties::Contact::parse(i));
-        } else if (i->getName().value() == "EXDATE") {
+        } else if (i->getName().value() == properties::ExDate::NAME) {
             event.exDateProps.push_back(properties::ExDate::parse(i));
-        } else if (i->getName().value() == "REQUEST-STATUS") {
+        } else if (i->getName().value() == properties::RequestStatus::NAME) {
             event.requestStatusProps.push_back(properties::RequestStatus::parse(i));
-        } else if (i->getName().value() == "RELATED-TO") {
+        } else if (i->getName().value() == properties::RelatedTo::NAME) {
             event.relatedToProps.push_back(properties::RelatedTo::parse(i));
-        } else if (i->getName().value() == "RESOURCES") {
+        } else if (i->getName().value() == properties::Resources::NAME) {
             event.resourcesProps.push_back(properties::Resources::parse(i));
-        } else if (i->getName().value() == "RDATE") {
+        } else if (i->getName().value() == properties::RDate::NAME) {
             event.rDateProps.push_back(properties::RDate::parse(i));
         } else {
             throw ParserException(i.pos() ,
-                                  "invalid property in VEVENT component");
+                                  "invalid property in " + NAME + " component");
         }
     }
     /** Properties sanity checking **/
     /* Required properties check */
     if(event.dtStampProp.size() != 1)
-        throw ParserException(generic.pos() , "DTSTAMP is required once in VEVENT component");
+        throw ParserException(generic.pos() , properties::DTStart::NAME + " is required once in " + NAME + " component");
     if(event.uidProp.size() != 1)
-        throw ParserException(generic.pos() , "UID is required once in VEVENT component");
+        throw ParserException(generic.pos() , properties::Uid::NAME + " is required once in " + NAME + " component");
     /* OPTIONAL properties max ONCE check */
     if(event.classProp.size() > 1)
-        throw ParserException(generic.pos() , "CLASS property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Class::NAME + " property can't occurr multiple times");
     if(event.createdProp.size() > 1)
-        throw ParserException(generic.pos() , "CREATED property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Created::NAME + " property can't occurr multiple times");
     if(event.descriptionProp.size() > 1)
-        throw ParserException(generic.pos() , "DESCRIPTION property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Description::NAME + " property can't occurr multiple times");
     if(event.geoProp.size() > 1)
-        throw ParserException(generic.pos() , "GEO property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Geo::NAME + " property can't occurr multiple times");
     if(event.lastModifiedProp.size() > 1)
-        throw ParserException(generic.pos() , "LAST-MODIFIED property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::LastModified::NAME + " property can't occurr multiple times");
     if(event.locationProp.size() > 1)
-        throw ParserException(generic.pos() , "LOCATION property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Location::NAME + " property can't occurr multiple times");
     if(event.organizerProp.size() > 1)
-        throw ParserException(generic.pos() , "ORGANIZER property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Organizer::NAME + " property can't occurr multiple times");
     if(event.priorityProp.size() > 1)
-        throw ParserException(generic.pos() , "PRIORITY property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Priority::NAME + " property can't occurr multiple times");
     if(event.sequenceProp.size() > 1)
-        throw ParserException(generic.pos() , "SEQUENCE property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Sequence::NAME + " property can't occurr multiple times");
     if(event.statusProp.size() > 1)
-        throw ParserException(generic.pos() , "STATUS property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Status::NAME + " property can't occurr multiple times");
     if(event.summaryProp.size() > 1)
-        throw ParserException(generic.pos() , "SUMMARY property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Summary::NAME + " property can't occurr multiple times");
     if(event.transpProp.size() > 1)
-        throw ParserException(generic.pos() , "TRANSP property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Transp::NAME + " property can't occurr multiple times");
     if(event.urlProp.size() > 1)
-        throw ParserException(generic.pos() , "URL property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Url::NAME + " property can't occurr multiple times");
     if(event.recurrenceIdProp.size() > 1)
-        throw ParserException(generic.pos() , "RECURRENCE-ID property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::RecurrenceId::NAME + " property can't occurr multiple times");
     if(event.rruleProp.size() > 1)
-        throw ParserException(generic.pos() , "RRULE property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::RRule::NAME + " property can't occurr multiple times");
     if(event.dtEndProp.size() > 1)
-        throw ParserException(generic.pos() , "DTEND property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::DTEnd::NAME + " property can't occurr multiple times");
     if(event.durationProp.size() > 1)
-        throw ParserException(generic.pos() , "DURATION property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::DurationProp::NAME + " property can't occurr multiple times");
     /* Both DTEND and DURATION can't be present at the same time */
     if(!event.dtEndProp.empty() && !event.durationProp.empty())
-        throw ParserException(generic.pos() , "DTEND and DURATION can't be both present");
+        throw ParserException(generic.pos() , properties::DTEnd::NAME + " and " +
+                              properties::DurationProp::NAME + " can't be both present");
 
     if (!uidRegistry.registerId(event.uidProp[0].getValue())) {
-        throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
+        throw ParserException(generic.pos() , "The value of the " + properties::Uid::NAME + " property must be globally unique");
     }
 
     //////////////////////////////////////////
@@ -178,12 +181,12 @@ VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic,
 
     /* Storing subcomponents */
     for(const auto &i : generic->getSubcomponents()) {
-        if(i->getName().value() == "VALARM") {
+        if(i->getName().value() == components::VAlarm::NAME) {
             event.alarmComps.push_back(components::VAlarm::parse(i));
 
         } else {
             throw ParserException(i.pos() ,
-                                  "invalid component in VEVENT component");
+                                  "invalid component in " + NAME + " component");
         }
     }
 

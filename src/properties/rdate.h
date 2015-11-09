@@ -35,6 +35,8 @@ public:
      */
     bool hasPeriods() const noexcept { return dts.empty(); }
 
+    static const std::string NAME;
+
     const std::vector<data::DateTime> &getDateTimes() const noexcept
     {
         return dts;

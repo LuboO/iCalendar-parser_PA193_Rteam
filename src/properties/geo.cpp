@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Geo::NAME = "GEO";
+
 void Geo::print(std::ostream &out) const {
 
 }

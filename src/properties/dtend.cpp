@@ -3,11 +3,13 @@
 namespace ical {
 namespace properties {
 
-void DTEND::print(std::ostream &out) const{
+const std::string DTEnd::NAME = "DTEND";
+
+void DTEnd::print(std::ostream &out) const{
 
 }
 
-DTEND DTEND::parse(const core::WithPos<core::GenericProperty> &generic) {
+DTEnd DTEnd::parse(const core::WithPos<core::GenericProperty> &generic) {
     return {};
 }
 

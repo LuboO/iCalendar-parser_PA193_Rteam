@@ -13,6 +13,8 @@ namespace properties {
 class Attach
 {
 public:
+    static const std::string NAME;
+
     Attach() {}
 
     void print(std::ostream & out) const;

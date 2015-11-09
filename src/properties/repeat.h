@@ -15,6 +15,8 @@ private:
     int count;
 
 public:
+    static const std::string NAME;
+
     int getValue() const noexcept { return count; }
 
     Repeat() : count(0)

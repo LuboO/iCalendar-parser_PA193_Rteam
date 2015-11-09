@@ -10,14 +10,16 @@
 namespace ical {
 namespace properties {
 
-class DTEND
+class DTEnd
 {
 public:
-    DTEND() {}
+    static const std::string NAME;
+
+    DTEnd() {}
 
     void print(std::ostream & out) const;
 
-    static DTEND parse(const core::WithPos<core::GenericProperty> &generic);
+    static DTEnd parse(const core::WithPos<core::GenericProperty> &generic);
 };
 
 } // namespace properties

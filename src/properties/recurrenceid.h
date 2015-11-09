@@ -27,6 +27,8 @@ private:
     std::vector<parameters::Tzid_param> tzidParam;
     std::vector<parameters::Range> rangeParam;
 public:
+    static const std::string NAME;
+
     RecurrenceId() {}
 
     void print(std::ostream &out) const;

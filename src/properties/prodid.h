@@ -15,6 +15,8 @@ class ProdId
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     ProdId() {}
 
     void print(std::ostream & out) const;

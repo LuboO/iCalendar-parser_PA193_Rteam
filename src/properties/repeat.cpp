@@ -5,19 +5,21 @@
 namespace ical {
 namespace properties {
 
+const std::string Repeat::NAME = "REPEAT";
+
 void Repeat::print(std::ostream &out) const
 {
     if (count == 0) {
         return;
     }
 
-    out << "REPEAT:" << count << "\r\n";
+    out << NAME << ":" << count << "\r\n";
 }
 
 Repeat Repeat::parse(const core::WithPos<core::GenericProperty> &generic)
 {
     if (!generic->getParameters().empty()) {
-        throw ParserException(generic.pos(), "The REPEAT property must have no parameters!");
+        throw ParserException(generic.pos(), "The " + NAME + " property must have no parameters!");
     }
 
     auto &value = generic->getValue();

@@ -13,6 +13,8 @@ namespace properties {
 class Categories
 {
 public:
+    static const std::string NAME;
+
     Categories() {}
 
     void print(std::ostream & out) const;

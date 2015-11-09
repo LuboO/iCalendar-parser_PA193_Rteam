@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string FREEBUSY::NAME = "FREEBUSY";
+
 void FREEBUSY::print(std::ostream &out) const{
 
 }

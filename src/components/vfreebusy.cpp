@@ -3,6 +3,8 @@
 namespace ical {
 namespace components {
 
+const std::string VFreeBusy::NAME = "VFREEBUSY";
+
 void VFreeBusy::print(std::ostream &out) const {
 
 }

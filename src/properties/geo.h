@@ -13,6 +13,8 @@ namespace properties {
 class Geo
 {
 public:
+    static const std::string NAME;
+
     Geo() {}
 
     void print(std::ostream & out) const;

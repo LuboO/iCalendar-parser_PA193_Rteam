@@ -15,6 +15,8 @@ class Uid
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Uid() {}
 
     void print(std::ostream &out) const;

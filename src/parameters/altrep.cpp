@@ -5,15 +5,17 @@
 namespace ical {
 namespace parameters {
 
+const std::string AltRep::NAME = "ALTREP";
+
 void AltRep::print(std::ostream &out) const
 {
-    out << ";ALTREP=\"" << value << "\"";
+    out << ";" << NAME << "=\"" << value << "\"";
 }
 
 AltRep AltRep::parse(const core::WithPos<core::GenericPropertyParameter> &generic)
 {
-    if (generic->getName().value() != "ALTREP") {
-        throw ParserException(generic.pos() , "Invalid ALTREP parameter name!");
+    if (generic->getName().value() != NAME) {
+        throw ParserException(generic.pos() , "Invalid " + NAME + " parameter name!");
     }
 
     auto &value = generic->getValue();

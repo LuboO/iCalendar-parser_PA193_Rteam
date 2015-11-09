@@ -15,6 +15,8 @@ class Method
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Method() {}
 
     void print(std::ostream & out) const;
