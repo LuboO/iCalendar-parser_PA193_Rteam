@@ -1,6 +1,8 @@
 #ifndef ICAL_DATA_DURATION_H
 #define ICAL_DATA_DURATION_H
 
+#include "streampos.h"
+
 #include <ostream>
 
 namespace ical {
@@ -40,6 +42,10 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+    static Duration parse(const StreamPos &pos,
+                          std::string::const_iterator begin,
+                          std::string::const_iterator end);
 };
 
 } // namespace data

@@ -62,15 +62,13 @@ RecurrenceId RecurrenceId::parse(const core::WithPos<core::GenericProperty> &gen
         }
     }
 
-    std::string propValue = generic->getValue().value();
+    auto &propValue = generic->getValue();
     if(!isOnlyDate) {
-        rid.dateTimeValue = core::ValueParser::parseDateTime(generic->getValue().pos() ,
-                                                             propValue.begin() ,
-                                                             propValue.end());
+        rid.dateTimeValue = data::DateTime::parse(
+                    propValue.pos(), propValue->begin(), propValue->end());
     } else {
-        rid.dateValue = core::ValueParser::parseDate(generic->getValue().pos() ,
-                                                     propValue.begin() ,
-                                                     propValue.end());
+        rid.dateValue = data::Date::parse(
+                    propValue.pos(), propValue->begin(), propValue->end());
     }
     return rid;
 }

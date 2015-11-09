@@ -35,21 +35,6 @@ public:
     static std::string encodeText(const std::string &value);
     static std::string encodeBase64(const std::string &value);
 
-    static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end,
-                                        bool timeIsOptional);
-    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end)
-    {
-        return parseDateTime(pos, begin, end, false);
-    }
-
-    static data::UTCOffset parseUTCOffset(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-
-    static data::Duration parseDuration(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::Period parsePeriod(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::RecurrenceRule parseRecurrenceRule(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-
     static std::string parseQuoted(const StreamPos &pos, const std::string &value);
     static std::string parsePossiblyQuoted(const StreamPos &pos, const std::string &value);
 

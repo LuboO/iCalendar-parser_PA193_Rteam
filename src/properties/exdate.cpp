@@ -66,12 +66,12 @@ ExDate ExDate::parse(const core::WithPos<core::GenericProperty> &generic)
     if (isOnlyDate) {
         auto dates = std::move(core::ValueParser::parseDelimited(
                                    value.pos(), value->begin(), value->end(),
-                                   core::ValueParser::parseDate, ','));
+                                   data::DateTime::parse, ','));
         values = std::vector<data::DateTime>(dates.begin(), dates.end());
     } else {
         values = std::move(core::ValueParser::parseDelimited(
                                value.pos(), value->begin(), value->end(),
-                               core::ValueParser::parseDateTime, ','));
+                               data::DateTime::parse, ','));
     }
     return { std::move(values), std::move(tzid) };
 }

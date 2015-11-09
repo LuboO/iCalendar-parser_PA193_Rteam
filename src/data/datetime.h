@@ -49,6 +49,19 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+
+    static DateTime parse(const StreamPos &pos,
+                          std::string::const_iterator begin,
+                          std::string::const_iterator end,
+                          bool timeIsOptional);
+
+    static DateTime parse(const StreamPos &pos,
+                          std::string::const_iterator begin,
+                          std::string::const_iterator end)
+    {
+        return parse(pos, begin, end, false);
+    }
 };
 
 } // namespace data

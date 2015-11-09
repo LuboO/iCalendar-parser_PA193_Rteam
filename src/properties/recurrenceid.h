@@ -4,11 +4,9 @@
 #include <ostream>
 #include <vector>
 
-#include "core/genericproperty.h"
-#include "core/valueparser.h"
 #include "parserexception.h"
+#include "core/genericproperty.h"
 
-#include "data/date.h"
 #include "data/datetime.h"
 
 #include "parameters/value.h"

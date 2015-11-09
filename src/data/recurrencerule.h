@@ -30,6 +30,10 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+    static WeekdayNumber parse(const StreamPos &pos,
+                               std::string::const_iterator begin,
+                               std::string::const_iterator end);
 };
 
 class RecurrenceRuleOptions
@@ -215,6 +219,10 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+    static RecurrenceRule parse(const StreamPos &pos,
+                                std::string::const_iterator begin,
+                                std::string::const_iterator end);
 };
 
 } // namespace data
