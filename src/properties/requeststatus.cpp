@@ -7,9 +7,10 @@
 namespace ical {
 namespace properties {
 
-void RequestStatus::print(std::ostream &out) const
-{
-    out << "REQUEST-STATUS";
+const std::string RequestStatus::NAME = "REQUEST-STATUS";
+
+void RequestStatus::print(std::ostream &out) const {
+    out << NAME;
     for(auto &i :languageParam) i.print(out);
     out << ":"
         << statCode << ";"
@@ -20,12 +21,9 @@ void RequestStatus::print(std::ostream &out) const
     out << "\r\n";
 }
 
-RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &generic)
-{
-    static const std::regex RE_STATCODE { "[0-9]+(\\.[0-9]+){1,2}" };
-
-    if(generic->getName().value() != "REQUEST-STATUS")
-        throw ParserException(generic.pos() , "invalid name in REQUEST-STATUS property");
+RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &generic) {
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
 
@@ -45,18 +43,19 @@ RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &g
     status.statCode = components[1];
     status.data = components.size() > 2 ? components[2] : std::string();
 
+	static const std::regex RE_STATCODE { "[0-9]+(\\.[0-9]+){1,2}" };
     if (!std::regex_match(status.statCode, RE_STATCODE)) {
         throw ParserException(value.pos() , "Invalid request status code!");
     }
 
     for(const auto &i : generic->getParameters()) {
-        if(i->getName().value() == "LANGUAGE") {
+        if(i->getName().value() == parameters::Language::NAME) {
             if(!status.languageParam.empty())
-                throw ParserException(i.pos() , "LANGUAGE parameter can't occurr multiple times");
+                throw ParserException(i.pos() , parameters::Language::NAME + " parameter can't occurr multiple times");
             status.languageParam.push_back(parameters::Language::parse(i));
 
         } else {
-            throw ParserException(i.pos() , "invalid parameter in REQUEST-STATUS property");
+            throw ParserException(i.pos() , "invalid parameter in " + NAME + " property");
         }
     }
     return status;

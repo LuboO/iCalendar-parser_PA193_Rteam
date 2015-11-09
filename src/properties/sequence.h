@@ -15,6 +15,8 @@ private:
     unsigned int seqNum;
 
 public:
+    static const std::string NAME;
+
     unsigned int getValue() const noexcept { return seqNum; }
 
     Sequence() : seqNum(0)

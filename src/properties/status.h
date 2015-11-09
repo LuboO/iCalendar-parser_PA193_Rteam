@@ -15,6 +15,8 @@ class Status
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Status() {}
 
     void print(std::ostream & out) const;

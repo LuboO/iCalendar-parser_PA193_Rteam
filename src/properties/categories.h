@@ -18,6 +18,8 @@ private:
     std::vector<std::string> values;
     std::vector<parameters::Language> languageParam;
 public:
+    static const std::string NAME;
+
     Categories() {}
 
     void print(std::ostream & out) const;

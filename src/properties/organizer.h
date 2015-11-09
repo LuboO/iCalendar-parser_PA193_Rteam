@@ -24,6 +24,8 @@ private:
     std::vector<parameters::SentBy> sentByParam;
     std::vector<parameters::Language> languageParam;
 public:
+    static const std::string NAME;
+
     Organizer() {}
 
     void print(std::ostream &out) const;

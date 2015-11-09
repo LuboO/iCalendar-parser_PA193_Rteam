@@ -4,6 +4,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Freebusy::NAME = "FREEBUSY";
+
 void Freebusy::print(std::ostream &out) const{
     out << "FREEBUSY";
     for(auto &i : fbtypeParam) i.print(out);

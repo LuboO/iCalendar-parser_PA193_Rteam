@@ -12,6 +12,8 @@ namespace components {
 class VAlarm
 {
 public:
+    static const std::string NAME;
+
     VAlarm() {}
 
     void print(std::ostream &out) const;

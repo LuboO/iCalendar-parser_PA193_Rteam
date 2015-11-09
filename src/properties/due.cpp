@@ -4,6 +4,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Due::NAME = "DUE";
+
 void Due::print(std::ostream &out) const{
     out << "DUE";
     for(auto &i : tzidParam) i.print(out);

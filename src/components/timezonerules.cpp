@@ -33,42 +33,49 @@ TimeZoneRules TimeZoneRules::parse(const core::WithPos<core::GenericComponent> &
     bool toSeen = false;
     for (auto &prop : generic->getProperties()) {
         auto &name = prop->getName();
-        if (*name == "DTSTART") {
+        if (*name == properties::DTStart::NAME) {
             if (startSeen) {
                 throw ParserException(
                             prop.pos(),
                             "This component must not contain multiple "
-                            "DTSTART properties!");
+                            + properties::DTStart::NAME + " properties!");
             }
 
-            res.start = std::move(properties::Dtstart::parse(prop));
+            res.start = std::move(properties::DTStart::parse(prop));
 
-            // TODO: assert 'start' is in local form
+            if (!res.start.getValue().hasTime() ||
+                    !res.start.getValue().getTime().isLocal()) {
+                throw ParserException(
+                            prop.pos(),
+                            "The value of the DTSTART property in this "
+                            "component must be a date-time with the time in "
+                            "the local format!");
+            }
 
             startSeen = true;
-        } else if (*name == "TZOFFSETFROM") {
+        } else if (*name == properties::TZOffsetFrom::NAME) {
             if (fromSeen) {
                 throw ParserException(
                             prop.pos(),
                             "This component must not contain multiple "
-                            "TZOFFSETFROM properties!");
+                            + properties::TZOffsetFrom::NAME + " properties!");
             }
 
             res.from = std::move(properties::TZOffsetFrom::parse(prop));
 
             fromSeen = true;
-        } else if (*name == "TZOFFSETTO") {
+        } else if (*name == properties::TZOffsetTo::NAME) {
             if (toSeen) {
                 throw ParserException(
                             prop.pos(),
                             "This component must not contain multiple "
-                            "TZOFFSETTO properties!");
+                            + properties::TZOffsetTo::NAME +" properties!");
             }
 
             res.to = std::move(properties::TZOffsetTo::parse(prop));
 
             toSeen = true;
-        } else if (*name == "RRULE") {
+        } else if (*name == properties::RRule::NAME) {
             properties::RRule rrule = std::move(properties::RRule::parse(prop));
 
             auto &value = rrule.getValue();
@@ -94,9 +101,9 @@ TimeZoneRules TimeZoneRules::parse(const core::WithPos<core::GenericComponent> &
             }
 
             res.rrules.emplace_back(std::move(rrule));
-        } else if (*name == "COMMENT") {
+        } else if (*name == properties::Comment::NAME) {
             res.comments.emplace_back(std::move(properties::Comment::parse(prop)));
-        } else if (*name == "RDATE") {
+        } else if (*name == properties::RDate::NAME) {
             properties::RDate rdate = std::move(properties::RDate::parse(prop));
             if (rdate.hasPeriods()) {
                 throw ParserException(
@@ -119,7 +126,7 @@ TimeZoneRules TimeZoneRules::parse(const core::WithPos<core::GenericComponent> &
                 }
             }
             res.rdates.emplace_back(std::move(rdate));
-        } else if (*name == "TZNAME") {
+        } else if (*name == properties::TZName::NAME) {
             res.names.emplace_back(std::move(properties::TZName::parse(prop)));
         } else {
             throw ParserException(prop.pos(), "Invalid property!");
@@ -127,13 +134,13 @@ TimeZoneRules TimeZoneRules::parse(const core::WithPos<core::GenericComponent> &
     }
 
     if (!startSeen) {
-        throw ParserException(generic.pos(), "The DTSTART property is required!");
+        throw ParserException(generic.pos(), "The " + properties::DTStart::NAME + " property is required!");
     }
     if (!fromSeen) {
-        throw ParserException(generic.pos(), "The TZOFFSETFROM property is required!");
+        throw ParserException(generic.pos(), "The " + properties::TZOffsetFrom::NAME + " property is required!");
     }
     if (!toSeen) {
-        throw ParserException(generic.pos(), "The TZOFFSETTO property is required!");
+        throw ParserException(generic.pos(), "The " + properties::TZOffsetTo::NAME + " property is required!");
     }
 
     if (!generic->getSubcomponents().empty()) {

@@ -30,6 +30,8 @@ private:
      */
 
 public:
+    static const std::string NAME;
+
     bool isAbsolute() const noexcept { return absolute; }
 
     const data::Duration &getDuration() const

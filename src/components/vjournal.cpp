@@ -3,8 +3,10 @@
 namespace ical {
 namespace components {
 
+const std::string VJournal::NAME = "VJOURNAL";
+
 void VJournal::print(std::ostream &out) const {
-    out << "BEGIN:VJOURNAL\r\n";
+    out << "BEGIN:" << NAME << "\r\n";
     for(auto &i : dtStampProp) i.print(out);
     for(auto &i : uidProp) i.print(out);
     for(auto &i : classProp) i.print(out);
@@ -28,97 +30,97 @@ void VJournal::print(std::ostream &out) const {
     for(auto &i : relatedToProps) i.print(out);
     for(auto &i : rDateProps) i.print(out);
     for(auto &i : requestStatusProps) i.print(out);
-    out << "END:VJOURNAL\r\n";
+    out << "END:" << NAME << "\r\n";
 }
 
 VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic, core::UniqueIdRegistry &uidRegistry) {
-    if(generic->getName().value() != "VJOURNAL")
-        throw ParserException(generic.pos() , "invalid name in VJOURNAL component");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " component");
 
     VJournal journal;
 
     /* Storing properties */
     for(const core::WithPos<core::GenericProperty> &i : generic->getProperties()) {
-        if(i->getName().value() == "DTSTAMP") {
+        if(i->getName().value() == properties::DTStamp::NAME) {
             journal.dtStampProp.push_back(properties::DTStamp::parse(i));
-        } else if(i->getName().value() == "UID") {
+        } else if(i->getName().value() == properties::Uid::NAME) {
             journal.uidProp.push_back(properties::Uid::parse(i));
-        } else if(i->getName().value() == "CLASS") {
+        } else if(i->getName().value() == properties::Class::NAME) {
             journal.classProp.push_back(properties::Class::parse(i));
-        } else if(i->getName().value() == "CREATED") {
+        } else if(i->getName().value() == properties::Created::NAME) {
             journal.createdProp.push_back(properties::Created::parse(i));
-        } else if(i->getName().value() == "DTSTART") {
-            journal.dtStartProp.push_back(properties::Dtstart::parse(i));
-        } else if(i->getName().value() == "LAST-MODIFIED") {
+        } else if(i->getName().value() == properties::DTStart::NAME) {
+            journal.dtStartProp.push_back(properties::DTStart::parse(i));
+        } else if(i->getName().value() == properties::LastModified::NAME) {
             journal.lastModifiedProp.push_back(properties::LastModified::parse(i));
-        } else if(i->getName().value() == "ORGANIZER") {
+        } else if(i->getName().value() == properties::Organizer::NAME) {
             journal.organizerProp.push_back(properties::Organizer::parse(i));
-        } else if(i->getName().value() == "RECURRENCE-ID") {
+        } else if(i->getName().value() == properties::RecurrenceId::NAME) {
             journal.recurrenceIdProp.push_back(properties::RecurrenceId::parse(i));
-        } else if(i->getName().value() == "SEQUENCE") {
+        } else if(i->getName().value() == properties::Sequence::NAME) {
             journal.sequenceProp.push_back(properties::Sequence::parse(i));
-        } else if(i->getName().value() == "STATUS") {
+        } else if(i->getName().value() == properties::Status::NAME) {
             journal.statusProp.push_back(properties::Status::parse(i));
-        } else if(i->getName().value() == "SUMMARY") {
+        } else if(i->getName().value() == properties::Summary::NAME) {
             journal.summaryProp.push_back(properties::Summary::parse(i));
-        } else if(i->getName().value() == "URL") {
+        } else if(i->getName().value() == properties::Url::NAME) {
             journal.urlProp.push_back(properties::Url::parse(i));
-        } else if(i->getName().value() == "RRULE") {
+        } else if(i->getName().value() == properties::RRule::NAME) {
             journal.rruleProp.push_back(properties::RRule::parse(i));
-        } else if(i->getName().value() == "ATTACH") {
+        } else if(i->getName().value() == properties::Attach::NAME) {
             journal.attachProps.push_back(properties::Attach::parse(i));
-        } else if(i->getName().value() == "ATTENDEE") {
+        } else if(i->getName().value() == properties::Attendee::NAME) {
             journal.attendeeProps.push_back(properties::Attendee::parse(i));
-        } else if(i->getName().value() == "CATEGORIES") {
+        } else if(i->getName().value() == properties::Categories::NAME) {
             journal.categoriesProps.push_back(properties::Categories::parse(i));
-        } else if(i->getName().value() == "COMMENT") {
+        } else if(i->getName().value() == properties::Comment::NAME) {
             journal.commentProps.push_back(properties::Comment::parse(i));
-        } else if(i->getName().value() == "CONTACT") {
+        } else if(i->getName().value() == properties::Contact::NAME) {
             journal.contactProps.push_back(properties::Contact::parse(i));
-        } else if(i->getName().value() == "DESCRIPTION") {
+        } else if(i->getName().value() == properties::Description::NAME) {
             journal.descriptionProps.push_back(properties::Description::parse(i));
-        } else if(i->getName().value() == "EXDATE") {
+        } else if(i->getName().value() == properties::ExDate::NAME) {
             journal.exDateProps.push_back(properties::ExDate::parse(i));
-        } else if(i->getName().value() == "RELATED-TO") {
+        } else if(i->getName().value() == properties::RelatedTo::NAME) {
             journal.relatedToProps.push_back(properties::RelatedTo::parse(i));
-        } else if(i->getName().value() == "RDATE") {
+        } else if(i->getName().value() == properties::RDate::NAME) {
             journal.rDateProps.push_back(properties::RDate::parse(i));
-        } else if(i->getName().value() == "REQUEST-STATUS") {
+        } else if(i->getName().value() == properties::RequestStatus::NAME) {
             journal.requestStatusProps.push_back(properties::RequestStatus::parse(i));
         } else {
-            throw ParserException(i.pos() , "invalid property in VJOURNAL component");
+            throw ParserException(i.pos() , "invalid property in " + NAME + " component");
         }
     }
     /** Properties sanity checking **/
     /* Required properties check */
     if(journal.dtStampProp.size() != 1)
-        throw ParserException(generic.pos() , "DTSTAMP is required once in VJOURNAL component");
+        throw ParserException(generic.pos() , properties::DTStamp::NAME + " is required once in " + NAME + " component");
     if(journal.uidProp.size() != 1)
-        throw ParserException(generic.pos() , "UID is required once in VJOURNAL component");
+        throw ParserException(generic.pos() , properties::Uid::NAME + " is required once in " + NAME + " component");
     /* OPTIONAL properties max ONCE check */
     if(journal.classProp.size() > 1)
-        throw ParserException(generic.pos() , "CLASS property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Class::NAME + " property can't occurr multiple times");
     if(journal.createdProp.size() > 1)
-        throw ParserException(generic.pos() , "CREATED property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Created::NAME + " property can't occurr multiple times");
     if(journal.dtStartProp.size() > 1)
-        throw ParserException(generic.pos() , "DTSTART property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::DTStart::NAME + " property can't occurr multiple times");
     if(journal.lastModifiedProp.size() > 1)
-        throw ParserException(generic.pos() , "LAST-MODIFIED property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::LastModified::NAME + " property can't occurr multiple times");
     if(journal.organizerProp.size() > 1)
-        throw ParserException(generic.pos() , "ORGANIZER property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Organizer::NAME + " property can't occurr multiple times");
     if(journal.recurrenceIdProp.size() > 1)
-        throw ParserException(generic.pos() , "RECURRENCE-ID property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::RecurrenceId::NAME + " property can't occurr multiple times");
     if(journal.sequenceProp.size() > 1)
-        throw ParserException(generic.pos() , "SEQUENCE property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Sequence::NAME + " property can't occurr multiple times");
     if(journal.statusProp.size() > 1)
-        throw ParserException(generic.pos() , "STATUS property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Status::NAME + " property can't occurr multiple times");
     if(journal.summaryProp.size() > 1)
-        throw ParserException(generic.pos() , "SUMMARY property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Summary::NAME + " property can't occurr multiple times");
     if(journal.urlProp.size() > 1)
-        throw ParserException(generic.pos() , "URL property can't occurr multiple times");
+        throw ParserException(generic.pos() , properties::Url::NAME + " property can't occurr multiple times");
 
     if (!uidRegistry.registerId(journal.uidProp[0].getValue())) {
-        throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
+        throw ParserException(generic.pos() , "The value of the " + properties::Uid::NAME + " property must be globally unique");
     }
 
     //////////////////////////////////////////

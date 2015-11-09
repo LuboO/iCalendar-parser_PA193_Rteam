@@ -16,6 +16,8 @@ class Member
 private:
     std::vector<std::string> value;
 public:
+    static const std::string NAME;
+
     Member() {}
 
     const std::vector<std::string> &getValue() const noexcept { return value; }

@@ -38,6 +38,8 @@ private:
     std::vector<VFreeBusy> freeBusyComps;
     std::vector<VTimeZone> timeZoneComps;
 public:
+    static const std::string NAME;
+
     VCalendar() {}
 
     void print(std::ostream &out) const;

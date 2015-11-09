@@ -3,13 +3,15 @@
 namespace ical {
 namespace parameters {
 
+const std::string Language::NAME = "LANGUAGE";
+
 void Language::print(std::ostream &out) const {
-    out << ";LANGUAGE=" << value;
+    out << ";" << NAME << "=" << value;
 }
 
 Language Language::parse(const core::WithPos<core::GenericPropertyParameter> &generic) {
-    if(generic->getName().value() != "LANGUAGE")
-        throw ParserException(generic.pos() , "invalid LANGUAGE parameter name");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid " + NAME + " parameter name");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty parameter");
     /* Language tag is not verified, any string is accepted! */

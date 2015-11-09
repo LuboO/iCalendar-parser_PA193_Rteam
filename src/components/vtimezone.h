@@ -26,6 +26,8 @@ private:
     std::vector<components::TimeZoneRules> dstRules;
 
 public:
+    static const std::string NAME;
+
     const properties::TZId &getTZID() const noexcept { return tzid; }
     const std::vector<properties::LastModified> &getLastModified() const noexcept
     {

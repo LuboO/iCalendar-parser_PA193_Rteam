@@ -15,6 +15,8 @@ class Language
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Language() {}
 
     const std::string &getValue() const noexcept { return value; }

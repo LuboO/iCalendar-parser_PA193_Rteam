@@ -55,7 +55,7 @@ private:
     std::vector<properties::Uid> uidProp;
     /* REQUIRED ONCE if METHOD is specified */
     /* Otherwise OPTIONAL ONCE */
-    std::vector<properties::Dtstart> dtStartProp;
+    std::vector<properties::DTStart> dtStartProp;
     /* OPTIONAL max ONCE */
     std::vector<properties::Class> classProp;
     std::vector<properties::Created> createdProp;
@@ -73,7 +73,7 @@ private:
     std::vector<properties::RecurrenceId> recurrenceIdProp;
     std::vector<properties::RRule> rruleProp;
     /* OPTIONAL max ONCE but both can't be set */
-    std::vector<properties::Dtend> dtEndProp;
+    std::vector<properties::DTEnd> dtEndProp;
     std::vector<properties::DurationProp> durationProp;
     /* OPTIONAL more than ONCE */
     std::vector<properties::Attach> attachProps;
@@ -91,6 +91,8 @@ private:
     /* OPTIONAL more than ONCE */
     std::vector<components::VAlarm> alarmComps;
 public:
+    static const std::string NAME;
+
     VEvent() {}
 
     void print(std::ostream &out) const;
@@ -101,7 +103,7 @@ public:
     /* GETTERS FOR EVERYONE!!! */
     const std::vector<properties::DTStamp> &getDtStampProp() const noexcept{return dtStampProp;}
     const std::vector<properties::Uid> &getUidProp() const noexcept{return uidProp;}
-    const std::vector<properties::Dtstart> &getDtStartProp() const noexcept{return dtStartProp;}
+    const std::vector<properties::DTStart> &getDtStartProp() const noexcept{return dtStartProp;}
     const std::vector<properties::Class> &getClassProp() const noexcept{return classProp;}
     const std::vector<properties::Created> &getCreatedProp() const noexcept{return createdProp;}
     const std::vector<properties::Description> &getDescriptionProp() const noexcept{return descriptionProp;}
@@ -117,7 +119,7 @@ public:
     const std::vector<properties::Url> &getUrlProp() const noexcept{return urlProp;}
     const std::vector<properties::RecurrenceId> &getRecurrenceIdProp() const noexcept{ return recurrenceIdProp;}
     const std::vector<properties::RRule> &getRruleProp() const noexcept{return rruleProp;}
-    const std::vector<properties::Dtend> &getDtEndProp() const noexcept{return dtEndProp;}
+    const std::vector<properties::DTEnd> &getDtEndProp() const noexcept{return dtEndProp;}
     const std::vector<properties::DurationProp> &getDurationProp() const noexcept{return durationProp;}
     const std::vector<properties::Attach> &getAttachProps() const noexcept{return attachProps;}
     const std::vector<properties::Attendee> &getAttendeeProps() const noexcept{return attendeeProps;}

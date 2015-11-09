@@ -14,6 +14,8 @@ class Role
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Role() {}
 
     const std::string &getValue() const noexcept { return value; }

@@ -16,6 +16,8 @@ private:
     std::string value;
 
 public:
+    static const std::string NAME;
+
     Related() : value("START")
     {
     }

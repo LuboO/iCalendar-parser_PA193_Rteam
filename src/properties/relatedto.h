@@ -18,6 +18,8 @@ private:
     std::string value;
     std::vector<parameters::Reltype> reltypeParam;
 public:
+    static const std::string NAME;
+
     RelatedTo() {}
 
     void print(std::ostream &out) const;

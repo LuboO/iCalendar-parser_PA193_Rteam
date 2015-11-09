@@ -3,9 +3,11 @@
 namespace ical {
 namespace components {
 
+const std::string VCalendar::NAME = "VCALENDAR";
+
 void VCalendar::print(std::ostream &out) const
 {
-    out << "BEGIN:VCALENDAR\r\n";
+    out << "BEGIN:" << NAME << "\r\n";
     for(auto &i : prodIdProp) i.print(out);
     for(auto &i : versionProp) i.print(out);
     for(auto &i : calScaleProp) i.print(out);
@@ -15,12 +17,12 @@ void VCalendar::print(std::ostream &out) const
     for(auto &i : todoComps) i.print(out);
     for(auto &i : freeBusyComps) i.print(out);
     for(auto &i : timeZoneComps) i.print(out);
-    out << "END:VCALENDAR\r\n";
+    out << "END:" << NAME << "\r\n";
 }
 
 VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic) {
-    if(generic->getName().value() != "VCALENDAR")
-        throw ParserException(generic.pos() , "invalid name in VCALENDAR object");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " object");
 
     VCalendar calendar;
     core::UniqueIdRegistry uidRegistry;
@@ -28,16 +30,16 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
 
     /* Storing properties */
     for(const auto &i : generic->getProperties()) {
-        if(i->getName().value() == "PRODID") {
+        if(i->getName().value() == properties::ProdId::NAME) {
             calendar.prodIdProp.push_back(properties::ProdId::parse(i));
-        } else if(i->getName().value() == "VERSION") {
+        } else if(i->getName().value() == properties::Version::NAME) {
             calendar.versionProp.push_back(properties::Version::parse(i));
-        } else if(i->getName().value() == "CALSCALE") {
+        } else if(i->getName().value() == properties::CalScale::NAME) {
             calendar.calScaleProp.push_back(properties::CalScale::parse(i));
-        } else if(i->getName().value() == "METHOD") {
+        } else if(i->getName().value() == properties::Method::NAME) {
             calendar.methodProp.push_back(properties::Method::parse(i));
         } else {
-            throw ParserException(i.pos() , "invalid property in VCALENDAR component");
+            throw ParserException(i.pos() , "invalid property in " + NAME + " component");
         }
     }
 
@@ -55,18 +57,18 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
 
     /* Storing components */
     for(const auto &i : generic->getSubcomponents()) {
-        if(i->getName().value() == "VEVENT") {
+        if(i->getName().value() == components::VEvent::NAME) {
             calendar.eventComps.push_back(VEvent::parse(i, uidRegistry));
-        } else if (i->getName().value() == "VJOURNAL") {
+        } else if (i->getName().value() == components::VJournal::NAME) {
             calendar.journalComps.push_back(VJournal::parse(i, uidRegistry));
-        } else if (i->getName().value() == "VTODO") {
+        } else if (i->getName().value() == components::VTodo::NAME) {
             calendar.todoComps.push_back(VTodo::parse(i, uidRegistry));
-        } else if (i->getName().value() == "VFREEBUSY") {
+        } else if (i->getName().value() == components::VFreeBusy::NAME) {
             calendar.freeBusyComps.push_back(VFreeBusy::parse(i, uidRegistry));
-        } else if (i->getName().value() == "VTIMEZONE") {
+        } else if (i->getName().value() == components::VTimeZone::NAME) {
             calendar.timeZoneComps.push_back(VTimeZone::parse(i, tzidRegistry));
         } else {
-            throw ParserException(i.pos() , "invalid component in VCALENDAR component");
+            throw ParserException(i.pos() , "invalid component in " + NAME + " component");
         }
     }
 
@@ -76,7 +78,7 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
             calendar.todoComps.empty() &&
             calendar.freeBusyComps.empty() &&
             calendar.timeZoneComps.empty())
-        throw ParserException(generic.pos() , "VCALENDAR object must have"
+        throw ParserException(generic.pos() ,  NAME + " object must have"
                                               "at least one component specified");
 
     /** VEVENT checks **/
@@ -91,7 +93,7 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
             if(i.getDtStartProp().empty())
                 throw ParserException(generic.pos() ,
                                       "VEVENT component must have DTSTART specified "
-                                      "unless METHOD is defined in VCALENDAR object");
+                                      "unless METHOD is defined in " + NAME + " object");
         }
     }
 

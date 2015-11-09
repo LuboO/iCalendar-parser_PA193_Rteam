@@ -14,6 +14,8 @@ class Tzid_param
 {
     std::string value;
 public:
+    static const std::string NAME;
+
     Tzid_param() {}
 
     const std::string &getValue() const noexcept { return value; }

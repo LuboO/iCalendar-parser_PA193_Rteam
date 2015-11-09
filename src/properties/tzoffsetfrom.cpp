@@ -3,17 +3,19 @@
 namespace ical {
 namespace properties {
 
+const std::string TZOffsetFrom::NAME = "TZOFFSETFROM";
+
 void TZOffsetFrom::print(std::ostream &out) const {
-    out << "TZOFFSETFROM:";
+    out << NAME << ":";
     value.print(out);
     out << "\r\n";
 }
 
 TZOffsetFrom TZOffsetFrom::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getName().value() != "TZOFFSETFROM")
-        throw ParserException(generic.pos() , "invalid name of TZOFFSETFROM property");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name of " + NAME + " property");
     if(!generic->getParameters().empty())
-        throw ParserException(generic.pos() , "invalid TZOFFSETFROM property parameters");
+        throw ParserException(generic.pos() , "invalid " + NAME + " property parameters");
 
     auto &value = generic->getValue();
     if(value->empty())

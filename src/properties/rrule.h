@@ -17,6 +17,8 @@ private:
     data::RecurrenceRule value;
 
 public:
+    static const std::string NAME;
+
     const data::RecurrenceRule &getValue() const noexcept
     {
         return value;

@@ -15,6 +15,8 @@ class Class
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Class() {}
 
     void print(std::ostream & out) const;

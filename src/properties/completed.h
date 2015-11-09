@@ -16,6 +16,8 @@ class Completed
 private:
     data::DateTime value;
 public:
+    static const std::string NAME;
+
     Completed() {}
 
     void print(std::ostream & out) const;

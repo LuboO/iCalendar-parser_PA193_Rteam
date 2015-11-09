@@ -5,9 +5,11 @@
 namespace ical {
 namespace parameters {
 
+const std::string DelegatedTo::NAME = "DELEGATED-TO";
+
 void DelegatedTo::print(std::ostream &out) const
 {
-    out << ";DELEGATED-TO=";
+    out << ";" << NAME << "=";
     for (size_t i = 0 ; i < values.size() ; i++) {
         if (i != 0) {
             out << ",";
@@ -18,8 +20,8 @@ void DelegatedTo::print(std::ostream &out) const
 
 DelegatedTo DelegatedTo::parse(const core::WithPos<core::GenericPropertyParameter> &generic)
 {
-    if (generic->getName().value() != "DELEGATED-TO") {
-        throw ParserException(generic.pos() , "invalid DELEGATED-TO parameter name");
+    if (generic->getName().value() != NAME) {
+        throw ParserException(generic.pos() , "invalid " + NAME + " parameter name");
     }
 
     DelegatedTo res;

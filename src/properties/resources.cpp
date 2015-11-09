@@ -4,6 +4,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Resources::NAME = "RESOURCES";
+
 void Resources::print(std::ostream &out) const {
     out << "RESOURCES";
     for(auto &i : altRepParam) i.print(out);

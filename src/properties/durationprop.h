@@ -16,6 +16,8 @@ class DurationProp
 private:
     data::Duration value;
 public:
+    static const std::string NAME;
+
     DurationProp() {}
 
     void print(std::ostream & out) const;

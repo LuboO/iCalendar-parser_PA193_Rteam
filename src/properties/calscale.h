@@ -15,6 +15,8 @@ class CalScale
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     CalScale() {}
 
     void print(std::ostream & out) const;

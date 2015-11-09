@@ -15,6 +15,8 @@ private:
     std::vector<std::string> values;
 
 public:
+    static const std::string NAME;
+
     const std::vector<std::string> &getValues() const noexcept { return values; }
 
     DelegatedFrom() {}

@@ -15,6 +15,8 @@ class Priority
 private:
     int value;
 public:
+    static const std::string NAME;
+
     Priority() {}
 
     void print(std::ostream & out) const;

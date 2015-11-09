@@ -5,15 +5,17 @@
 namespace ical {
 namespace properties {
 
+const std::string TZId::NAME = "TZID";
+
 void TZId::print(std::ostream &out) const {
-    out << "TZID:" << core::ValueParser::encodeText(value) << "\r\n";
+    out << NAME << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 TZId TZId::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getName().value() != "TZID")
-        throw ParserException(generic.pos() , "invalid TZID property name");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid " + NAME + " property name");
     if(!generic->getParameters().empty())
-        throw ParserException(generic.pos() , "invalid parameters in TZID property");
+        throw ParserException(generic.pos() , "invalid parameters in " + NAME + " property");
     if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty property");
     auto &value = generic->getValue();

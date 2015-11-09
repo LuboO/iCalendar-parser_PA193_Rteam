@@ -12,8 +12,11 @@ namespace parameters {
 
 class Range
 {
+private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Range() {}
 
     const std::string &getValue() const noexcept { return value; }

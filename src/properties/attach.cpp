@@ -3,6 +3,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Attach::NAME = "ATTACH";
+
 void Attach::print(std::ostream &out) const {
 
 }

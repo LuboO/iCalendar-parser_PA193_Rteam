@@ -92,7 +92,11 @@ SOURCES += main.cpp \
     properties/method.cpp \
     components/timezonerules.cpp \
     core/genericparsertemplate.cpp \
-    parser.cpp
+    parser.cpp \
+    tests/dateparsertests.cpp \
+    tests/alltests.cpp \
+    tests/durationparsertests.cpp \
+    tests/varioustests.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -190,4 +194,10 @@ HEADERS += \
     core/uniqueidregistry.h \
     core/genericparsertemplate.h \
     parsertemplate.h \
-    parser.h
+    parser.h \
+    tests/testreporter.h \
+    tests/dateparsertests.h \
+    tests/alltests.h \
+    tests/durationparsertests.h \
+    tests/dataparserutils.h \
+    tests/varioustests.h

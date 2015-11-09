@@ -22,6 +22,8 @@ private:
     std::vector<parameters::Tzid_param> tzidParam;
     std::vector<parameters::Value> valueParam;
 public:
+    static const std::string NAME;
+
     Due() {}
 
     void print(std::ostream & out) const;

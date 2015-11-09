@@ -15,6 +15,8 @@ class Version
 private:
     std::string value;
 public:
+    static const std::string NAME;
+
     Version() {}
 
     void print(std::ostream & out) const;

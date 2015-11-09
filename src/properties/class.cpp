@@ -4,6 +4,8 @@
 namespace ical {
 namespace properties {
 
+const std::string Class::NAME = "CLASS";
+
 void Class::print(std::ostream &out) const {
     out << "CLASS:" << value << "\r\n";
 }

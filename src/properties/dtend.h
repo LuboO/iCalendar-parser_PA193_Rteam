@@ -14,19 +14,21 @@
 namespace ical {
 namespace properties {
 
-class Dtend
+class DTEnd
 {
 private:
     data::DateTime value;
     std::vector<parameters::Tzid_param> tzidParam;
     std::vector<parameters::Value> valueParam;
 public:
-    Dtend() {}
+    static const std::string NAME;
+
+    DTEnd() {}
 
     void print(std::ostream & out) const;
 
-    static Dtend parse(const core::WithPos<core::GenericProperty> &generic);
-
+    static DTEnd parse(const core::WithPos<core::GenericProperty> &generic);
+    
     const data::DateTime &getValue() const noexcept { return value; }
     const std::vector<parameters::Tzid_param> &getTzidParam() const noexcept { return tzidParam; }
     const std::vector<parameters::Value> &getValueParam() const noexcept { return valueParam; }

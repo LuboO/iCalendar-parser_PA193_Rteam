@@ -4,8 +4,10 @@
 namespace ical {
 namespace properties {
 
-void Dtstart::print(std::ostream &out) const{
-    out << "DTSTART";
+const std::string DTStart::NAME = "DTSTART";
+
+void DTStart::print(std::ostream &out) const{
+    out << NAME;
     for(auto &i : tzidParam) i.print(out);
     for(auto &i : valueParam) i.print(out);
     out << ":" ;
@@ -13,26 +15,26 @@ void Dtstart::print(std::ostream &out) const{
     out << "\r\n";
 }
 
-Dtstart Dtstart::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getValue()->empty())
-        throw ParserException(generic.pos() , "empty DTSTART property");
+DTStart DTStart::parse(const core::WithPos<core::GenericProperty> &generic) {
+	if(generic->getValue()->empty())
+        throw ParserException(generic.pos() , "empty " + NAME + " property");
 
-    Dtstart dtstart;
+    DTStart dtstart;
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "TZID") {
+        if(i->getName().value() == parameters::Tzid_param::NAME) {
             if(!dtstart.tzidParam.empty())
                 throw ParserException(i.pos() ,
-                                      "TZID parameter can't occurr multiple times");
+                                      parameters::Tzid_param::NAME + " parameter can't occurr multiple times");
             dtstart.tzidParam.push_back(parameters::Tzid_param::parse(i));
 
-        } else if (i->getName().value() == "VALUE"){
+        } else if (i->getName().value() == parameters::Value::NAME){
             if(!dtstart.valueParam.empty())
                 throw ParserException(i.pos() ,
-                                      "VALUE parameter can't occurr multiple times");
+                                      parameters::Value::NAME + " parameter can't occurr multiple times");
             dtstart.valueParam.push_back(parameters::Value::parse(i));
         }else {
-            throw ParserException(i.pos() , "invalid DTSTART property parameter");
+            throw ParserException(i.pos() , "invalid " + NAME + " property parameter");
         }
     }
     auto &value = generic->getValue();
@@ -40,7 +42,7 @@ Dtstart Dtstart::parse(const core::WithPos<core::GenericProperty> &generic) {
     if(dtstart.valueParam.size()==0) justDate = false;
     else if(dtstart.valueParam[0].getValue() == "DATE") justDate = true;
     else if (dtstart.valueParam[0].getValue() == "DATE-TIME") justDate = false;
-    else throw ParserException(generic.pos() , "invalid DTSTART  VALUE parameter can be only DATE or DATE-TIME");
+    else throw ParserException(generic.pos() , "invalid " + NAME + " VALUE parameter can be only DATE or DATE-TIME");
 
     dtstart.value = std::move(data::DateTime::parse(value.pos(), value->begin(), value->end(),justDate));
 

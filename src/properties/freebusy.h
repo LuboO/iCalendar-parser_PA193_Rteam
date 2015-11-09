@@ -21,6 +21,9 @@ private:
 public:
     Freebusy() {}
 
+    static const std::string NAME;
+
+
     void print(std::ostream & out) const;
 
     static Freebusy parse(const core::WithPos<core::GenericProperty> &generic);

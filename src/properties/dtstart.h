@@ -14,20 +14,22 @@
 namespace ical {
 namespace properties {
 
-class Dtstart
+class DTStart
 {
 private:
     data::DateTime value;
     std::vector<parameters::Tzid_param> tzidParam;
     std::vector<parameters::Value> valueParam;
 public:
-    Dtstart() {}
+    static const std::string NAME;
+
+    DTStart() {}
 
     void print(std::ostream & out) const;
+    
+    static DTStart parse(const core::WithPos<core::GenericProperty> &generic);
 
-    static Dtstart parse(const core::WithPos<core::GenericProperty> &generic);
-
-    const data::DateTime &getValue() const noexcept { return value; }
+	const data::DateTime &getValue() const noexcept { return value; }
     const std::vector<parameters::Tzid_param> &getTzidParam() const noexcept { return tzidParam; }
     const std::vector<parameters::Value> &getValueParam() const noexcept { return valueParam; }
 };

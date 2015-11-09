@@ -20,6 +20,8 @@ private:
     std::vector<parameters::AltRep> altRepParam;
     std::vector<parameters::Language> languageParam;
 public:
+    static const std::string NAME;
+
     Description() {}
 
     void print(std::ostream & out) const;

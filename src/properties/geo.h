@@ -16,6 +16,8 @@ private:
     float latitude;
     float longitude;
 public:
+    static const std::string NAME;
+
     Geo() {}
 
     void print(std::ostream & out) const;

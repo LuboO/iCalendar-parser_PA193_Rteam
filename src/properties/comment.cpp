@@ -5,18 +5,20 @@
 namespace ical {
 namespace properties {
 
+const std::string Comment::NAME = "COMMENT";
+
 void Comment::print(std::ostream &out) const {
-    out << "COMMENT";
+    out << NAME;
     for(auto &i : altRepParam) i.print(out);
     for(auto &i : languageParam) i.print(out);
     out << ":" << core::ValueParser::encodeText(value) << "\r\n";
 }
 
 Comment Comment::parse(const core::WithPos<core::GenericProperty> &generic) {
-    if(generic->getName().value() != "COMMENT")
-        throw ParserException(generic.pos() , "invalid name in COMMENT property");
+    if(generic->getName().value() != NAME)
+        throw ParserException(generic.pos() , "invalid name in " + NAME + " property");
     if(generic->getValue()->empty())
-        throw ParserException(generic.pos() , "empty COMMENT property");
+        throw ParserException(generic.pos() , "empty " + NAME + " property");
 
     auto &value = generic->getValue();
 
@@ -25,20 +27,20 @@ Comment Comment::parse(const core::WithPos<core::GenericProperty> &generic) {
                                   value.pos(), value->begin(), value->end()));
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "ALTREP") {
+        if(i->getName().value() == parameters::AltRep::NAME) {
             if(!comment.altRepParam.empty())
                 throw ParserException(i.pos() ,
-                                      "ALTREP parameter can't occurr multiple times");
+                                      parameters::AltRep::NAME + " parameter can't occurr multiple times");
             comment.altRepParam.push_back(parameters::AltRep::parse(i));
 
-        } else if(i->getName().value() == "LANGUAGE") {
+        } else if(i->getName().value() == parameters::Language::NAME) {
             if(!comment.languageParam.empty())
                 throw ParserException(i.pos() ,
-                                      "LANGUAGE parameter can't occurr multiple times");
+                                      parameters::Language::NAME + " parameter can't occurr multiple times");
             comment.languageParam.push_back(parameters::Language::parse(i));
 
         } else {
-            throw ParserException(i.pos() , "invalid COMMENT property parameter");
+            throw ParserException(i.pos() , "invalid " + NAME + " property parameter");
         }
     }
     return comment;

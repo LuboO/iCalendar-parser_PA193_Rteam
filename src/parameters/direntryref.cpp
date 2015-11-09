@@ -5,15 +5,17 @@
 namespace ical {
 namespace parameters {
 
+const std::string DirEntryRef::NAME = "DIR";
+
 void DirEntryRef::print(std::ostream &out) const
 {
-    out << ";DIR=\"" << value << "\"";
+    out << ";" << NAME << "=\"" << value << "\"";
 }
 
 DirEntryRef DirEntryRef::parse(const core::WithPos<core::GenericPropertyParameter> &generic)
 {
-    if (generic->getName().value() != "DIR") {
-        throw ParserException(generic.pos() , "Invalid DIR parameter name!");
+    if (generic->getName().value() != NAME) {
+        throw ParserException(generic.pos() , "Invalid " + NAME + " parameter name!");
     }
 
     auto &value = generic->getValue();
