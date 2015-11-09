@@ -88,6 +88,43 @@ public:
         }
         return res;
     }
+
+    template<class T>
+    static std::vector<T> parseDelimitedEscaped(
+            const StreamPos &pos,
+            std::string::const_iterator begin,
+            std::string::const_iterator end,
+            ParseFunc<T> elemParseFunc, char delimiter = ',')
+    {
+        std::vector<T> res;
+        std::string::const_iterator delimIt;
+        std::string::const_iterator elemIt = begin;
+        while (true) {
+            bool escaped = false;
+            for (delimIt = elemIt; delimIt != end; ++delimIt) {
+                if (escaped) {
+                    escaped = false;
+                    continue;
+                }
+
+                char c = *delimIt;
+                if (c == '\\') {
+                    escaped = true;
+                } else if (c == delimiter) {
+                    break;
+                }
+            }
+
+            res.emplace_back(std::move(elemParseFunc(pos, elemIt, delimIt)));
+
+            if (delimIt == end) {
+                break;
+            }
+            /* skip the delimiter: */
+            elemIt = delimIt + 1;
+        }
+        return res;
+    }
 };
 
 } // namespace core
