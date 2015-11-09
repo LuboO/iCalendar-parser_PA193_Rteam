@@ -1,5 +1,6 @@
 #include "completed.h"
 #include "core/valueparser.h"
+#include "data/datetime.h"
 
 
 namespace ical {
@@ -15,7 +16,7 @@ void Completed::print(std::ostream &out) const{
 Completed Completed::parse(const core::WithPos<core::GenericProperty> &generic) {
     auto &value = generic->getValue();
     Completed completed;
-    completed.value = std::move(core::ValueParser::parseDateTime(value.pos(), value->begin(), value->end()));
+    completed.value = std::move(data::DateTime::parse(value.pos(), value->begin(), value->end()));
     return completed;
 }
 

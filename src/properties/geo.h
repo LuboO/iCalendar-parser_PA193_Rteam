@@ -12,12 +12,18 @@ namespace properties {
 
 class Geo
 {
+private:
+    float latitude;
+    float longitude;
 public:
     Geo() {}
 
     void print(std::ostream & out) const;
 
     static Geo parse(const core::WithPos<core::GenericProperty> &generic);
+
+    int getlatitude() const noexcept { return latitude; }
+    int getlongitude() const noexcept { return longitude; }
 };
 
 } // namespace properties

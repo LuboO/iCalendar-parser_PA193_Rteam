@@ -12,12 +12,16 @@ namespace properties {
 
 class Transp
 {
+private:
+    std::string value;
 public:
     Transp() {}
 
     void print(std::ostream & out) const;
 
     static Transp parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const std::string &getValue() const noexcept { return value; }
 };
 
 } // namespace properties

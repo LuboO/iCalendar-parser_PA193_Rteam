@@ -6,12 +6,15 @@
 
 #include "core/genericproperty.h"
 #include "parserexception.h"
+#include "data/duration.h"
 
 namespace ical {
 namespace properties {
 
 class DurationProp
 {
+private:
+    data::Duration value;
 public:
     DurationProp() {}
 
