@@ -25,7 +25,7 @@ double ValueParser::parseFloat(const StreamPos &pos,
                                std::string::const_iterator begin,
                                std::string::const_iterator end)
 {
-    const std::regex RE_FLOAT { "([-+]?)([0-9]+)(:?.([0-9]+))" };
+    static const std::regex RE_FLOAT { "([-+]?)([0-9]+)(:?.([0-9]+))" };
     if (!std::regex_match(begin, end, RE_FLOAT)) {
         throw ParserException(pos, "Invalid float value!");
     }
@@ -41,7 +41,7 @@ int ValueParser::parseInteger(const StreamPos &pos,
                               std::string::const_iterator begin,
                               std::string::const_iterator end)
 {
-    const std::regex RE_INTEGER { "([-+]?)([0-9]+)" };
+    static const std::regex RE_INTEGER { "([-+]?)([0-9]+)" };
     if (!std::regex_match(begin, end, RE_INTEGER)) {
         throw ParserException(pos, "Invalid float value!");
     }
@@ -58,7 +58,7 @@ unsigned int ValueParser::parseUnsignedInteger(
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {
-    const std::regex RE_UINTEGER { "([0-9]+)" };
+    static const std::regex RE_UINTEGER { "([0-9]+)" };
     if (!std::regex_match(begin, end, RE_UINTEGER)) {
         throw ParserException(pos, "Invalid float value!");
     }
@@ -289,7 +289,7 @@ data::Date ValueParser::parseDate(const StreamPos &pos,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
-    const std::regex RE_DATE { "^([0-9]{4})([0-9]{2})([0-9]{2})$" };
+    static const std::regex RE_DATE { "^([0-9]{4})([0-9]{2})([0-9]{2})$" };
 
     std::smatch m;
     if (!std::regex_match(begin, end, m, RE_DATE)) {
@@ -311,7 +311,7 @@ data::Time ValueParser::parseTime(const StreamPos &pos,
                                   std::string::const_iterator begin,
                                   std::string::const_iterator end)
 {
-    const std::regex RE_TIME { "^([0-9]{2})([0-9]{2})([0-9]{2})(Z?)$" };
+    static const std::regex RE_TIME { "^([0-9]{2})([0-9]{2})([0-9]{2})(Z?)$" };
 
     std::smatch m;
     if (!std::regex_match(begin, end, m, RE_TIME)) {
@@ -365,7 +365,7 @@ data::UTCOffset ValueParser::parseUTCOffset(const StreamPos &pos,
                                             std::string::const_iterator begin,
                                             std::string::const_iterator end)
 {
-    const std::regex RE_UTC_OFFSET { "([+-])([0-9]{2})([0-9]{2})([0-9]{2})?" };
+    static const std::regex RE_UTC_OFFSET { "([+-])([0-9]{2})([0-9]{2})([0-9]{2})?" };
     std::smatch m;
     if (!std::regex_match(begin, end, m, RE_UTC_OFFSET)) {
         throw ParserException(pos, "Invalid UTC offset value!");
@@ -500,7 +500,7 @@ static data::WeekdayNumber parseWeekdayNum(
         std::string::const_iterator begin,
         std::string::const_iterator end)
 {
-    const std::regex RE_WEEKDAYNUM { "([-+]?[0-9]{1,2}})?(SU|MO|TU|WE|TH|FR|SA)" };
+    static const std::regex RE_WEEKDAYNUM { "([-+]?[0-9]{1,2}})?(SU|MO|TU|WE|TH|FR|SA)" };
     std::smatch m;
     if (!std::regex_match(begin, end, m, RE_WEEKDAYNUM)) {
         throw ParserException(pos, "Invalid numbered weekday!");
@@ -737,7 +737,7 @@ data::RecurrenceRule ValueParser::parseRecurrenceRule(
                 throw ParserException(pos, "WKST cannot be specified multiple times!");
             }
 
-            const std::regex RE_WEEKDAY { "SU|MO|TU|WE|TH|FR|SA" };
+            static const std::regex RE_WEEKDAY { "SU|MO|TU|WE|TH|FR|SA" };
             if (!std::regex_match(begin, end, RE_WEEKDAY)) {
                 throw ParserException(pos, "Invalid weekday!");
             }
