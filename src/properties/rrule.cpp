@@ -1,7 +1,5 @@
 #include "properties/rrule.h"
 
-#include "core/valueparser.h"
-
 namespace ical {
 namespace properties {
 
@@ -20,7 +18,7 @@ RRule RRule::parse(const core::WithPos<core::GenericProperty> &generic)
 
     auto &value = generic->getValue();
     return {
-        std::move(core::ValueParser::parseRecurrenceRule(
+        std::move(data::RecurrenceRule::parse(
                       value.pos(), value->begin(), value->end()))
     };
 }

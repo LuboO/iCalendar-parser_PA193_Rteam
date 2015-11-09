@@ -34,7 +34,7 @@ public:
      * state. Returns true if the octet is valid for current state, false
      * otherwise.
      */
-    bool checkNext(unsigned char c) noexcept;
+    bool checkNext(unsigned char c);
 
     /**
      * Checks whether the end of stream is valid for this state.

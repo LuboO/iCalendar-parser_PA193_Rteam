@@ -19,8 +19,7 @@ Due to limited time for the project and/or undue complexity of certain parts of 
  * In many places, the specification allows the occurence of extension components/properties/property parameters. Our parser rejects these entities (otherwise there wouldn't be much to validate about the format).
  * The format type tag ([section 3.2.8](https://tools.ietf.org/html/rfc5545#section-3.2.8)) is validated only for correct format (type-name/subtype-name) but not for valid names.
  * The language tag ([section 3.2.10](https://tools.ietf.org/html/rfc5545#section-3.2.10)) is not validated.
- * The value of Request Status property ([3.8.8.3](https://tools.ietf.org/html/rfc5545#section-3.8.8.3)) (statcode/statdesc) is not validated nor checked, only stored.
- * The value of Method property ([3.7.2](https://tools.ietf.org/html/rfc5545#section-3.7.2)) is not validated nor checked, only stored.
+ * The value of Method property ([3.7.2](https://tools.ietf.org/html/rfc5545#section-3.7.2)) is not checked, only the general IANA token syntax is validated.
  * When parsing an explicit period of time ([section 3.3.9](https://tools.ietf.org/html/rfc5545#section-3.3.9)), it is not checked whether the end date is after the start date.
  * When parsing a recurrence rule ([section 3.3.10](https://tools.ietf.org/html/rfc5545#section-3.3.10)), the type of the UNTIL part is not checked against the type of the DTSTART property. Next, the consistency of the UTC flag is not checked.
  * It is not verified that a VTIMEZONE ([section 3.6.5](https://tools.ietf.org/html/rfc5545#section-3.6.5)) component exists for each timezone identifier reffered to in the document.

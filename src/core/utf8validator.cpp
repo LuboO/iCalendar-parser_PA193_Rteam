@@ -5,7 +5,7 @@
 namespace ical {
 namespace core {
 
-bool UTF8Validator::checkNext(unsigned char c) noexcept
+bool UTF8Validator::checkNext(unsigned char c)
 {
     /* See https://tools.ietf.org/html/rfc3629#section-4
      * for the rationale of this algorithm: */

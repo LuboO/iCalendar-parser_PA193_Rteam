@@ -1,7 +1,5 @@
 #include "properties/dtstamp.h"
 
-#include "core/valueparser.h"
-
 namespace ical {
 namespace properties {
 
@@ -19,7 +17,7 @@ DTStamp DTStamp::parse(const core::WithPos<core::GenericProperty> &generic)
     }
 
     auto &value = generic->getValue();
-    auto dt = std::move(core::ValueParser::parseDateTime(
+    auto dt = std::move(data::DateTime::parse(
                             value.pos(), value->begin(), value->end()));
     if (dt.getTime().isLocal()) {
         throw ParserException(value.pos(), "The value of the DTSTAMP property must be in the UTC format!");

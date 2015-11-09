@@ -14,16 +14,15 @@ TZOffsetFrom TZOffsetFrom::parse(const core::WithPos<core::GenericProperty> &gen
         throw ParserException(generic.pos() , "invalid name of TZOFFSETFROM property");
     if(!generic->getParameters().empty())
         throw ParserException(generic.pos() , "invalid TZOFFSETFROM property parameters");
+
     auto &value = generic->getValue();
     if(value->empty())
         throw ParserException(generic.pos() , "empty property");
 
     TZOffsetFrom tzoffsetfrom;
     tzoffsetfrom.value = std::move(
-                core::ValueParser::parseUTCOffset(
-                    value.pos(),
-                    value->begin(),
-                    value->end()));
+                data::UTCOffset::parse(
+                    value.pos(), value->begin(), value->end()));
     return tzoffsetfrom;
 }
 

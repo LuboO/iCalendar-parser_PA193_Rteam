@@ -1,6 +1,8 @@
 #ifndef ICAL_DATA_DATE_H
 #define ICAL_DATA_DATE_H
 
+#include "streampos.h"
+
 #include <ostream>
 
 namespace ical {
@@ -26,6 +28,10 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+    static Date parse(const StreamPos &pos,
+                      std::string::const_iterator begin,
+                      std::string::const_iterator end);
 };
 
 } // namespace data

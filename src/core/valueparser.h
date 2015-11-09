@@ -35,21 +35,6 @@ public:
     static std::string encodeText(const std::string &value);
     static std::string encodeBase64(const std::string &value);
 
-    static data::Date parseDate(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::Time parseTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end,
-                                        bool timeIsOptional);
-    static data::DateTime parseDateTime(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end)
-    {
-        return parseDateTime(pos, begin, end, false);
-    }
-
-    static data::UTCOffset parseUTCOffset(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-
-    static data::Duration parseDuration(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::Period parsePeriod(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-    static data::RecurrenceRule parseRecurrenceRule(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
-
     static std::string parseQuoted(const StreamPos &pos, const std::string &value);
     static std::string parsePossiblyQuoted(const StreamPos &pos, const std::string &value);
 
@@ -78,6 +63,43 @@ public:
         std::string::const_iterator elemIt = begin;
         while (true) {
             delimIt = std::find(elemIt, end, delimiter);
+            res.emplace_back(std::move(elemParseFunc(pos, elemIt, delimIt)));
+
+            if (delimIt == end) {
+                break;
+            }
+            /* skip the delimiter: */
+            elemIt = delimIt + 1;
+        }
+        return res;
+    }
+
+    template<class T>
+    static std::vector<T> parseDelimitedEscaped(
+            const StreamPos &pos,
+            std::string::const_iterator begin,
+            std::string::const_iterator end,
+            ParseFunc<T> elemParseFunc, char delimiter = ',')
+    {
+        std::vector<T> res;
+        std::string::const_iterator delimIt;
+        std::string::const_iterator elemIt = begin;
+        while (true) {
+            bool escaped = false;
+            for (delimIt = elemIt; delimIt != end; ++delimIt) {
+                if (escaped) {
+                    escaped = false;
+                    continue;
+                }
+
+                char c = *delimIt;
+                if (c == '\\') {
+                    escaped = true;
+                } else if (c == delimiter) {
+                    break;
+                }
+            }
+
             res.emplace_back(std::move(elemParseFunc(pos, elemIt, delimIt)));
 
             if (delimIt == end) {

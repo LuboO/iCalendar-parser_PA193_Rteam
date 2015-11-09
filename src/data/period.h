@@ -61,6 +61,10 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+    static Period parse(const StreamPos &pos,
+                        std::string::const_iterator begin,
+                        std::string::const_iterator end);
 };
 
 } // namespace data
