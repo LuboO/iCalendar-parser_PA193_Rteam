@@ -21,7 +21,7 @@ public:
 
     static Priority parse(const core::WithPos<core::GenericProperty> &generic);
 
-    const int getValue() const noexcept { return value; }
+    int getValue() const noexcept { return value; }
 };
 
 } // namespace properties
