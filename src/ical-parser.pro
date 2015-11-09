@@ -90,7 +90,9 @@ SOURCES += main.cpp \
     properties/version.cpp \
     properties/calscale.cpp \
     properties/method.cpp \
-    components/timezonerules.cpp
+    components/timezonerules.cpp \
+    core/genericparsertemplate.cpp \
+    parser.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -185,4 +187,7 @@ HEADERS += \
     properties/calscale.h \
     properties/method.h \
     components/timezonerules.h \
-    core/uniqueidregistry.h
+    core/uniqueidregistry.h \
+    core/genericparsertemplate.h \
+    parsertemplate.h \
+    parser.h
