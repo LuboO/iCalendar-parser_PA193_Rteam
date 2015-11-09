@@ -394,99 +394,81 @@ data::Duration ValueParser::parseDuration(const StreamPos &pos,
                                           std::string::const_iterator begin,
                                           std::string::const_iterator end)
 {
-    const std::regex RE_DURATION {
-        "^([-+]?)P(?:"
-            "(([0-9]+)D(T(?:"
-                "(([0-9]+)H(([0-9]+)M(([0-9]+)S)?)?)"
-            "|"
-                "(([0-9]+)M(([0-9]+)S)?)"
-            "|"
-                "(([0-9]+)S)"
-            "))?)"
-        "|"
-            "(T(?:"
-                "(([0-9]+)H(([0-9]+)M(([0-9]+)S)?)?)"
-            "|"
-                "(([0-9]+)M(([0-9]+)S)?)"
-            "|"
-                "(([0-9]+)S)"
-            "))"
-        "|"
-            "(([0-9]+)W)"
-        ")$"
-    };
+    static const std::regex RE_DURATION_START { "([-+]?)P(?:(([0-9]+)W$)|(?:(([0-9]+)D)?(?:($)|(T))))" };
+    static const std::regex RE_DURATION_TIME_INIT { "([0-9]+)(?:(H)|(M)|(S$))" };
+    static const std::regex RE_DURATION_TIME_MIN { "$|([0-9]+)M" };
+    static const std::regex RE_DURATION_TIME_SEC { "$|([0-9]+)S$" };
+
     std::smatch m;
-    if (!std::regex_match(begin, end, m, RE_DURATION)) {
+    if (!std::regex_search(begin, end, m, RE_DURATION_START,
+                          std::regex_constants::match_continuous)) {
         throw ParserException(pos, "Invalid duration value!");
     }
+    begin = m[0].second;
 
-    /* If anyone knows of a better (simpler) way to do this,
-     * I'd like to see it: ;) */
     bool negative = m[1].length() != 0 && *m[1].first == '-';
-    unsigned int weeks = 0;
+    if (m[2].matched) {
+        unsigned int weeks = parseUnsignedInteger(pos, m[3].first, m[3].second);
+        return { negative, weeks };
+    }
     unsigned int days = 0;
     unsigned int hours = 0;
     unsigned int minutes = 0;
     unsigned int seconds = 0;
-    if (m[2].matched) {
-        /* dur-date */
-        days = parseUnsignedInteger(pos, m[3].first, m[3].second);
-        if (m[4].matched) {
-            /* dur-time */
-            if (m[5].matched) {
-                /* dur-hour */
-                hours = parseUnsignedInteger(pos, m[6].first, m[6].second);
-                if (m[7].matched) {
-                    minutes = parseUnsignedInteger(pos, m[8].first, m[8].second);
-                    if (m[9].matched) {
-                        seconds = parseUnsignedInteger(pos, m[10].first, m[10].second);
-                    }
-                }
-            } else if (m[11].matched) {
-                /* dur-minute */
-                minutes = parseUnsignedInteger(pos, m[12].first, m[12].second);
-                if (m[13].matched) {
-                    seconds = parseUnsignedInteger(pos, m[14].first, m[14].second);
-                }
-            } else if (m[15].matched) {
-                /* dur-second */
-                seconds = parseUnsignedInteger(pos, m[16].first, m[16].second);
-            } else {
-                /* this shouldn't happen... */
-                throw std::logic_error("Application logic error (check stack trace)!");
-            }
-        }
-    } else if (m[17].matched) {
-        /* dur-time */
-        if (m[18].matched) {
-            /* dur-hour */
-            hours = parseUnsignedInteger(pos, m[19].first, m[19].second);
-            if (m[20].matched) {
-                minutes = parseUnsignedInteger(pos, m[21].first, m[21].second);
-                if (m[22].matched) {
-                    seconds = parseUnsignedInteger(pos, m[23].first, m[23].second);
-                }
-            }
-        } else if (m[24].matched) {
-            /* dur-minute */
-            minutes = parseUnsignedInteger(pos, m[25].first, m[25].second);
-            if (m[26].matched) {
-                seconds = parseUnsignedInteger(pos, m[27].first, m[27].second);
-            }
-        } else if (m[28].matched) {
-            /* dur-second */
-            seconds = parseUnsignedInteger(pos, m[29].first, m[29].second);
-        } else {
-            /* this shouldn't happen... */
-            throw std::logic_error("Application logic error (check stack trace)!");
-        }
-    } else if (m[30].matched) {
-        weeks = parseUnsignedInteger(pos, m[31].first, m[31].second);
-    } else {
-        /* this shouldn't happen... */
-        throw std::logic_error("Application logic error (check stack trace)!");
+
+    bool timeMustFollow = true;
+    if (m[4].matched) {
+        days = parseUnsignedInteger(pos, m[5].first, m[5].second);
+        timeMustFollow = false;
     }
-    return { negative, weeks, days, hours, minutes, seconds };
+    if (m[7].matched) {
+        if (!std::regex_search(begin, end, m, RE_DURATION_TIME_INIT,
+                               std::regex_constants::match_continuous)) {
+            throw ParserException(pos, "Invalid duration value!");
+        }
+        begin = m[0].second;
+
+        bool min = false;
+        bool sec = false;
+        if (m[2].matched) {
+            hours = parseUnsignedInteger(pos, m[1].first, m[1].second);
+            min = true;
+        } else if (m[3].matched) {
+            minutes = parseUnsignedInteger(pos, m[1].first, m[1].second);
+            sec = true;
+        } else {
+            seconds = parseUnsignedInteger(pos, m[1].first, m[1].second);
+        }
+        if (min) {
+            /* M */
+            if (!std::regex_search(begin, end, m, RE_DURATION_TIME_MIN,
+                                  std::regex_constants::match_continuous)) {
+                throw ParserException(pos, "Invalid duration value!");
+            }
+            begin = m[0].second;
+
+            if (m[1].matched) {
+                minutes = parseUnsignedInteger(pos, m[1].first, m[1].second);
+
+                sec = true;
+            }
+        }
+        if (sec) {
+            /* S */
+            if (!std::regex_search(begin, end, m, RE_DURATION_TIME_SEC,
+                                  std::regex_constants::match_continuous)) {
+                throw ParserException(pos, "Invalid duration value!");
+            }
+            begin = m[0].second;
+
+            if (m[1].matched) {
+                seconds = parseUnsignedInteger(pos, m[1].first, m[1].second);
+            }
+        }
+    } else if (timeMustFollow) {
+        throw ParserException(pos, "Invalid duration value!");
+    }
+    return { negative, days, hours, minutes, seconds };
 }
 
 data::Period ValueParser::parsePeriod(const StreamPos &pos,
