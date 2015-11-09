@@ -14,7 +14,7 @@ void Completed::print(std::ostream &out) const
 Completed Completed::parse(const core::WithPos<core::GenericProperty> &generic)
 {
     if (!generic->getParameters().empty()) {
-        throw ParserException(generic.pos(), "The RRULE property must have no parameters!");
+        throw ParserException(generic.pos(), "The COMPLETED property must have no parameters!");
     }
 
     auto &value = generic->getValue();
