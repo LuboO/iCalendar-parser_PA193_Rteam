@@ -7,17 +7,29 @@
 #include "core/genericproperty.h"
 #include "parserexception.h"
 
+#include "parameters/tzid_param.h"
+#include "parameters/value.h"
+#include "data/datetime.h"
+
 namespace ical {
 namespace properties {
 
-class DTEND
+class Dtend
 {
+private:
+    data::DateTime value;
+    std::vector<parameters::Tzid_param> tzidParam;
+    std::vector<parameters::Value> valueParam;
 public:
-    DTEND() {}
+    Dtend() {}
 
     void print(std::ostream & out) const;
 
-    static DTEND parse(const core::WithPos<core::GenericProperty> &generic);
+    static Dtend parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const data::DateTime &getValue() const noexcept { return value; }
+    const std::vector<parameters::Tzid_param> &getTzidParam() const noexcept { return tzidParam; }
+    const std::vector<parameters::Value> &getValueParam() const noexcept { return valueParam; }
 };
 
 } // namespace properties

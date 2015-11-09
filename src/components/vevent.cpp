@@ -86,7 +86,7 @@ VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic,
         } else if (i->getName().value() == "RRULE") {
             event.rruleProp.push_back(properties::RRule::parse(i));
         } else if (i->getName().value() == "DTEND") {
-            event.dtEndProp.push_back(properties::DTEND::parse(i));
+            event.dtEndProp.push_back(properties::Dtend::parse(i));
         } else if (i->getName().value() == "DURATION") {
             event.durationProp.push_back(properties::DurationProp::parse(i));
         } else if (i->getName().value() == "ATTACH") {

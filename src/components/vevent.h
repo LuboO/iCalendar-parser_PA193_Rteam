@@ -73,7 +73,7 @@ private:
     std::vector<properties::RecurrenceId> recurrenceIdProp;
     std::vector<properties::RRule> rruleProp;
     /* OPTIONAL max ONCE but both can't be set */
-    std::vector<properties::DTEND> dtEndProp;
+    std::vector<properties::Dtend> dtEndProp;
     std::vector<properties::DurationProp> durationProp;
     /* OPTIONAL more than ONCE */
     std::vector<properties::Attach> attachProps;
@@ -117,7 +117,7 @@ public:
     const std::vector<properties::Url> &getUrlProp() const noexcept{return urlProp;}
     const std::vector<properties::RecurrenceId> &getRecurrenceIdProp() const noexcept{ return recurrenceIdProp;}
     const std::vector<properties::RRule> &getRruleProp() const noexcept{return rruleProp;}
-    const std::vector<properties::DTEND> &getDtEndProp() const noexcept{return dtEndProp;}
+    const std::vector<properties::Dtend> &getDtEndProp() const noexcept{return dtEndProp;}
     const std::vector<properties::DurationProp> &getDurationProp() const noexcept{return durationProp;}
     const std::vector<properties::Attach> &getAttachProps() const noexcept{return attachProps;}
     const std::vector<properties::Attendee> &getAttendeeProps() const noexcept{return attendeeProps;}
