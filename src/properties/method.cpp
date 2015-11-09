@@ -1,5 +1,7 @@
 #include "method.h"
 
+#include <regex>
+
 namespace ical {
 namespace properties {
 
@@ -16,11 +18,17 @@ Method Method::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(generic.pos() , "empty property");
     if(!generic->getParameters().empty())
         throw ParserException(generic.pos() , "invalid parameters in " + NAME + " property");
-
+    
     /* No methods are defined by iCalendar standard */
-    /* All values are accepted and value is not validated */
+    /* All values are accepted (only correct IANA token syntax is checked) */
+    static const std::regex RE_IANA_TOKEN { "[-a-zA-Z0-9]+" };
+    auto &value = generic->getValue();
+    
+    if (!std::regex_match(*value, RE_IANA_TOKEN))
+        throw ParserException(value.pos(), "Invalid IANA token!");
+    
     Method method;
-    method.value = generic->getValue().value();
+    method.value = *value;
     return method;
 }
 

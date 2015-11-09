@@ -15,15 +15,16 @@ TZOffsetTo TZOffsetTo::parse(const core::WithPos<core::GenericProperty> &generic
     if(generic->getName().value() != NAME)
         throw ParserException(generic.pos() , "invalid name of " + NAME + " property");
     if(!generic->getParameters().empty())
-            throw ParserException(generic.pos() , "invalid " + NAME + " property parameters");
-    if(generic->getValue()->empty())
+        throw ParserException(generic.pos() , "invalid " + NAME + " property parameters");
+  
+    auto &value = generic->getValue();
+    if(value->empty())
         throw ParserException(generic.pos() , "empty property");
+
     TZOffsetTo tzoffsetto;
-    data::UTCOffset offset;
-    offset = core::ValueParser::parseUTCOffset(generic->getValue().pos() ,
-                                               generic->getValue()->begin() ,
-                                               generic->getValue()->end());
-    tzoffsetto.value = offset;
+    tzoffsetto.value = std::move(
+                data::UTCOffset::parse(
+                    value.pos(), value->begin(), value->end()));
     return tzoffsetto;
 }
 

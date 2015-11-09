@@ -1,6 +1,8 @@
 #ifndef ICAL_DATA_UTCOFFSET_H
 #define ICAL_DATA_UTCOFFSET_H
 
+#include "streampos.h"
+
 #include <ostream>
 
 namespace ical {
@@ -29,6 +31,10 @@ public:
     }
 
     void print(std::ostream &out) const;
+
+    static UTCOffset parse(const StreamPos &pos,
+                           std::string::const_iterator begin,
+                           std::string::const_iterator end);
 };
 
 } // namespace data

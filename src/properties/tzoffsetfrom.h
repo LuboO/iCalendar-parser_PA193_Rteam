@@ -4,10 +4,9 @@
 #include <ostream>
 #include <vector>
 
-#include "core/genericproperty.h"
 #include "parserexception.h"
+#include "core/genericproperty.h"
 #include "data/utcoffset.h"
-#include "core/valueparser.h"
 
 namespace ical {
 namespace properties {

@@ -84,19 +84,19 @@ RDate RDate::parse(const core::WithPos<core::GenericProperty> &generic)
         std::vector<data::Period> values;
         values = std::move(core::ValueParser::parseDelimited(
                                value.pos(), value->begin(), value->end(),
-                               core::ValueParser::parsePeriod, ','));
+                               data::Period::parse, ','));
         return { std::move(values), std::move(tzid) };
     } else {
         std::vector<data::DateTime> values;
         if (isOnlyDate) {
             auto dates = std::move(core::ValueParser::parseDelimited(
                                        value.pos(), value->begin(), value->end(),
-                                       core::ValueParser::parseDate, ','));
+                                       data::Date::parse, ','));
             values = std::vector<data::DateTime>(dates.begin(), dates.end());
         } else {
             values = std::move(core::ValueParser::parseDelimited(
                                    value.pos(), value->begin(), value->end(),
-                                   core::ValueParser::parseDateTime, ','));
+                                   data::DateTime::parse, ','));
         }
         return { std::move(values), std::move(tzid) };
     }

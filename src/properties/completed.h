@@ -6,12 +6,15 @@
 
 #include "core/genericproperty.h"
 #include "parserexception.h"
+#include "data/datetime.h"
 
 namespace ical {
 namespace properties {
 
 class Completed
 {
+private:
+    data::DateTime value;
 public:
     static const std::string NAME;
 
@@ -20,6 +23,8 @@ public:
     void print(std::ostream & out) const;
 
     static Completed parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const data::DateTime &getValue() const noexcept { return value; }
 };
 
 } // namespace properties

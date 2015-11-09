@@ -15,8 +15,12 @@ namespace properties {
 class RequestStatus
 {
 private:
-    std::string value;
+    std::string statCode;
+    std::string statDesc;
+    std::string data;
+
     std::vector<parameters::Language> languageParam;
+
 public:
     static const std::string NAME;
 
@@ -26,8 +30,14 @@ public:
 
     static RequestStatus parse(const core::WithPos<core::GenericProperty> &generic);
 
-    const std::string &getValue() const noexcept {return value;}
-    const std::vector<parameters::Language> &getLanguageParam() const noexcept {return languageParam;}
+    const std::string &getStatusCode() const noexcept { return statCode; }
+    const std::string &getStatusDescription() const noexcept { return statDesc; }
+    const std::string &getExtraData() const noexcept { return data; }
+
+    const std::vector<parameters::Language> &getLanguageParam() const noexcept
+    {
+        return languageParam;
+    }
 };
 
 } // namespace properties

@@ -12,6 +12,7 @@ namespace parameters {
 
 class Value
 {
+private:
     std::string value;
 public:
     static const std::string NAME;
