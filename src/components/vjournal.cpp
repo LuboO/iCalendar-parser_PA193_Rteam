@@ -117,7 +117,7 @@ VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic, c
     if(journal.urlProp.size() > 1)
         throw ParserException(generic.pos() , "URL property can't occurr multiple times");
 
-    if (!uidRegistry.registerId(event.uidProp[0].getValue())) {
+    if (!uidRegistry.registerId(journal.uidProp[0].getValue())) {
         throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
     }
 

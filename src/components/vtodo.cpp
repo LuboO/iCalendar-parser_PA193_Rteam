@@ -165,7 +165,7 @@ VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic,
     if(!todo.dueProp.empty() && !todo.durationProp.empty())
         throw ParserException(generic.pos() , "DUE and DURATION cen't be both present");
 
-    if (!uidRegistry.registerId(event.uidProp[0].getValue())) {
+    if (!uidRegistry.registerId(todo.uidProp[0].getValue())) {
         throw ParserException(generic.pos() , "The value of the UID property must be globally unique");
     }
 
