@@ -52,24 +52,25 @@ RecurrenceId RecurrenceId::parse(const core::WithPos<core::GenericProperty> &gen
 
     /* Value parameter can contain only DATE-TIME/DATE */
     /* Property value is set accordingly, default is DATE-TIME */
-    std::string propValue = generic->getValue().value();
-    if(!rid.valueParam.empty()) {
-        if(rid.valueParam.at(0).getValue() == "DATE-TIME") {
-            rid.dateTimeValue = core::ValueParser::parseDateTime(generic->getValue().pos() ,
-                                                                 propValue.begin() ,
-                                                                 propValue.end());
-        } else if (rid.valueParam.at(0).getValue() == "DATE") {
-            rid.dateValue = core::ValueParser::parseDate(generic->getValue().pos() ,
-                                                         propValue.begin() ,
-                                                         propValue.end());
-        } else {
+    bool isOnlyDate = false;
+    if (!rid.valueParam.empty()) {
+        if (rid.valueParam.at(0).getValue() == "DATE") {
+            isOnlyDate = true;
+        } else if (rid.valueParam.at(0).getValue() != "DATE-TIME") {
             throw ParserException(generic.pos() , "only DATE-TIME and DATE values "
                                                   "are allowed in VALUE parameter");
         }
-    } else {
+    }
+
+    std::string propValue = generic->getValue().value();
+    if(!isOnlyDate) {
         rid.dateTimeValue = core::ValueParser::parseDateTime(generic->getValue().pos() ,
                                                              propValue.begin() ,
                                                              propValue.end());
+    } else {
+        rid.dateValue = core::ValueParser::parseDate(generic->getValue().pos() ,
+                                                     propValue.begin() ,
+                                                     propValue.end());
     }
     return rid;
 }

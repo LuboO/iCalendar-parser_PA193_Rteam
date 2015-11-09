@@ -33,8 +33,25 @@ public:
 
     static RecurrenceId parse(const core::WithPos<core::GenericProperty> &generic);
 
-    const data::DateTime getDateTimeValue() const noexcept{return dateTimeValue;}
-    const data::Date getDateValue() const noexcept{return dateValue;}
+    bool isDate() const
+    {
+        return !valueParam.empty() && valueParam[0].getValue() == "DATE";
+    }
+
+    const data::DateTime &getDateTimeValue() const
+    {
+        if (isDate()) {
+            throw std::logic_error("The property has a date value!");
+        }
+        return dateTimeValue;
+    }
+    const data::Date &getDateValue() const noexcept
+    {
+        if (!isDate()) {
+            throw std::logic_error("The property has a date-time value!");
+        }
+        return dateValue;
+    }
     const std::vector<parameters::Value> &getValueParam() const noexcept {return valueParam;}
     const std::vector<parameters::Tzid_param> &getTzidParam() const noexcept {return tzidParam;}
     const std::vector<parameters::Range> &getRangeParam() const noexcept {return rangeParam;}
