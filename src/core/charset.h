@@ -22,7 +22,7 @@ namespace core {
 class CharSet
 {
 private:
-    typedef std::bitset<std::numeric_limits<char>::max()> bitset;
+    typedef std::bitset<std::numeric_limits<unsigned char>::max()> bitset;
 
     static bitset bs_range(unsigned char s, unsigned char e)
     {
