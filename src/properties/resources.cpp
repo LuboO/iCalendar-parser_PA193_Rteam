@@ -1,4 +1,4 @@
-#include "resources.h"
+#include "properties/resources.h"
 #include "core/valueparser.h"
 
 namespace ical {

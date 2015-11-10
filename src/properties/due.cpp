@@ -1,4 +1,4 @@
-#include "due.h"
+#include "properties/due.h"
 #include "core/valueparser.h"
 
 namespace ical {

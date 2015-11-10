@@ -1,4 +1,4 @@
-#include "partstat.h"
+#include "parameters/partstat.h"
 
 namespace ical {
 namespace parameters {

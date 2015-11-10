@@ -1,4 +1,4 @@
-#include "prodid.h"
+#include "properties/prodid.h"
 
 namespace ical {
 namespace properties {

@@ -46,15 +46,15 @@ public:
 
     static VCalendar parse(const core::WithPos<core::GenericComponent> &generic);
 
-    const std::vector<properties::ProdId> getProdIdProp() const noexcept {return prodIdProp;}
-    const std::vector<properties::Version> getVersionProp() const noexcept {return versionProp;}
-    const std::vector<properties::CalScale> getCalScaleProp() const noexcept {return calScaleProp;}
-    const std::vector<properties::Method> getMethodProp() const noexcept {return methodProp;}
-    const std::vector<VEvent> getEventComp() const noexcept {return eventComps;}
-    const std::vector<VJournal> getJournalComp() const noexcept {return journalComps;}
-    const std::vector<VTodo> getTodoComp() const noexcept {return todoComps;}
-    const std::vector<VFreeBusy> getFreeBusyComp() const noexcept {return freeBusyComps;}
-    const std::vector<VTimeZone> getTimeZoneComp() const noexcept {return timeZoneComps;}
+    const std::vector<properties::ProdId> &getProdIdProp() const noexcept {return prodIdProp;}
+    const std::vector<properties::Version> &getVersionProp() const noexcept {return versionProp;}
+    const std::vector<properties::CalScale> &getCalScaleProp() const noexcept {return calScaleProp;}
+    const std::vector<properties::Method> &getMethodProp() const noexcept {return methodProp;}
+    const std::vector<VEvent> &getEventComp() const noexcept {return eventComps;}
+    const std::vector<VJournal> &getJournalComp() const noexcept {return journalComps;}
+    const std::vector<VTodo> &getTodoComp() const noexcept {return todoComps;}
+    const std::vector<VFreeBusy> &getFreeBusyComp() const noexcept {return freeBusyComps;}
+    const std::vector<VTimeZone> &getTimeZoneComp() const noexcept {return timeZoneComps;}
 };
 
 } // namespace components

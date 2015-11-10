@@ -1,4 +1,4 @@
-#include "geo.h"
+#include "properties/geo.h"
 #include "core/valueparser.h"
 
 namespace ical {

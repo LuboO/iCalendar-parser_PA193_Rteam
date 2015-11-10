@@ -57,12 +57,13 @@ public:
         return start;
     }
 
-    Trigger(data::Duration &&duration, parameters::Related &&relation)
-        : absolute(false), duration(std::move(duration)), relation(relation), start()
+    Trigger(const data::Duration &duration, parameters::Related &&relation)
+        : absolute(false), duration(duration),
+          relation(std::move(relation)), start()
     {
     }
-    explicit Trigger(data::DateTime &&start)
-        : absolute(true), duration(), relation(), start(std::move(start))
+    explicit Trigger(const data::DateTime &start)
+        : absolute(true), duration(), relation(), start(start)
     {
     }
 

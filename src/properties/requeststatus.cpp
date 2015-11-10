@@ -1,4 +1,4 @@
-#include "requeststatus.h"
+#include "properties/requeststatus.h"
 
 #include "core/valueparser.h"
 
@@ -43,7 +43,7 @@ RequestStatus RequestStatus::parse(const core::WithPos<core::GenericProperty> &g
     status.statCode = components[1];
     status.data = components.size() > 2 ? components[2] : std::string();
 
-	static const std::regex RE_STATCODE { "[0-9]+(\\.[0-9]+){1,2}" };
+    static const std::regex RE_STATCODE { "[0-9]+(\\.[0-9]+){1,2}" };
     if (!std::regex_match(status.statCode, RE_STATCODE)) {
         throw ParserException(value.pos() , "Invalid request status code!");
     }

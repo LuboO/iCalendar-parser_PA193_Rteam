@@ -1,4 +1,5 @@
-#include "status.h"
+#include "properties/status.h"
+
 #include "core/valueparser.h"
 
 namespace ical {

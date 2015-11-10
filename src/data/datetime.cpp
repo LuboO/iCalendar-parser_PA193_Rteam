@@ -1,4 +1,4 @@
-#include "datetime.h"
+#include "data/datetime.h"
 
 #include "parserexception.h"
 
@@ -25,10 +25,10 @@ DateTime DateTime::parse(const StreamPos &pos,
             DATE_LENGTH + (timeIsOptional ? 1 : 0)) {
         throw ParserException(pos, "Invalid datetime value!");
     }
-    Date date = std::move(Date::parse(pos, begin, begin + DATE_LENGTH));
+    Date date = Date::parse(pos, begin, begin + DATE_LENGTH);
     begin += DATE_LENGTH;
     if (timeIsOptional && begin == end) {
-        return DateTime { std::move(date) };
+        return DateTime { date };
     }
     /* If execution gets here, then either:
      * timeIsOptional == false (therefore total length is >= DATE_LENGTH + 1)
@@ -39,8 +39,8 @@ DateTime DateTime::parse(const StreamPos &pos,
     if (*begin != 'T') {
         throw ParserException(pos, "Invalid datetime value!");
     }
-    Time time = std::move(Time::parse(pos, begin + 1, end));
-    return { std::move(date), std::move(time) };
+    Time time = Time::parse(pos, begin + 1, end);
+    return { date, time };
 }
 
 } // namespace data

@@ -1,4 +1,4 @@
-#include "relatedto.h"
+#include "properties/relatedto.h"
 
 #include "core/valueparser.h"
 

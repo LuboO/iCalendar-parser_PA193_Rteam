@@ -29,7 +29,7 @@ public:
     static Contact parse(const core::WithPos<core::GenericProperty> &generic);
 
     const std::string &getValue() const noexcept { return value; }
-    const std::vector<parameters::AltRep> getAltRepParam() const noexcept { return altRepParam; }
+    const std::vector<parameters::AltRep> &getAltRepParam() const noexcept { return altRepParam; }
     const std::vector<parameters::Language> &getLanguageParam() const noexcept { return languageParam; }
 };
 

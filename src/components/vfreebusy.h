@@ -47,16 +47,16 @@ public:
 
     static VFreeBusy parse(const core::WithPos<core::GenericComponent> &generic,
                            core::UniqueIdRegistry &uidRegistry);
-    const std::vector<properties::DTStamp> getDtStampProp() const noexcept{return dtStampProp;}
-    const std::vector<properties::Uid> getUidProp() const noexcept{return uidProp;}
-    const std::vector<properties::Contact> getContactProp() const noexcept{return contactProp;}
-    const std::vector<properties::DTStart> getDTStartProp() const noexcept{return dtStartProp;}
-    const std::vector<properties::DTEnd> getDTEndProp() const noexcept{return dtendProp;}
-    const std::vector<properties::Organizer> getOrganizerProp() const noexcept{return organizerProp;}
-    const std::vector<properties::Url> getUrlProp() const noexcept{return urlProp;}
-    const std::vector<properties::Attendee> getAttendeeProp() const noexcept{return attendeeProps;}
-    const std::vector<properties::Comment> getCommentProp() const noexcept{return commentProps;}
-    const std::vector<properties::Freebusy> getFreebusyProp() const noexcept{return freebusyProps;}
+    const std::vector<properties::DTStamp> &getDtStampProp() const noexcept{return dtStampProp;}
+    const std::vector<properties::Uid> &getUidProp() const noexcept{return uidProp;}
+    const std::vector<properties::Contact> &getContactProp() const noexcept{return contactProp;}
+    const std::vector<properties::DTStart> &getDTStartProp() const noexcept{return dtStartProp;}
+    const std::vector<properties::DTEnd> &getDTEndProp() const noexcept{return dtendProp;}
+    const std::vector<properties::Organizer> &getOrganizerProp() const noexcept{return organizerProp;}
+    const std::vector<properties::Url> &getUrlProp() const noexcept{return urlProp;}
+    const std::vector<properties::Attendee> &getAttendeeProp() const noexcept{return attendeeProps;}
+    const std::vector<properties::Comment> &getCommentProp() const noexcept{return commentProps;}
+    const std::vector<properties::Freebusy> &getFreebusyProp() const noexcept{return freebusyProps;}
 };
 
 } // namespace components

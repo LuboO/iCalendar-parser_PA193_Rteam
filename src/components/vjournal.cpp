@@ -1,4 +1,4 @@
-#include "vjournal.h"
+#include "components/vjournal.h"
 
 namespace ical {
 namespace components {

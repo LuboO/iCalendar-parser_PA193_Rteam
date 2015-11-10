@@ -1,4 +1,4 @@
-#include "calscale.h"
+#include "properties/calscale.h"
 
 namespace ical {
 namespace properties {

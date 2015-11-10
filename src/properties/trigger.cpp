@@ -62,17 +62,16 @@ Trigger Trigger::parse(const core::WithPos<core::GenericProperty> &generic)
 
     if (!isAbsolute) {
         return {
-            std::move(data::Duration::parse(
-                          value.pos(), value->begin(), value->end())),
+            data::Duration::parse(value.pos(), value->begin(), value->end()),
             std::move(relation)
         };
     } else {
-        auto dt = std::move(data::DateTime::parse(
-                                value.pos(), value->begin(), value->end()));
+        auto dt = data::DateTime::parse(
+                    value.pos(), value->begin(), value->end());
         if (dt.getTime().isLocal()) {
             throw ParserException(value.pos(), "The value of the " + NAME + " property must be in the UTC format!");
         }
-        return Trigger { std::move(dt) };
+        return Trigger { dt };
     }
 }
 

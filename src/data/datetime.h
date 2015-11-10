@@ -28,23 +28,15 @@ public:
         return time;
     }
 
-    DateTime() { }
+    DateTime() : date(), timeValid(), time() { }
 
     explicit DateTime(const Date &date)
         : date(date), timeValid(false), time()
     {
     }
-    explicit DateTime(Date &&date)
-        : date(std::move(date)), timeValid(false), time()
-    {
-    }
 
     DateTime(const Date &date, const Time &time)
         : date(date), timeValid(true), time(time)
-    {
-    }
-    DateTime(Date &&date, Time &&time)
-        : date(std::move(date)), timeValid(true), time(std::move(time))
     {
     }
 

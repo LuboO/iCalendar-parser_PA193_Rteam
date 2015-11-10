@@ -29,7 +29,7 @@ public:
     static Freebusy parse(const core::WithPos<core::GenericProperty> &generic);
 
     const std::vector<data::Period> &getValue() const noexcept { return values; }
-    const std::vector<parameters::FBType> getFBTypeParam() const noexcept { return fbtypeParam; }
+    const std::vector<parameters::FBType> &getFBTypeParam() const noexcept { return fbtypeParam; }
 };
 
 } // namespace properties

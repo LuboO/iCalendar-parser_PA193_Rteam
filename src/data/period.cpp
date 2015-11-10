@@ -1,4 +1,4 @@
-#include "period.h"
+#include "data/period.h"
 
 #include "parserexception.h"
 
@@ -36,10 +36,10 @@ Period Period::parse(const StreamPos &pos,
         if (duration.isNegative()) {
             throw ParserException(pos, "Period duration must be positive!");
         }
-        return { std::move(startTime), std::move(duration) };
+        return { startTime, duration };
     } else {
         auto endTime = DateTime::parse(pos, slash + 1, end);
-        return { std::move(startTime), std::move(endTime) };
+        return { startTime, endTime };
     }
 }
 

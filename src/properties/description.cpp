@@ -1,4 +1,4 @@
-#include "description.h"
+#include "properties/description.h"
 
 #include "core/valueparser.h"
 

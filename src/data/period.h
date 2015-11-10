@@ -38,25 +38,15 @@ public:
         return duration;
     }
 
-    Period() { }
+    Period() : explicit_(), start(), end(), duration() { }
 
     Period(const DateTime &start, const DateTime &end)
         : explicit_(true), start(start), end(end), duration()
     {
     }
-    Period(DateTime &&start, DateTime &&end)
-        : explicit_(true), start(std::move(start)), end(std::move(end)),
-          duration()
-    {
-    }
 
     Period(const DateTime &start, const Duration &duration)
         : explicit_(false), start(start), end(), duration(duration)
-    {
-    }
-    Period(DateTime &&start, Duration &&duration)
-        : explicit_(false), start(std::move(start)), end(),
-          duration(std::move(duration))
     {
     }
 

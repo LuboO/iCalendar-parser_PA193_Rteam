@@ -1,4 +1,4 @@
-#include "percentcomplete.h"
+#include "properties/percentcomplete.h"
 #include "core/valueparser.h"
 
 namespace ical {

@@ -1,4 +1,4 @@
-#include "encoding.h"
+#include "parameters/encoding.h"
 
 namespace ical {
 namespace parameters {

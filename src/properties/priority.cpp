@@ -1,4 +1,5 @@
-#include "priority.h"
+#include "properties/priority.h"
+
 #include "core/valueparser.h"
 
 namespace ical {
