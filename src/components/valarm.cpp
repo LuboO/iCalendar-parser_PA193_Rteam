@@ -47,6 +47,64 @@ VAlarm VAlarm::parse(const core::WithPos<core::GenericComponent> &generic) {
             throw ParserException(i.pos() , "invalid property in " + NAME + " component");
         }
     }
+
+    /** Properties sanity checking **/
+    if(alarm.actionProp.size() != 1)
+        throw ParserException(generic.pos() , properties::Action::NAME + " is required once in " + NAME + " component");
+    std::string action = alarm.actionProp[0].getValue();
+    if (action=="AUDIO")
+    {
+        /* Required*/
+        if(alarm.triggerProp.size() != 1)
+            throw ParserException(generic.pos() , properties::Trigger::NAME + " is required once in " + NAME + " component");
+        /* OPTIONAL properties max ONCE check */
+        if(alarm.attachProp.size() > 1)
+            throw ParserException(generic.pos() , properties::Attach::NAME + " property can't occurr multiple times");
+        if(alarm.durationProp.size() > 1)
+            throw ParserException(generic.pos() , properties::DurationProp::NAME + " property can't occurr multiple times");
+        if(alarm.repeatProp.size() > 1)
+            throw ParserException(generic.pos() , properties::Repeat::NAME + " property can't occurr multiple times");
+        if(alarm.durationProp.size()!=alarm.repeatProp.size())
+            throw ParserException(generic.pos() , "If property " + properties::Repeat::NAME + " is defined, "
+                                  + properties::DurationProp::NAME + "must be defined too, and vice versa");
+    }
+    if (action=="DISPLAY")
+    {
+        /* Required*/
+        if(alarm.triggerProp.size() != 1)
+            throw ParserException(generic.pos() , properties::Trigger::NAME + " is required once in " + NAME + " component");
+        if(alarm.descriptionProp.size() != 1)
+            throw ParserException(generic.pos() , properties::Description::NAME + " is required once in " + NAME + " component");
+        /* OPTIONAL properties max ONCE check */
+        if(alarm.durationProp.size() > 1)
+            throw ParserException(generic.pos() , properties::DurationProp::NAME + " property can't occurr multiple times");
+        if(alarm.repeatProp.size() > 1)
+            throw ParserException(generic.pos() , properties::Repeat::NAME + " property can't occurr multiple times");
+        if(alarm.durationProp.size()!=alarm.repeatProp.size())
+            throw ParserException(generic.pos() , "If property " + properties::Repeat::NAME + " is defined, "
+                                  + properties::DurationProp::NAME + "must be defined too, and vice versa");
+    }
+    if (action=="EMAIL")
+    {
+        /* Required*/
+        if(alarm.triggerProp.size() != 1)
+            throw ParserException(generic.pos() , properties::Trigger::NAME + " is required once in " + NAME + " component");
+        if(alarm.descriptionProp.size() != 1)
+            throw ParserException(generic.pos() , properties::Description::NAME + " is required once in " + NAME + " component");
+        if(alarm.summaryProp.size() != 1)
+            throw ParserException(generic.pos() , properties::Summary::NAME + " is required once in " + NAME + " component");
+        if(alarm.attendeeProp.size() < 1)
+            throw ParserException(generic.pos() , properties::Attendee::NAME + " property must occur at least once in " + NAME + "component");
+        /* OPTIONAL properties max ONCE check */
+        if(alarm.durationProp.size() > 1)
+            throw ParserException(generic.pos() , properties::DurationProp::NAME + " property can't occurr multiple times");
+        if(alarm.repeatProp.size() > 1)
+            throw ParserException(generic.pos() , properties::Repeat::NAME + " property can't occurr multiple times");
+        if(alarm.durationProp.size()!=alarm.repeatProp.size())
+            throw ParserException(generic.pos() , "If property " + properties::Repeat::NAME + " is defined, "
+                                  + properties::DurationProp::NAME + "must be defined too, and vice versa");
+
+    }
     return alarm;
 }
 
