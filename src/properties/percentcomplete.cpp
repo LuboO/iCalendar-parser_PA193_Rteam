@@ -15,10 +15,10 @@ PercentComplete PercentComplete::parse(const core::WithPos<core::GenericProperty
         throw ParserException(generic.pos(), "The " + NAME + " property must have no parameters!");
     }
 
-    auto &value = generic->getValue();
-    PercentComplete perc;
-    perc.value = std::move(core::ValueParser::parseInteger(value.pos(), value->begin(), value->end()));
-    return perc;
+    auto &value = generic->getValue();;
+    return PercentComplete {
+        core::ValueParser::parseInteger(value.pos(), value->begin(), value->end())
+    };
 }
 
 } // namespace properties

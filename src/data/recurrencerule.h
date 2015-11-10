@@ -113,6 +113,8 @@ public:
           bySetPos(bySetPos), weekStart(weekStart)
     {
     }
+
+    /* NOTE: cppcheck reports some nonsense here: */
     RecurrenceRuleOptions(
             unsigned int interval,
             std::vector<unsigned int> &&bySecond,

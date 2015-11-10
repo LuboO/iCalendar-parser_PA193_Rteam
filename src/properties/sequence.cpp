@@ -23,7 +23,7 @@ Sequence Sequence::parse(const core::WithPos<core::GenericProperty> &generic)
     }
 
     auto &value = generic->getValue();
-    return {
+    return Sequence {
         core::ValueParser::parseUnsignedInteger(
                     value.pos(), value->begin(), value->end())
     };

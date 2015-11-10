@@ -41,6 +41,7 @@ private:
 
     bitset bs;
 
+    /* NOTE: The following constructor is implicit for convenience: */
     CharSet(bitset bs) noexcept
         : bs(bs)
     {
@@ -53,6 +54,7 @@ public:
     {
     }
 
+    /* NOTE: The following constructor is implicit for convenience: */
     /** Constructs a set containing a single character. */
     CharSet(char c) noexcept
         : bs(bitset(1) << static_cast<unsigned char>(c))

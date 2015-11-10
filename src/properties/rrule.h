@@ -24,7 +24,7 @@ public:
         return value;
     }
 
-    RRule(data::RecurrenceRule &&value) : value(std::move(value))
+    explicit RRule(data::RecurrenceRule &&value) : value(std::move(value))
     {
     }
 

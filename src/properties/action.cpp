@@ -21,7 +21,7 @@ Action Action::parse(const core::WithPos<core::GenericProperty> &generic)
         throw ParserException(value.pos(), "Invalid AUDIO property value!");
     }
     /* force a copy: */
-    return { std::string { *value } };
+    return Action { std::string { *value } };
 }
 
 } // namespace properties

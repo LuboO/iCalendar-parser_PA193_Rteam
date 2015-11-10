@@ -61,7 +61,7 @@ public:
         : absolute(false), duration(std::move(duration)), relation(relation), start()
     {
     }
-    Trigger(data::DateTime &&start)
+    explicit Trigger(data::DateTime &&start)
         : absolute(true), duration(), relation(), start(std::move(start))
     {
     }

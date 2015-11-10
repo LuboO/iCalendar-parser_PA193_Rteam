@@ -19,7 +19,7 @@ RRule RRule::parse(const core::WithPos<core::GenericProperty> &generic)
     }
 
     auto &value = generic->getValue();
-    return {
+    return RRule {
         std::move(data::RecurrenceRule::parse(
                       value.pos(), value->begin(), value->end()))
     };

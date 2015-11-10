@@ -23,7 +23,7 @@ Repeat Repeat::parse(const core::WithPos<core::GenericProperty> &generic)
     }
 
     auto &value = generic->getValue();
-    return {
+    return Repeat {
         /* NOTE: the spec doesn't specify that the value should be non-negative,
          * so it is not checked (even though a negative value doesn't seem
          * to make sense here) */

@@ -38,7 +38,8 @@ struct PrintHelper<WeekdayNumber>
 };
 
 template<class T>
-static void printList(std::ostream &out, const std::string name, const std::vector<T> list)
+static void printList(std::ostream &out, const std::string &name,
+                      const std::vector<T> &list)
 {
     if (list.empty()) {
         return;

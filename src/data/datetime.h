@@ -30,11 +30,11 @@ public:
 
     DateTime() { }
 
-    DateTime(const Date &date)
+    explicit DateTime(const Date &date)
         : date(date), timeValid(false), time()
     {
     }
-    DateTime(Date &&date)
+    explicit DateTime(Date &&date)
         : date(std::move(date)), timeValid(false), time()
     {
     }

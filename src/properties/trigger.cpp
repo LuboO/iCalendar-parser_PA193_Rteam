@@ -72,7 +72,7 @@ Trigger Trigger::parse(const core::WithPos<core::GenericProperty> &generic)
         if (dt.getTime().isLocal()) {
             throw ParserException(value.pos(), "The value of the " + NAME + " property must be in the UTC format!");
         }
-        return { std::move(dt) };
+        return Trigger { std::move(dt) };
     }
 }
 

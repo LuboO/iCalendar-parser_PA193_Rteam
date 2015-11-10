@@ -24,7 +24,7 @@ public:
         return value;
     }
 
-    Created(data::DateTime &&value) : value(std::move(value))
+    explicit Created(data::DateTime &&value) : value(std::move(value))
     {
     }
 

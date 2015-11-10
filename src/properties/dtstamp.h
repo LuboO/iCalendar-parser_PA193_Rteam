@@ -24,7 +24,7 @@ public:
         return value;
     }
 
-    DTStamp(data::DateTime &&value) : value(std::move(value))
+    explicit DTStamp(data::DateTime &&value) : value(std::move(value))
     {
     }
 

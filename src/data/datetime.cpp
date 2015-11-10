@@ -28,7 +28,7 @@ DateTime DateTime::parse(const StreamPos &pos,
     Date date = std::move(Date::parse(pos, begin, begin + DATE_LENGTH));
     begin += DATE_LENGTH;
     if (timeIsOptional && begin == end) {
-        return { std::move(date) };
+        return DateTime { std::move(date) };
     }
     /* If execution gets here, then either:
      * timeIsOptional == false (therefore total length is >= DATE_LENGTH + 1)
