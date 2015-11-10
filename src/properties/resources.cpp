@@ -26,13 +26,13 @@ Resources Resources::parse(const core::WithPos<core::GenericProperty> &generic) 
     Resources resources;
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "ALTREP") {
+        if(i->getName().value() == parameters::AltRep::NAME) {
             if(!resources.altRepParam.empty())
                 throw ParserException(i.pos() ,
                                       "ALTREP parameter can't occurr multiple times");
             resources.altRepParam.push_back(parameters::AltRep::parse(i));
 
-        } else if(i->getName().value() == "LANGUAGE") {
+        } else if(i->getName().value() == parameters::AltRep::NAME) {
             if(!resources.languageParam.empty())
                 throw ParserException(i.pos() ,
                                       "LANGUAGE parameter can't occurr multiple times");

@@ -22,13 +22,13 @@ Due Due::parse(const core::WithPos<core::GenericProperty> &generic) {
     Due due;
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "TZID") {
+        if(i->getName().value() == parameters::Tzid_param::NAME) {
             if(!due.tzidParam.empty())
                 throw ParserException(i.pos() ,
                                       "TZID parameter can't occurr multiple times");
             due.tzidParam.push_back(parameters::Tzid_param::parse(i));
 
-        } else if (i->getName().value() == "VALUE"){
+        } else if (i->getName().value() == parameters::Value::NAME){
             if(!due.valueParam.empty())
                 throw ParserException(i.pos() ,
                                       "VALUE parameter can't occurr multiple times");

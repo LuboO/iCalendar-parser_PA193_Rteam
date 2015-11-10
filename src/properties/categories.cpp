@@ -26,7 +26,7 @@ Categories Categories::parse(const core::WithPos<core::GenericProperty> &generic
     Categories categories;
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "LANGUAGE") {
+        if(i->getName().value() == parameters::Language::NAME) {
             if(!categories.languageParam.empty())
                 throw ParserException(i.pos() ,
                                       "LANGUAGE parameter can't occurr multiple times");

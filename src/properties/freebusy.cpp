@@ -26,7 +26,7 @@ Freebusy Freebusy::parse(const core::WithPos<core::GenericProperty> &generic) {
     Freebusy freebusy;
 
     for(auto &i : generic->getParameters()) {
-        if(i->getName().value() == "FBTYPE") {
+        if(i->getName().value() == parameters::FBType::NAME) {
             if(!freebusy.fbtypeParam.empty())
                 throw ParserException(i.pos() ,
                                       "FREEBUSY parameter can't occurr multiple times");
