@@ -1,7 +1,6 @@
-
-#include "core/valueparser.h"
 #include "properties/attach.h"
 
+#include "core/valueparser.h"
 
 namespace ical {
 namespace properties {
@@ -13,7 +12,13 @@ void Attach::print(std::ostream &out) const {
     for(auto &i : fmttypeParam) i.print(out);
     for(auto &i : encodingParam) i.print(out);
     for(auto &i : valueParam) i.print(out);
-    out << ":" << value << "\r\n";
+    if (valueParam.size() > 0) {
+        /* BASE64 binary data; reencode: */
+        out << ":" << core::ValueParser::encodeBase64(value) << "\r\n";
+    } else {
+        /* just a URI: */
+        out << ":" << value << "\r\n";
+    }
 }
 
 Attach Attach::parse(const core::WithPos<core::GenericProperty> &generic) {
