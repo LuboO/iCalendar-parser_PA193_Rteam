@@ -16,6 +16,9 @@ namespace core {
 class GenericParserTemplate
 {
 private:
+    /* Max component hierarchy depth (to prevent stack overflows): */
+    static const std::size_t MAX_DEPTH = 3;
+
     /* Character matching bitmaps for different tokens: */
     static const CharSet CONTROL;
     static const CharSet WSP;
@@ -179,8 +182,13 @@ private:
         /** Parses the content of a component. */
         void parseComponentContent(const StreamPos &startPos,
                                    const WithPos<std::string> &componentName,
-                                   std::vector<WithPos<GenericComponent>> &out)
+                                   std::vector<WithPos<GenericComponent>> &out,
+                                   int depthLeft)
         {
+            if (depthLeft == 0) {
+                throw ParserException(startPos, "Component structure too deep!");
+            }
+
             std::vector<WithPos<GenericProperty>> properties;
             std::vector<WithPos<GenericComponent>> subcomponents;
 
@@ -197,7 +205,8 @@ private:
 
                 WithPos<std::string> componentName = line->getValue();
                 normalize(componentName.value());
-                parseComponentContent(line.pos(), componentName, subcomponents);
+                parseComponentContent(line.pos(), componentName, subcomponents,
+                                      depthLeft - 1);
 
                 line = parseContentLine();
             }
@@ -229,6 +238,8 @@ private:
 
         std::vector<WithPos<GenericComponent>> parse()
         {
+            int depthLeft = MAX_DEPTH;
+
             std::vector<WithPos<GenericComponent>> res;
             /* the components must be strictly consecutive, */
             /* nothing must follow after them: */
@@ -244,7 +255,7 @@ private:
                 WithPos<std::string> componentName = line->getValue();
                 normalize(componentName.value());
 
-                parseComponentContent(line.pos(), componentName, res);
+                parseComponentContent(line.pos(), componentName, res, depthLeft);
             }
             return res;
         }
