@@ -8,6 +8,8 @@
 namespace ical {
 namespace core {
 
+/* NOTE: The standard defines the BOOLEAN value type, but defines no property
+ * with this value type. We leave the method here for completeness. */
 bool ValueParser::parseBoolean(const StreamPos &pos,
                                std::string::const_iterator begin,
                                std::string::const_iterator end)

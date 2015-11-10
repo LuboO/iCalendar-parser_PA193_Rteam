@@ -20,6 +20,8 @@ public:
     template<class T>
     using ParseFunc = T(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
 
+    /* NOTE: The standard defines the BOOLEAN value type, but defines no property
+     * with this value type. We leave the method here for completeness. */
     static bool parseBoolean(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static double parseFloat(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
     static int parseInteger(const StreamPos &pos, std::string::const_iterator begin, std::string::const_iterator end);
