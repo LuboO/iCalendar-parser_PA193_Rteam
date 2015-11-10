@@ -81,13 +81,6 @@ VCalendar VCalendar::parse(const core::WithPos<core::GenericComponent> &generic)
         throw ParserException(generic.pos() ,  NAME + " object must have"
                                               "at least one component specified");
 
-    /** VEVENT checks **/
-    /*if(calendar.methodProp.empty() &&
-            calendar.eventComps.size() == 1 &&
-            calendar.eventComps.at(0).getDtStartProp().empty())
-        throw ParserException(generic.pos() ,
-                              "when METHOD is not specified, VEVENT component "
-                              "must have DTSTART specified");*/
     if(calendar.methodProp.empty()) {
         for(VEvent &i : calendar.eventComps) {
             if(i.getDtStartProp().empty())

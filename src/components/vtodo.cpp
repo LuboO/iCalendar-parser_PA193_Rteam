@@ -172,20 +172,14 @@ VTodo VTodo::parse(const core::WithPos<core::GenericComponent> &generic,
         throw ParserException(generic.pos() , "The value of the " +properties::Uid::NAME + " property must be globally unique");
     }
 
-    //////////////////////////////////////////
-    //////////////// TODO ////////////////////
-    //////////////////////////////////////////
-    /* remaining checks after implementation of DTStart/DTEnd */
-
-    // WHEN STATUS is implemented, uncomment this
-    /*if(todo.statusProp.size() == 1) {
+    if(todo.statusProp.size() == 1) {
         if(todo.statusProp.at(0).getValue() != "NEEDS-ACTION" &&
                 todo.statusProp.at(0).getValue() != "COMPLETED" &&
                 todo.statusProp.at(0).getValue() != "IN-PROCESS" &&
                 todo.statusProp.at(0).getValue() != "CANCELLED")
             throw ParserException(generic.pos() , "inalid value in STATUS property");
 
-    }*/
+    }
 
     /* Storing subcomponents */
     for(const auto &i : generic->getSubcomponents()) {

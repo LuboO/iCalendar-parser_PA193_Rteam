@@ -123,18 +123,12 @@ VJournal VJournal::parse(const core::WithPos<core::GenericComponent> &generic, c
         throw ParserException(generic.pos() , "The value of the " + properties::Uid::NAME + " property must be globally unique");
     }
 
-    //////////////////////////////////////////
-    //////////////// TODO ////////////////////
-    //////////////////////////////////////////
-    /* remaining checks after implementation of DTStart/DTEnd */
-
-    // WHEN status is implemented uncomment this
-    /*if(journal.statusProp.size() == 1) {
+    if(journal.statusProp.size() == 1) {
         if(journal.statusProp.at(0).getValue() != "DRAFT" &&
                 journal.statusProp.at(0).getValue() != "FINAL" &&
                 journal.statusProp.at(0).getValue() != "CANCELLED")
             throw ParserException(generic.pos() , "invalid value in STATUS property");
-    }*/
+    }
 
     return journal;
 }

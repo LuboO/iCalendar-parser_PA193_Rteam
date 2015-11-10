@@ -1,3 +1,4 @@
+//#define RUN_TESTS
 #ifdef RUN_TESTS
 
 #include "tests/alltests.h"

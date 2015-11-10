@@ -44,8 +44,13 @@ DTEnd DTEnd::parse(const core::WithPos<core::GenericProperty> &generic) {
     else if (dtend.valueParam[0].getValue() == "DATE-TIME") justDate = false;
     else throw ParserException(generic.pos() , "invalid " + NAME + " VALUE parameter can be only DATE or DATE-TIME");
 
-    dtend.value = std::move(data::DateTime::parse(value.pos(), value->begin(), value->end(),justDate));
+    //dtend.value = std::move(data::DateTime::parse(value.pos(), value->begin(), value->end(),justDate));
 
+    if (justDate) {
+        dtend.value = data::DateTime { data::Date::parse(value.pos(), value->begin(), value->end()) };
+    } else {
+        dtend.value = data::DateTime::parse(value.pos(), value->begin(), value->end());
+    }
 
     return dtend;
 }

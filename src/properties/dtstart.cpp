@@ -45,7 +45,13 @@ DTStart DTStart::parse(const core::WithPos<core::GenericProperty> &generic) {
     else if (dtstart.valueParam[0].getValue() == "DATE-TIME") justDate = false;
     else throw ParserException(generic.pos() , "invalid " + NAME + " VALUE parameter can be only DATE or DATE-TIME");
 
-    dtstart.value = std::move(data::DateTime::parse(value.pos(), value->begin(), value->end(),justDate));
+    //dtstart.value = std::move(data::DateTime::parse(value.pos(), value->begin(), value->end(),justDate));
+
+    if (justDate) {
+        dtstart.value = data::DateTime { data::Date::parse(value.pos(), value->begin(), value->end()) };
+    } else {
+        dtstart.value = data::DateTime::parse(value.pos(), value->begin(), value->end());
+    }
 
     return dtstart;
 }

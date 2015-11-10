@@ -13,12 +13,12 @@ void RecurrenceId::print(std::ostream &out) const {
 
     out << ":";
     if(valueParam.empty()) {
-        dateTimeValue.print(out);
+        value.print(out);
     } else {
         if(valueParam.at(0).getValue() == "DATE-TIME") {
-            dateTimeValue.print(out);
+            value.print(out);
         } else {
-            dateValue.print(out);
+            value.getDate().print(out);
         }
     }
     out << "\r\n";
@@ -54,24 +54,22 @@ RecurrenceId RecurrenceId::parse(const core::WithPos<core::GenericProperty> &gen
 
     /* Value parameter can contain only DATE-TIME/DATE */
     /* Property value is set accordingly, default is DATE-TIME */
-    bool isOnlyDate = false;
-    if (!rid.valueParam.empty()) {
-        if (rid.valueParam.at(0).getValue() == "DATE") {
-            isOnlyDate = true;
-        } else if (rid.valueParam.at(0).getValue() != "DATE-TIME") {
-            throw ParserException(generic.pos() , "only DATE-TIME and DATE values "
-                                                  "are allowed in " + parameters::Value::NAME + " parameter");
-        }
+
+    bool justDate;
+    if(rid.valueParam.empty()) justDate = false;
+    else if(rid.valueParam.at(0).getValue() == "DATE") justDate = true;
+    else if(rid.valueParam.at(0).getValue() == "DATE-TIME") justDate = false;
+    else throw ParserException(generic.pos() , "invalid " + NAME + " property: only DATE "
+                                               "or DATE-TIME can be in VALUE parameter");
+    auto & value = generic->getValue();
+    if(justDate) {
+        rid.value = data::DateTime { data::Date::parse(value.pos(),
+                                                       value->begin(),
+                                                       value->end()) };
+    } else {
+        rid.value = data::DateTime::parse(value.pos(), value->begin(), value->end());
     }
 
-    auto &propValue = generic->getValue();
-    if(!isOnlyDate) {
-        rid.dateTimeValue = data::DateTime::parse(
-                    propValue.pos(), propValue->begin(), propValue->end());
-    } else {
-        rid.dateValue = data::Date::parse(
-                    propValue.pos(), propValue->begin(), propValue->end());
-    }
     return rid;
 }
 

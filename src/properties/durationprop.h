@@ -23,6 +23,8 @@ public:
     void print(std::ostream & out) const;
 
     static DurationProp parse(const core::WithPos<core::GenericProperty> &generic);
+
+    const data::Duration &getValue() const noexcept {return value;}
 };
 
 } // namespace properties

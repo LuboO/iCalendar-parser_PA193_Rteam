@@ -119,10 +119,12 @@ VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic,
     /** Properties sanity checking **/
     /* Required properties check */
     if(event.dtStampProp.size() != 1)
-        throw ParserException(generic.pos() , properties::DTStart::NAME + " is required once in " + NAME + " component");
+        throw ParserException(generic.pos() , properties::DTStamp::NAME + " is required once in " + NAME + " component");
     if(event.uidProp.size() != 1)
         throw ParserException(generic.pos() , properties::Uid::NAME + " is required once in " + NAME + " component");
     /* OPTIONAL properties max ONCE check */
+    if(event.dtStartProp.size() > 1)
+        throw ParserException(generic.pos() , properties::DTStart::NAME + " property can't occurr multiple times");
     if(event.classProp.size() > 1)
         throw ParserException(generic.pos() , properties::Class::NAME + " property can't occurr multiple times");
     if(event.createdProp.size() > 1)
@@ -166,18 +168,37 @@ VEvent VEvent::parse(const core::WithPos<core::GenericComponent> &generic,
         throw ParserException(generic.pos() , "The value of the " + properties::Uid::NAME + " property must be globally unique");
     }
 
-    //////////////////////////////////////////
-    //////////////// TODO ////////////////////
-    //////////////////////////////////////////
-    /* remaining checks after implementation of DTStart/DTEnd */
+    /* If DTSTART have value DATE then DTEND mmust have value DTEND also */
+    /* If duration is specified it must be in dur-day/dur week */
+    if(event.dtStartProp.size() == 1) {
+        auto & dtStart = event.dtStartProp.at(0);
+        if(!dtStart.getValueParam().empty() &&
+            dtStart.getValueParam().at(0).getValue() == "DATE") {
+            if(!event.dtEndProp.empty()) {
+                auto & dtEnd = event.dtEndProp.at(0);
+                if(dtEnd.getValueParam().empty() ||
+                   dtEnd.getValueParam().at(0).getValue() != "DATE")
+                    throw ParserException(generic.pos() , "when DTSTART has value DATE"
+                                                          "DTEND must have value DATE too");
+            } else if(!event.durationProp.empty()) {
+                auto & durVal = event.durationProp.at(0).getValue();
+                if(durVal.getHours() != 0 ||
+                   durVal.getMinutes() != 0 ||
+                   durVal.getSeconds() != 0)
+                    throw ParserException(generic.pos() , "when DTSTART has value DATE"
+                                                          "DURATION must have value"
+                                                          "dur-day or dur-week");
+            }
+        }
+    }
 
-    // WHEN STATUS is implemented, uncomment this
-    /*if(event.statusProp.size() == 1) {
+    /* Only following values of STATUS are allowed */
+    if(event.statusProp.size() == 1) {
         if(event.statusProp.at(0).getValue() != "TENTATIVE" &&
                 event.statusProp.at(0).getValue() != "CONFIRMED" &&
                 event.statusProp.at(0).getValue() != "CANCELLED")
             throw ParserException(generic.pos() , "invalid value in STATUS property");
-    }*/
+    }
 
     /* Storing subcomponents */
     for(const auto &i : generic->getSubcomponents()) {
