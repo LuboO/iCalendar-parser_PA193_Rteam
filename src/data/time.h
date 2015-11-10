@@ -22,7 +22,7 @@ public:
     unsigned int getSecond() const noexcept { return second; }
     bool isLocal() const noexcept { return local; }
 
-    Time() { }
+    Time() : hour(), minute(), second(), local() { }
 
     Time(unsigned int hour, unsigned int minute, unsigned int second,
          bool local)

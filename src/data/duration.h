@@ -26,7 +26,10 @@ public:
     unsigned int getMinutes() const noexcept { return minutes; }
     unsigned int getSeconds() const noexcept { return seconds; }
 
-    Duration() { }
+    Duration()
+        : negative(), weeks(), days(), hours(), minutes(), seconds()
+    {
+    }
 
     Duration(bool negative, unsigned int weeks)
         : negative(negative), weeks(weeks), days(0),

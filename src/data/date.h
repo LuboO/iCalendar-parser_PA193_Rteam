@@ -20,7 +20,7 @@ public:
     unsigned int getMonth() const noexcept { return month; }
     unsigned int getDay() const noexcept { return day; }
 
-    Date() { }
+    Date() : year(), month(), day() { }
 
     Date(unsigned int year, unsigned int month, unsigned int day)
         : year(year), month(month), day(day)

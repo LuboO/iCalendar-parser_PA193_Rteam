@@ -22,7 +22,7 @@ public:
     unsigned int getMinutes() const noexcept { return minutes; }
     unsigned int getSeconds() const noexcept { return seconds; }
 
-    UTCOffset() { }
+    UTCOffset() : negative(), hours(), minutes(), seconds() { }
 
     UTCOffset(bool negative, unsigned int hours,
               unsigned int minutes, unsigned int seconds)

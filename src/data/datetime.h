@@ -28,7 +28,7 @@ public:
         return time;
     }
 
-    DateTime() { }
+    DateTime() : date(), timeValid(), time() { }
 
     explicit DateTime(const Date &date)
         : date(date), timeValid(false), time()

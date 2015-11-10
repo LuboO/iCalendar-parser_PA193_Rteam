@@ -38,7 +38,7 @@ public:
         return duration;
     }
 
-    Period() { }
+    Period() : explicit_(), start(), end(), duration() { }
 
     Period(const DateTime &start, const DateTime &end)
         : explicit_(true), start(start), end(end), duration()
