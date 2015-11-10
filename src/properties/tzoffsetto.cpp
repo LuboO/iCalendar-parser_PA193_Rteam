@@ -22,9 +22,8 @@ TZOffsetTo TZOffsetTo::parse(const core::WithPos<core::GenericProperty> &generic
         throw ParserException(generic.pos() , "empty property");
 
     TZOffsetTo tzoffsetto;
-    tzoffsetto.value = std::move(
-                data::UTCOffset::parse(
-                    value.pos(), value->begin(), value->end()));
+    tzoffsetto.value = data::UTCOffset::parse(
+                value.pos(), value->begin(), value->end());
     return tzoffsetto;
 }
 

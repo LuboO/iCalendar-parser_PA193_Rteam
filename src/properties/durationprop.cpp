@@ -19,7 +19,7 @@ DurationProp DurationProp::parse(const core::WithPos<core::GenericProperty> &gen
 
     auto &value = generic->getValue();
     DurationProp duration;
-    duration.value = std::move(data::Duration::parse(value.pos(), value->begin(), value->end()));
+    duration.value = data::Duration::parse(value.pos(), value->begin(), value->end());
     return duration;
 }
 
