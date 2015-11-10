@@ -15,10 +15,14 @@ class Geo
 private:
     double latitude;
     double longitude;
+
 public:
     static const std::string NAME;
 
-    Geo() {}
+    Geo(double latitude, double longitude)
+        : latitude(latitude), longitude(longitude)
+    {
+    }
 
     void print(std::ostream & out) const;
 

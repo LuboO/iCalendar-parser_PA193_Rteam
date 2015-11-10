@@ -14,10 +14,11 @@ class Priority
 {
 private:
     int value;
+
 public:
     static const std::string NAME;
 
-    Priority() {}
+    explicit Priority(int value) : value(value) { }
 
     void print(std::ostream & out) const;
 

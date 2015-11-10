@@ -22,7 +22,7 @@ public:
     Repeat() : count(0)
     {
     }
-    Repeat(int count) : count(count)
+    explicit Repeat(int count) : count(count)
     {
     }
 

@@ -14,10 +14,11 @@ class PercentComplete
 {
 private:
     int value;
+
 public:
     static const std::string NAME;
 
-    PercentComplete() {}
+    explicit PercentComplete(int value) : value(value) { }
 
     void print(std::ostream & out) const;
 

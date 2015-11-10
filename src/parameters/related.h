@@ -22,7 +22,7 @@ public:
     {
     }
 
-    Related(std::string &&value) : value(std::move(value))
+    explicit Related(std::string &&value) : value(std::move(value))
     {
     }
 

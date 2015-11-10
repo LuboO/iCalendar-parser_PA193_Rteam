@@ -22,7 +22,7 @@ public:
     Sequence() : seqNum(0)
     {
     }
-    Sequence(unsigned int seqNum) : seqNum(seqNum)
+    explicit Sequence(unsigned int seqNum) : seqNum(seqNum)
     {
     }
 

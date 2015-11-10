@@ -24,7 +24,7 @@ public:
         return value;
     }
 
-    LastModified(data::DateTime &&value) : value(std::move(value))
+    explicit LastModified(data::DateTime &&value) : value(std::move(value))
     {
     }
 

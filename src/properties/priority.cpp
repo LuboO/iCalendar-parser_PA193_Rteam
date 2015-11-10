@@ -16,10 +16,9 @@ Priority Priority::parse(const core::WithPos<core::GenericProperty> &generic) {
     }
 
     auto &value = generic->getValue();
-    Priority priority;
-    priority.value = std::move(core::ValueParser::parseInteger(value.pos(), value->begin(), value->end()));
-    if (priority.value > 9 || priority.value < 0) throw ParserException(generic.pos(), "The " + NAME + " property value must be an integer in a range [0,9]!");
-    return priority;
+    int ival = core::ValueParser::parseInteger(value.pos(), value->begin(), value->end());
+    if (ival > 9 || ival < 0) throw ParserException(generic.pos(), "The " + NAME + " property value must be an integer in a range [0,9]!");
+    return Priority { ival };
 }
 
 } // namespace properties

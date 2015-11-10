@@ -22,7 +22,7 @@ Related Related::parse(const core::WithPos<core::GenericPropertyParameter> &gene
     if(value != "START" && value != "END")
         throw ParserException(generic->getValue().pos() , "invalid value in " + NAME + " parameter");
 
-    return { std::string(value) };
+    return Related { std::string(value) };
 }
 
 } // namespace parameters

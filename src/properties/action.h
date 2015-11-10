@@ -19,7 +19,7 @@ public:
 
     const std::string &getValue() { return value; }
 
-    Action(std::string &&value) : value(std::move(value))
+    explicit Action(std::string &&value) : value(std::move(value))
     {
     }
 
