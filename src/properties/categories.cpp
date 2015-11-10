@@ -36,9 +36,10 @@ Categories Categories::parse(const core::WithPos<core::GenericProperty> &generic
         }
     }
 
-    categories.values = std::move(core::ValueParser::parseDelimited(
-                                    value.pos(), value->begin(), value->end(),
-                                    core::ValueParser::parseText, ','));
+    categories.values = std::move(
+                core::ValueParser::parseDelimitedEscaped(
+                    value.pos(), value->begin(), value->end(),
+                    core::ValueParser::parseText, ','));
     return categories;
 }
 

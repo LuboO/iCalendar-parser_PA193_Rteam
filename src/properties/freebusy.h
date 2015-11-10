@@ -32,7 +32,7 @@ public:
     const std::vector<parameters::FBType> getFBTypeParam() const noexcept { return fbtypeParam; }
 };
 
-} // namespace propertiespe
+} // namespace properties
 } // namespace ical
 
 #endif // ICAL_PARAMETERS_FREEBUSY_H

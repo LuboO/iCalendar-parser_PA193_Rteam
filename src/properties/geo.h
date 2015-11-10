@@ -13,8 +13,8 @@ namespace properties {
 class Geo
 {
 private:
-    float latitude;
-    float longitude;
+    double latitude;
+    double longitude;
 public:
     static const std::string NAME;
 
@@ -24,8 +24,8 @@ public:
 
     static Geo parse(const core::WithPos<core::GenericProperty> &generic);
 
-    int getlatitude() const noexcept { return latitude; }
-    int getlongitude() const noexcept { return longitude; }
+    double getlatitude() const noexcept { return latitude; }
+    double getlongitude() const noexcept { return longitude; }
 };
 
 } // namespace properties

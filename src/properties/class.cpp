@@ -21,8 +21,7 @@ Class Class::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(value.pos(), "Invalid CLASS property value!");
     }
     Class clas;
-    clas.value = std::move(core::ValueParser::parseText(
-                                  value.pos(), value->begin(), value->end()));
+    clas.value = *value;
     return clas;
 }
 

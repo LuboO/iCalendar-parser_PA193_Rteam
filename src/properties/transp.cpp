@@ -7,7 +7,7 @@ namespace properties {
 const std::string Transp::NAME = "TRANSP";
 
 void Transp::print(std::ostream &out) const{
-    out << "STATUS:" << value << "\r\n";
+    out << NAME << ":" << value << "\r\n";
 }
 
 Transp Transp::parse(const core::WithPos<core::GenericProperty> &generic) {
@@ -20,8 +20,7 @@ Transp Transp::parse(const core::WithPos<core::GenericProperty> &generic) {
         throw ParserException(value.pos(), "Invalid TRANSP property value!");
     }
     Transp transp;
-    transp.value = std::move(core::ValueParser::parseText(
-                                  value.pos(), value->begin(), value->end()));
+    transp.value = *value;
     return transp;
 }
 

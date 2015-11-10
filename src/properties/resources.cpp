@@ -43,9 +43,9 @@ Resources Resources::parse(const core::WithPos<core::GenericProperty> &generic) 
         }
     }
 
-    resources.values = std::move(core::ValueParser::parseDelimited(
-                                    value.pos(), value->begin(), value->end(),
-                                    core::ValueParser::parseText, ','));
+    resources.values = std::move(core::ValueParser::parseDelimitedEscaped(
+                                     value.pos(), value->begin(), value->end(),
+                                     core::ValueParser::parseText, ','));
     return resources;
 }
 
