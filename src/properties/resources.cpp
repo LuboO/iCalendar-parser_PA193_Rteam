@@ -32,7 +32,7 @@ Resources Resources::parse(const core::WithPos<core::GenericProperty> &generic) 
                                       "ALTREP parameter can't occurr multiple times");
             resources.altRepParam.push_back(parameters::AltRep::parse(i));
 
-        } else if(i->getName().value() == parameters::AltRep::NAME) {
+        } else if(i->getName().value() == parameters::Language::NAME) {
             if(!resources.languageParam.empty())
                 throw ParserException(i.pos() ,
                                       "LANGUAGE parameter can't occurr multiple times");
