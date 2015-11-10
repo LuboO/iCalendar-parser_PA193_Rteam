@@ -1,4 +1,5 @@
-#include "freebusy.h"
+#include "properties/freebusy.h"
+
 #include "core/valueparser.h"
 
 namespace ical {

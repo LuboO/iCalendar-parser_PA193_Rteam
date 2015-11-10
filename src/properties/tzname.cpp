@@ -1,4 +1,4 @@
-#include "tzname.h"
+#include "properties/tzname.h"
 
 #include "core/valueparser.h"
 

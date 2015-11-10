@@ -1,4 +1,5 @@
-#include "completed.h"
+#include "properties/completed.h"
+
 #include "core/valueparser.h"
 #include "data/datetime.h"
 

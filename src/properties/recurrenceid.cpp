@@ -1,4 +1,4 @@
-#include "recurrenceid.h"
+#include "properties/recurrenceid.h"
 
 namespace ical {
 namespace properties {

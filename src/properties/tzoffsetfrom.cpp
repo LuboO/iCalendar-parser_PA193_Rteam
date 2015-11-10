@@ -1,4 +1,4 @@
-#include "tzoffsetfrom.h"
+#include "properties/tzoffsetfrom.h"
 
 namespace ical {
 namespace properties {

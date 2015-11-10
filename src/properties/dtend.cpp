@@ -1,4 +1,4 @@
-#include "dtend.h"
+#include "properties/dtend.h"
 #include "core/valueparser.h"
 
 namespace ical {
@@ -16,7 +16,7 @@ void DTEnd::print(std::ostream &out) const{
 }
 
 DTEnd DTEnd::parse(const core::WithPos<core::GenericProperty> &generic) {
-	if(generic->getValue()->empty())
+    if(generic->getValue()->empty())
         throw ParserException(generic.pos() , "empty " + NAME + " property");
 
     DTEnd dtend;

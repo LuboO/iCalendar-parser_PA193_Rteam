@@ -1,4 +1,4 @@
-#include "location.h"
+#include "properties/location.h"
 
 #include "core/valueparser.h"
 

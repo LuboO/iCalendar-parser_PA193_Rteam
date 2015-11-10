@@ -1,4 +1,5 @@
-#include "categories.h"
+#include "properties/categories.h"
+
 #include "core/valueparser.h"
 
 namespace ical {

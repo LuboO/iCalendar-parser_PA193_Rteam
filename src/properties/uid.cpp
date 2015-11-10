@@ -1,4 +1,4 @@
-#include "uid.h"
+#include "properties/uid.h"
 
 #include "core/valueparser.h"
 

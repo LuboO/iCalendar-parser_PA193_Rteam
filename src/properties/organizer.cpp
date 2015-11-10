@@ -1,4 +1,4 @@
-#include "organizer.h"
+#include "properties/organizer.h"
 
 #include "core/valueparser.h"
 

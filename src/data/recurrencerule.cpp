@@ -1,4 +1,4 @@
-#include "recurrencerule.h"
+#include "data/recurrencerule.h"
 
 #include "parserexception.h"
 #include "core/valueparser.h"

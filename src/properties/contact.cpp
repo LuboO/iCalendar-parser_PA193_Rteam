@@ -1,4 +1,4 @@
-#include "contact.h"
+#include "properties/contact.h"
 
 #include "core/valueparser.h"
 

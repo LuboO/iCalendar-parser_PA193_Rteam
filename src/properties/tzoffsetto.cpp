@@ -1,4 +1,4 @@
-#include "tzoffsetto.h"
+#include "properties/tzoffsetto.h"
 
 namespace ical {
 namespace properties {
@@ -16,7 +16,7 @@ TZOffsetTo TZOffsetTo::parse(const core::WithPos<core::GenericProperty> &generic
         throw ParserException(generic.pos() , "invalid name of " + NAME + " property");
     if(!generic->getParameters().empty())
         throw ParserException(generic.pos() , "invalid " + NAME + " property parameters");
-  
+
     auto &value = generic->getValue();
     if(value->empty())
         throw ParserException(generic.pos() , "empty property");

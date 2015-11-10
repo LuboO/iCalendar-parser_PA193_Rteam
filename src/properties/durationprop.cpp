@@ -1,4 +1,4 @@
-#include "durationprop.h"
+#include "properties/durationprop.h"
 
 namespace ical {
 namespace properties {

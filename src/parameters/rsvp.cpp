@@ -1,4 +1,4 @@
-#include "rsvp.h"
+#include "parameters/rsvp.h"
 
 namespace ical {
 namespace parameters {

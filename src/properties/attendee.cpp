@@ -1,4 +1,4 @@
-#include "attendee.h"
+#include "properties/attendee.h"
 
 #include "core/valueparser.h"
 

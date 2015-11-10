@@ -1,4 +1,4 @@
-#include "duration.h"
+#include "data/duration.h"
 
 #include "parserexception.h"
 #include "core/valueparser.h"

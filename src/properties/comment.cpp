@@ -1,4 +1,4 @@
-#include "comment.h"
+#include "properties/comment.h"
 
 #include "core/valueparser.h"
 
