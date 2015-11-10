@@ -77,29 +77,29 @@ public:
                           core::UniqueIdRegistry &uidRegistry);
 
     /* Another nice set of getters */
-    const std::vector<properties::DTStamp> getDtStampProp() const noexcept{return dtStampProp;}
-    const std::vector<properties::Uid> getUidProp() const noexcept{return uidProp;}
-    const std::vector<properties::Class> getClassProp() const noexcept{return classProp;}
-    const std::vector<properties::Created> getCreatedProp() const noexcept{return createdProp;}
-    const std::vector<properties::DTStart> getDtStartProp() const noexcept{return dtStartProp;}
-    const std::vector<properties::LastModified> getLastModifiedProp() const noexcept{return lastModifiedProp;}
-    const std::vector<properties::Organizer> getOrganizerProp() const noexcept{return organizerProp;}
-    const std::vector<properties::RecurrenceId> getRecurrenceIdProp() const noexcept{return recurrenceIdProp;}
-    const std::vector<properties::Sequence> getSequenceProp() const noexcept{return sequenceProp;}
-    const std::vector<properties::Status> getStatusProp() const noexcept{return statusProp;}
-    const std::vector<properties::Summary> getSummaryProp() const noexcept{return summaryProp;}
-    const std::vector<properties::Url> getUrlProp() const noexcept{return urlProp;}
-    const std::vector<properties::RRule> getRruleProp() const noexcept{return rruleProp;}
-    const std::vector<properties::Attach> getAttachProps() const noexcept{return attachProps;}
-    const std::vector<properties::Attendee> getAttendeeProps() const noexcept{return attendeeProps;}
-    const std::vector<properties::Categories> getCategoriesProps() const noexcept{return categoriesProps;}
-    const std::vector<properties::Comment> getCommentProps() const noexcept{return commentProps;}
-    const std::vector<properties::Contact> getContactProps() const noexcept{return contactProps;}
-    const std::vector<properties::Description> getDescriptionProps() const noexcept{return descriptionProps;}
-    const std::vector<properties::ExDate> getExDateProps() const noexcept{return exDateProps;}
-    const std::vector<properties::RelatedTo> getRelatedToProps() const noexcept{return relatedToProps;}
-    const std::vector<properties::RDate> getRDateProps() const noexcept{return rDateProps;}
-    const std::vector<properties::RequestStatus> getRequestStatusProps() const noexcept{return requestStatusProps;}
+    const std::vector<properties::DTStamp> &getDtStampProp() const noexcept{return dtStampProp;}
+    const std::vector<properties::Uid> &getUidProp() const noexcept{return uidProp;}
+    const std::vector<properties::Class> &getClassProp() const noexcept{return classProp;}
+    const std::vector<properties::Created> &getCreatedProp() const noexcept{return createdProp;}
+    const std::vector<properties::DTStart> &getDtStartProp() const noexcept{return dtStartProp;}
+    const std::vector<properties::LastModified> &getLastModifiedProp() const noexcept{return lastModifiedProp;}
+    const std::vector<properties::Organizer> &getOrganizerProp() const noexcept{return organizerProp;}
+    const std::vector<properties::RecurrenceId> &getRecurrenceIdProp() const noexcept{return recurrenceIdProp;}
+    const std::vector<properties::Sequence> &getSequenceProp() const noexcept{return sequenceProp;}
+    const std::vector<properties::Status> &getStatusProp() const noexcept{return statusProp;}
+    const std::vector<properties::Summary> &getSummaryProp() const noexcept{return summaryProp;}
+    const std::vector<properties::Url> &getUrlProp() const noexcept{return urlProp;}
+    const std::vector<properties::RRule> &getRruleProp() const noexcept{return rruleProp;}
+    const std::vector<properties::Attach> &getAttachProps() const noexcept{return attachProps;}
+    const std::vector<properties::Attendee> &getAttendeeProps() const noexcept{return attendeeProps;}
+    const std::vector<properties::Categories> &getCategoriesProps() const noexcept{return categoriesProps;}
+    const std::vector<properties::Comment> &getCommentProps() const noexcept{return commentProps;}
+    const std::vector<properties::Contact> &getContactProps() const noexcept{return contactProps;}
+    const std::vector<properties::Description> &getDescriptionProps() const noexcept{return descriptionProps;}
+    const std::vector<properties::ExDate> &getExDateProps() const noexcept{return exDateProps;}
+    const std::vector<properties::RelatedTo> &getRelatedToProps() const noexcept{return relatedToProps;}
+    const std::vector<properties::RDate> &getRDateProps() const noexcept{return rDateProps;}
+    const std::vector<properties::RequestStatus> &getRequestStatusProps() const noexcept{return requestStatusProps;}
 };
 
 } // namespace components

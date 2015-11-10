@@ -36,7 +36,7 @@ public:
     const std::vector<parameters::CommonName> &getCommonNameParam() const noexcept { return commonNameParam; }
     const std::vector<parameters::DirEntryRef> &getDirEntryRefParam() const noexcept { return dirEntryRefParam; }
     const std::vector<parameters::SentBy> &getSentByParam() const noexcept { return sentByParam; }
-    const std::vector<parameters::Language> getLanguageParam() const noexcept { return languageParam; }
+    const std::vector<parameters::Language> &getLanguageParam() const noexcept { return languageParam; }
 };
 
 } // namespace properties

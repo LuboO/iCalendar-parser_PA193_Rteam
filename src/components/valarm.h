@@ -38,14 +38,14 @@ public:
     void print(std::ostream &out) const;
 
     static VAlarm parse(const core::WithPos<core::GenericComponent> &generic);
-    const std::vector<properties::Action> getActionProp() const noexcept{return actionProp;}
-    const std::vector<properties::Trigger> getTriggerProp() const noexcept{return triggerProp;}
-    const std::vector<properties::DurationProp> getDurationProp() const noexcept{return durationProp;}
-    const std::vector<properties::Repeat> getRepeatProp() const noexcept{return repeatProp;}
-    const std::vector<properties::Attach> getAttachProp() const noexcept{return attachProp;}
-    const std::vector<properties::Description> getDescriptionProp() const noexcept{return descriptionProp;}
-    const std::vector<properties::Summary> getSummaryProp() const noexcept{return summaryProp;}
-    const std::vector<properties::Attendee> getAttendeeProp() const noexcept{return attendeeProp;}
+    const std::vector<properties::Action> &getActionProp() const noexcept{return actionProp;}
+    const std::vector<properties::Trigger> &getTriggerProp() const noexcept{return triggerProp;}
+    const std::vector<properties::DurationProp> &getDurationProp() const noexcept{return durationProp;}
+    const std::vector<properties::Repeat> &getRepeatProp() const noexcept{return repeatProp;}
+    const std::vector<properties::Attach> &getAttachProp() const noexcept{return attachProp;}
+    const std::vector<properties::Description> &getDescriptionProp() const noexcept{return descriptionProp;}
+    const std::vector<properties::Summary> &getSummaryProp() const noexcept{return summaryProp;}
+    const std::vector<properties::Attendee> &getAttendeeProp() const noexcept{return attendeeProp;}
 };
 
 } // namespace components

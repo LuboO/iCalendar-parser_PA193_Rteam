@@ -47,16 +47,16 @@ public:
     static Attendee parse(const core::WithPos<core::GenericProperty> &generic);
 
     const std::string &getValue() const noexcept { return value; }
-    const std::vector<parameters::CalUserType> getCalUserTypeParam() const noexcept { return calUserTypeParam; }
+    const std::vector<parameters::CalUserType> &getCalUserTypeParam() const noexcept { return calUserTypeParam; }
     const std::vector<parameters::Member> &getMemberParam() const noexcept { return memberParam; }
     const std::vector<parameters::Role> &getRoleParam() const noexcept { return roleParam; }
     const std::vector<parameters::PartStat> &getPartStatParam() const noexcept { return partStatParam; }
     const std::vector<parameters::Rsvp> &getRsvpParam() const noexcept { return rsvpParam; }
-    const std::vector<parameters::DelegatedTo> getDelegatedToParam() const noexcept { return delegatedToParam; }
-    const std::vector<parameters::DelegatedFrom> getDelegatedFromParam() const noexcept { return delegatedFromParam; }
+    const std::vector<parameters::DelegatedTo> &getDelegatedToParam() const noexcept { return delegatedToParam; }
+    const std::vector<parameters::DelegatedFrom> &getDelegatedFromParam() const noexcept { return delegatedFromParam; }
     const std::vector<parameters::SentBy> &getSentByParam() const noexcept { return sentByParam; }
-    const std::vector<parameters::CommonName> getCommonNameParam() const noexcept { return commonNameParam; }
-    const std::vector<parameters::DirEntryRef> getDirEntryRefParam() const noexcept { return dirEntryRefParam; }
+    const std::vector<parameters::CommonName> &getCommonNameParam() const noexcept { return commonNameParam; }
+    const std::vector<parameters::DirEntryRef> &getDirEntryRefParam() const noexcept { return dirEntryRefParam; }
     const std::vector<parameters::Language> &getLanguageParam() const noexcept { return languageParam; }
 };
 
