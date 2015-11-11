@@ -11,6 +11,14 @@ Parser of the iCalendar format ([RFC 5545](https://tools.ietf.org/html/rfc5545))
 ## Language and dependencies
 The parser is written in C++11 and has no additional dependencies (except the standard library).
 
+## Building
+You can use QtCreator to open the `src/ical-parser.pro` file. The project can be also built using `qmake` from the command line:
+
+```bash
+$ mkdir build && cd build
+$ qmake ../src/ical-parser.pro && make
+```
+
 ## Parser Limitations
 Due to limited time for the project and/or undue complexity of certain parts of the specification, the parser has the following known limitations:
 
