@@ -1,0 +1,53 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[slovak]{babel}
+\usepackage[IL2]{fontenc}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\hypersetup{
+  colorlinks,
+  linkcolor={red!50!black},
+  citecolor={green!50!black},
+  urlcolor={blue!80!black}  
+}
+
+\author{Ondrej Mosnáček, Lenka Kuníková and Ľubomír Obrátil}
+\title{iCalendar parser}
+
+\begin{document}
+\maketitle
+
+\section*{Format}
+We implemented a parser for the iCalendar format, as specified in RFC 5545 (\url{https://tools.ietf.org/html/rfc5545}).
+\subsection*{Limitations}
+\begin{itemize}
+	\item The specification defines default encoding for iCalendar files to be UTF-8 (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.1.4}{}{}{section 3.1.4}). Our parser validates UTF-8 encoding of the file, however all strings in the resulting in-memory structure are left UTF-8 encoded.
+	\item The parser does not validate URI references (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.3.13}{}{}{section 3.3.13}) and calendar user addresses (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.3.3}{}{}{section 3.3.3}).
+	\item In many places, the specification allows the occurence of extension components/properties/property parameters. Our parser rejects these entities (otherwise there wouldn't be much to validate about the format).
+	\item The format type tag (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.2.8}{}{}{section 3.2.8}) is validated only for correct format (type-name/subtype-name) but not for valid names.
+	\item The language tag (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.2.10}{}{}{section 3.2.10}) is not validated.
+	\item The value of Method property (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.7.2}{}{}{section 3.7.2}) is not checked, only the general IANA token syntax is validated.
+	\item When parsing time-related properties we do not check the consistency of types of different properties (e. g. DTSTART vs DTEND/RRULE/...) nor the consistency of UTC/local time format. Also, we do not check if date-time values are one after the other where the specification demands it.
+	\item It is not verified that a VTIMEZONE (\hyperref{https://tools.ietf.org/html/rfc5545\#section-3.6.5}{}{}{section 3.6.5}) component exists for each timezone identifier reffered to in the document.
+	\item The caret-escaping mechanism specified in \hyperref{https://tools.ietf.org/html/rfc6868}{}{}{RFC 6868} is not implemented.
+	\item The parser works in two stages, where in the first stage the file/stream is initially parsed into a generic tree structure, which is then further processed and validated into the final object representation. Therefore it may load the entire file/stream into memory before rejecting the invalid syntax.                                                                                                                                              \end{itemize}
+
+\subsection*{Result}
+\begin{itemize}
+	\item Language: C++11, no libraries (except of standard library).
+	\item Parser: recursive descent; two stages:
+	\begin{enumerate}
+		\item General tree structure is parsed.
+		\item The tree is processed into the final object representation.
+	\end{enumerate}
+	\item About 10 000 lines of code.
+	\item The format turned out to be more complicated than expected.
+	\item We didn't have much time for testing/documentation :(
+	\item Teamwork is difficult when you have only $< 3$ weeks...
+\end{itemize}
+\end{document}
