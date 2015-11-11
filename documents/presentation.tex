@@ -1,0 +1,102 @@
+\documentclass[12pt, t]{beamer}
+\usetheme{Frankfurt}
+\usepackage[utf8]{inputenc}
+\usepackage[IL2]{fontenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{Ondrej Mosnáček, Lenka Kuníková and Ľubomír Obrátil}
+\title{iCalendar parser}
+\subtitle{Team project}
+\institute{PA193 - Secure coding principles and practices}
+\date{November 11, 2015}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}[fragile]{Format}
+\begin{itemize}
+\item \textbf{iCalendar}
+\item RFC 5545
+\item for exchanging events, tasks, ... on the Internet
+\item text format
+\item tree structure similar to XML
+\item example:
+\begin{figure}
+{\scriptsize
+\begin{verbatim}
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+UID:19970610T172345Z-AF23B2@example.com
+DTSTAMP:19970610T172345Z
+DTSTART:19970714T170000Z
+DTEND:19970715T040000Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+\end{verbatim}
+}
+\end{figure}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Format}
+\begin{itemize}
+\item basic elements:
+	\begin{itemize}
+	\item \textbf{component} (like XML element)
+	\item \textbf{property} (like XML element without children)
+	\item \textbf{property parameter} (like XML attribute)
+	\end{itemize}
+\item components contain properties + other components
+\item properties have name and value
+\item properties can have parameters (name=value pairs)
+\item iCalendar stream = 1 or more VCALENDAR components ("iCalendar objects")
+\item the standard defines what elements can occur inside which element
+\item there can also be extension/IANA-registered elements (our parser doesn't support this)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Parser}
+\begin{itemize}
+\item language: C++11, no extra libraries
+\item recursive descent parser
+\item two stages:
+	\begin{enumerate}
+	\item parsing of general structure (output: tree of components, properties, parameters)
+	\item validating correct structure, parsing property/parameter values (output: object model)
+	\end{enumerate}
+\item $+$ easy to write the parser
+\item $-$ inefficient (if an error is in the semantics, the whole iCalendar object is loaded into memory before being rejected in the second stage)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tools}
+\begin{itemize}
+\item \textbf{cppcheck}
+	\begin{itemize}
+	\item detected some typos
+	\item warned about implicit constructors with a single argument
+	\item some false positives
+	\end{itemize}
+\item \textbf{Coverity}
+	\begin{itemize}
+	\item offers free analysis of public GitHub repositories
+	\item detected uninitialized values in empty constructors
+	\item also detected some issues in the standard library :)
+	\end{itemize}
+\item \textbf{zzuf} (binary fuzzer) -- detected a bug in UTF-8 handling
+\item \textbf{valgrind (MemCheck), radamsa} -- we were not able to find any issues
+\item all detected issues were fixed, false positives were documented in the code
+\end{itemize}
+\end{frame}
+
+\end{document}
