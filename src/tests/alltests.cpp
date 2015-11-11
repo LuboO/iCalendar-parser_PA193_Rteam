@@ -2,6 +2,7 @@
 
 #include "tests/dateparsertests.h"
 #include "tests/durationparsertests.h"
+#include "tests/utf8validatortests.h"
 #include "tests/varioustests.h"
 
 namespace ical {
@@ -13,6 +14,7 @@ int AllTests::run()
     try {
         DateParserTests::runTests(tr);
         DurationParserTests::runTests(tr);
+        UTF8ValidatorTests::runTests(tr);
         VariousTests::runTests(tr);
     } catch(std::exception &ex) {
         std::cerr << "ERROR: Exception while running tests: "

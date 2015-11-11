@@ -96,7 +96,8 @@ SOURCES += main.cpp \
     tests/dateparsertests.cpp \
     tests/alltests.cpp \
     tests/durationparsertests.cpp \
-    tests/varioustests.cpp
+    tests/varioustests.cpp \
+    tests/utf8validatortests.cpp
 
 HEADERS += \
     core/genericpropertyparameter.h \
@@ -200,4 +201,5 @@ HEADERS += \
     tests/alltests.h \
     tests/durationparsertests.h \
     tests/dataparserutils.h \
-    tests/varioustests.h
+    tests/varioustests.h \
+    tests/utf8validatortests.h

@@ -73,6 +73,7 @@ void DateParserTests::runTests(TestReporter &tr)
         tr.registerTest("Is '" + val.second + "' valid?",
                         val.first, valid);
     }
+    tr.endTestSuite();
 }
 
 } // namespace tests

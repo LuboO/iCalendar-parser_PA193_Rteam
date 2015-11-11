@@ -7,7 +7,7 @@
 namespace ical {
 namespace tests {
 
-std::vector<std::pair<bool, std::string>> VALIDATION {
+static const std::vector<std::pair<bool, std::string>> VALIDATION {
     {
         false,
         "BEGIN:VCALENDAR\r\n"
@@ -193,6 +193,7 @@ void VariousTests::runTests(TestReporter &tr)
         tr.registerTest("Is '" + val.second + "' valid?",
                         val.first, valid);
     }
+    tr.endTestSuite();
 }
 
 } // namespace tests
