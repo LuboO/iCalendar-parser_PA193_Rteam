@@ -19,6 +19,8 @@ $ mkdir build && cd build
 $ qmake ../src/ical-parser.pro && make
 ```
 
+Alternatively, you can build the project using [GNU Automake](https://en.wikipedia.org/wiki/Automake). First run `autoreconf -i`, then the standard `./configure [...] && make`. We reccomend to use the CLang compiler and parallel make, because it compiles faster :) (`./configure CXX=clang++ && make -j <insert_your_number_of_cores>`). Additionally, you can pass `--enable-debug` to `./configure` to compile in debug mode (`-g -O2 -DDEBUG`).
+
 ## Parser Limitations
 Due to limited time for the project and/or undue complexity of certain parts of the specification, the parser has the following known limitations:
 
