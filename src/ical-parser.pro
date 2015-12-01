@@ -6,45 +6,34 @@ CONFIG -= qt
 QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG
 
-SOURCES += main.cpp \
+SOURCES += \
+    main.cpp \
+    parser.cpp \
     core/genericparser.cpp \
-    components/vcalendar.cpp \
+    core/genericparsertemplate.cpp \
+    core/utf8validator.cpp \
     core/valueparser.cpp \
-    data/recurrencerule.cpp \
-    data/utcoffset.cpp \
     data/date.cpp \
     data/datetime.cpp \
     data/duration.cpp \
     data/period.cpp \
+    data/recurrencerule.cpp \
     data/time.cpp \
-    components/vevent.cpp \
-    components/vjournal.cpp \
-    components/vtodo.cpp \
-    components/vfreebusy.cpp \
-    components/vtimezone.cpp \
-    components/valarm.cpp \
+    data/utcoffset.cpp \
+    parameters/altrep.cpp \
+    parameters/calusertype.cpp \
+    parameters/commonname.cpp \
+    parameters/delegatedfrom.cpp \
+    parameters/delegatedto.cpp \
+    parameters/direntryref.cpp \
     parameters/encoding.cpp \
-    parameters/fmttype.cpp \
-    properties/tzid.cpp \
     parameters/fbtype.cpp \
+    parameters/fmttype.cpp \
     parameters/language.cpp \
     parameters/member.cpp \
     parameters/partstat.cpp \
     parameters/range.cpp \
     parameters/related.cpp \
-    properties/tzname.cpp \
-    properties/tzoffsetfrom.cpp \
-    properties/tzoffsetto.cpp \
-    properties/tzurl.cpp \
-    properties/attendee.cpp \
-    properties/contact.cpp \
-    properties/organizer.cpp \
-    properties/recurrenceid.cpp \
-    properties/relatedto.cpp \
-    properties/url.cpp \
-    properties/uid.cpp \
-    properties/requeststatus.cpp \
-    core/utf8validator.cpp \
     parameters/reltype.cpp \
     parameters/role.cpp \
     parameters/rsvp.cpp \
@@ -52,100 +41,102 @@ SOURCES += main.cpp \
     parameters/tzid_param.cpp \
     parameters/value.cpp \
     properties/action.cpp \
-    properties/created.cpp \
-    properties/dtstamp.cpp \
-    properties/exdate.cpp \
-    properties/lastmodified.cpp \
-    properties/rdate.cpp \
-    properties/repeat.cpp \
-    properties/rrule.cpp \
-    properties/sequence.cpp \
-    properties/trigger.cpp \
-    parameters/altrep.cpp \
-    parameters/calusertype.cpp \
-    parameters/commonname.cpp \
-    parameters/delegatedfrom.cpp \
-    parameters/delegatedto.cpp \
-    parameters/direntryref.cpp \
     properties/attach.cpp \
+    properties/attendee.cpp \
+    properties/calscale.cpp \
     properties/categories.cpp \
     properties/class.cpp \
     properties/comment.cpp \
+    properties/completed.cpp \
+    properties/contact.cpp \
+    properties/created.cpp \
     properties/description.cpp \
+    properties/dtend.cpp \
+    properties/dtstamp.cpp \
+    properties/dtstart.cpp \
+    properties/due.cpp \
+    properties/durationprop.cpp \
+    properties/exdate.cpp \
+    properties/freebusy.cpp \
     properties/geo.cpp \
+    properties/lastmodified.cpp \
     properties/location.cpp \
+    properties/method.cpp \
+    properties/organizer.cpp \
     properties/percentcomplete.cpp \
     properties/priority.cpp \
+    properties/prodid.cpp \
+    properties/rdate.cpp \
+    properties/recurrenceid.cpp \
+    properties/relatedto.cpp \
+    properties/repeat.cpp \
+    properties/requeststatus.cpp \
     properties/resources.cpp \
+    properties/rrule.cpp \
+    properties/sequence.cpp \
     properties/status.cpp \
     properties/summary.cpp \
-    properties/completed.cpp \
-    properties/dtend.cpp \
-    properties/due.cpp \
-    properties/dtstart.cpp \
-    properties/freebusy.cpp \
     properties/transp.cpp \
-    properties/durationprop.cpp \
-    properties/prodid.cpp \
+    properties/trigger.cpp \
+    properties/tzid.cpp \
+    properties/tzname.cpp \
+    properties/tzoffsetfrom.cpp \
+    properties/tzoffsetto.cpp \
+    properties/tzurl.cpp \
+    properties/uid.cpp \
+    properties/url.cpp \
     properties/version.cpp \
-    properties/calscale.cpp \
-    properties/method.cpp \
     components/timezonerules.cpp \
-    core/genericparsertemplate.cpp \
-    parser.cpp \
-    tests/dateparsertests.cpp \
+    components/valarm.cpp \
+    components/vcalendar.cpp \
+    components/vevent.cpp \
+    components/vfreebusy.cpp \
+    components/vjournal.cpp \
+    components/vtimezone.cpp \
+    components/vtodo.cpp \
     tests/alltests.cpp \
+    tests/dateparsertests.cpp \
     tests/durationparsertests.cpp \
-    tests/varioustests.cpp \
-    tests/utf8validatortests.cpp
+    tests/utf8validatortests.cpp \
+    tests/varioustests.cpp
 
 HEADERS += \
-    core/genericpropertyparameter.h \
-    core/genericproperty.h \
+    parser.h \
+    parserexception.h \
+    parsertemplate.h \
+    streampos.h \
     core/genericcomponent.h \
     core/genericparser.h \
-    core/stream.h \
+    core/genericparsertemplate.h \
+    core/genericproperty.h \
+    core/genericpropertyparameter.h \
     core/charset.h \
-    core/withpos.h \
-    streampos.h \
-    components/vcalendar.h \
-    parserexception.h \
+    core/stream.h \
+    core/uniqueidregistry.h \
+    core/utf8validator.h \
     core/valueparser.h \
+    core/withpos.h \
     data/date.h \
-    data/time.h \
     data/datetime.h \
     data/duration.h \
     data/period.h \
     data/recurrencerule.h \
+    data/time.h \
     data/utcoffset.h \
-    components/vevent.h \
-    components/vjournal.h \
-    components/vtodo.h \
-    components/vfreebusy.h \
-    components/vtimezone.h \
-    components/valarm.h \
+    parameters/altrep.h \
+    parameters/calusertype.h \
+    parameters/commonname.h \
+    parameters/delegatedfrom.h \
+    parameters/delegatedto.h \
+    parameters/direntryref.h \
     parameters/encoding.h \
-    parameters/fmttype.h \
-    properties/tzid.h \
     parameters/fbtype.h \
+    parameters/fmttype.h \
     parameters/language.h \
     parameters/member.h \
     parameters/partstat.h \
     parameters/range.h \
     parameters/related.h \
-    properties/tzname.h \
-    properties/tzoffsetfrom.h \
-    properties/tzoffsetto.h \
-    properties/tzurl.h \
-    properties/attendee.h \
-    properties/contact.h \
-    properties/organizer.h \
-    properties/recurrenceid.h \
-    properties/relatedto.h \
-    properties/url.h \
-    properties/uid.h \
-    properties/requeststatus.h \
-    core/utf8validator.h \
     parameters/reltype.h \
     parameters/role.h \
     parameters/rsvp.h \
@@ -153,53 +144,63 @@ HEADERS += \
     parameters/tzid_param.h \
     parameters/value.h \
     properties/action.h \
-    properties/created.h \
-    properties/dtstamp.h \
-    properties/exdate.h \
-    properties/lastmodified.h \
-    properties/rdate.h \
-    properties/repeat.h \
-    properties/rrule.h \
-    properties/sequence.h \
-    properties/trigger.h \
-    parameters/altrep.h \
-    parameters/calusertype.h \
-    parameters/commonname.h \
-    parameters/delegatedfrom.h \
-    parameters/delegatedto.h \
-    parameters/direntryref.h \
     properties/attach.h \
+    properties/attendee.h \
+    properties/calscale.h \
     properties/categories.h \
     properties/class.h \
     properties/comment.h \
+    properties/completed.h \
+    properties/contact.h \
+    properties/created.h \
     properties/description.h \
+    properties/dtend.h \
+    properties/dtstamp.h \
+    properties/dtstart.h \
+    properties/due.h \
+    properties/durationprop.h \
+    properties/exdate.h \
+    properties/freebusy.h \
     properties/geo.h \
+    properties/lastmodified.h \
     properties/location.h \
+    properties/method.h \
+    properties/organizer.h \
     properties/percentcomplete.h \
     properties/priority.h \
+    properties/prodid.h \
+    properties/rdate.h \
+    properties/recurrenceid.h \
+    properties/relatedto.h \
+    properties/repeat.h \
+    properties/requeststatus.h \
     properties/resources.h \
+    properties/rrule.h \
+    properties/sequence.h \
     properties/status.h \
     properties/summary.h \
-    properties/completed.h \
-    properties/dtend.h \
-    properties/due.h \
-    properties/dtstart.h \
-    properties/freebusy.h \
     properties/transp.h \
-    properties/durationprop.h \
-    properties/prodid.h \
+    properties/trigger.h \
+    properties/tzid.h \
+    properties/tzname.h \
+    properties/tzoffsetfrom.h \
+    properties/tzoffsetto.h \
+    properties/tzurl.h \
+    properties/uid.h \
+    properties/url.h \
     properties/version.h \
-    properties/calscale.h \
-    properties/method.h \
     components/timezonerules.h \
-    core/uniqueidregistry.h \
-    core/genericparsertemplate.h \
-    parsertemplate.h \
-    parser.h \
-    tests/testreporter.h \
-    tests/dateparsertests.h \
+    components/valarm.h \
+    components/vcalendar.h \
+    components/vevent.h \
+    components/vfreebusy.h \
+    components/vjournal.h \
+    components/vtimezone.h \
+    components/vtodo.h \
     tests/alltests.h \
-    tests/durationparsertests.h \
     tests/dataparserutils.h \
-    tests/varioustests.h \
-    tests/utf8validatortests.h
+    tests/dateparsertests.h \
+    tests/durationparsertests.h \
+    tests/testreporter.h \
+    tests/utf8validatortests.h \
+    tests/varioustests.h
