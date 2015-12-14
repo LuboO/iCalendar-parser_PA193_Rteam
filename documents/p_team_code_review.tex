@@ -1,0 +1,240 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+\usepackage{listings}
+
+\usepackage{color}
+
+\definecolor{mygray}{rgb}{0.4,0.4,0.4}
+\definecolor{myorange}{rgb}{1.0,0.4,0}
+
+\lstset{
+basicstyle=\tiny\sffamily\color{black},
+commentstyle=\color{mygray},
+frame=single,
+keywordstyle=\color{blue},
+showspaces=false,
+showstringspaces=false,
+stringstyle=\color{myorange},
+tabsize=2,
+language=C++
+}
+
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Team P code review]{JSON Floorball parser code review} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author[R Team]{Ondrej Mosnáček , Lenka Kuníková , Ľubomír Obrátil} % Your name
+\date{17.12.2015} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Style}
+
+\begin{itemize}
+\item \textbf{Project} inconsistent method naming
+\item \textbf{Project} hardcoded strings, lots of magic constants depending on these strings
+\item \textbf{Project} using exit(1) - code can't be modified to parse multiple files
+\item \textbf{Team.cpp, Player.cpp} code duplicity
+\item \textbf{Player.h} public methods that should be private
+\item \textbf{Team.cpp} not using initializer section
+\item \textbf{Team.cpp} double comparison in if statements
+\item \textbf{main.cpp} hardcoded output file name
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+\frametitle{Style issues examples}
+
+\begin{lstlisting}
+/* Inconsistent names */
+long long skipWhiteSpace();             // Match.h(33)
+static bool IsForbiddenUTF8Char(byte b) // UTF.h(27)
+
+/* Hardcoded strings, magic numbers */ // Player.cpp(142)
+int startGFDef = skipToChar(comma1 + 1 , '"' , player) + 1; 
+if(player.compare(startGFDef , 10 , "GFbyPlayer") != 0 || player[startGFDef + 10] != '"')
+{cerr << "Json GFbyPlayer name not correct" << endl; exit(1);}
+int semicolon2 = skipToChar(startGFDef + 11 , ':' , player);
+int endGF = checkInt(semicolon2 + 1 , player , m_gf);
+int comma2 = skipToChar(endGF , ',' , player);
+
+/* Code duplicity */
+int checkString(int index , const string &buffer , string &variable) // Team.cpp(101)
+int checkString(int index , const string &player , string &variable) // Player.cpp(92)
+
+/* Double comparison */ // Team.cpp(143)
+if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] == '\f' ||  
+   player[index + 1] == '\f' || player[index + 1] == '\n' || player[index + 1] == '\r' ||
+   player[index + 1] == '\t' || player[index + 1] == '"' || player[index + 1] == '\\')
+\end{lstlisting}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Performance/Portability issues}
+
+\begin{itemize}
+\item \textbf{Project} \#pragma once is not standard
+\item \textbf{Project} input is loaded into string first
+\item \textbf{Project} too many substrings are unnecessary copied
+\item \textbf{Team.h} wrong case in \#include, wouldn't build on *NIX systems
+\item \textbf{Team.h} wrong use of quotes vs angle brackets in \#include
+\item \textbf{Team.cpp} use of std::stoi - part of C++11, yet project report doesn't mention it
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Bugs and crashes}
+
+\begin{itemize}
+\item \textbf{UTF.h} Overlong byte sequences that should be rejected are not (3 byte character padded with zeroes to 4 bytes)
+\item \textbf{Player.cpp, Team.cpp} checkString - no bound checking for string, certain inputs will cause reading after the buffer and thus crashing
+\item \textbf{Player.cpp, Team.cpp} checkString - wrong character escaping - will allow e.g. \textbackslash 0 or \textbackslash n in strings
+\item \textbf{Player.cpp, Team.cpp} checkString - unescaped / is rejected, yet JSON allows it
+\item \textbf{Player.cpp, Team.cpp} checkString - \textbackslash uXXXX escape allowed by JSON is ignored
+\item \textbf{Player.cpp} Parse - will reject any valid input if it doesn't have whitespace before curly bracket
+\item \textbf{main.cpp} bad\_alloc exception is not handled while parsing
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+\frametitle{Pieces of malformed input}
+
+\begin{lstlisting}[stringstyle=\color{black}]
+/* Invalid UTF8 (escaped characters) */
+"Name": "\xf0\x82\x82\xac Doe",
+
+/* Zero in name (escaped zero) */
+"Name": "\0 Doe",
+
+/* Out of bounds reading */
+"Name": "\\
+
+/* Rejected valid input */
+"GPbyPlayer": 2},
+
+/* Newline in name */
+"Name": "\
+",
+\end{lstlisting}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{The End}
+
+\begin{center}
+\begin{Huge}
+Thank you for your attention. \\
+Questions?
+\end{Huge}
+\end{center}
+
+\end{frame}
+
+\end{document} 

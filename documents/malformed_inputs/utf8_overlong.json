@@ -1,0 +1,135 @@
+{
+  "Team1": {
+    "Players": [
+      {
+        "Name": "ð‚‚¬ Doe",
+        "GFbyPlayer": 1,
+        "GAbyPlayer": 2,
+        "GPbyPlayer": 2
+      },
+      {
+        "Name": "Frank ",
+        "GFbyPlayer": 0,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 4
+      },
+      {
+        "Name": "Carl",
+        "GFbyPlayer": 2,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 4
+      },
+      {
+        "Name": "Mark",
+        "GFbyPlayer": 3,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 5
+      },
+      {
+        "Name": "David",
+        "GFbyPlayer": 2,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 4
+      },
+      {
+        "Name": "Luke",
+        "GFbyPlayer": 3,
+        "GAbyPlayer": 2,
+        "GPbyPlayer": 4
+      },
+      {
+        "Name": "James",
+        "GFbyPlayer": 2,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 6
+      },
+      {
+        "Name": "Sam",
+        "GFbyPlayer": 5,
+        "GAbyPlayer": 6,
+        "GPbyPlayer": 2
+      },
+      {
+        "Name": "Hugo",
+        "GFbyPlayer": 3,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 5
+      }
+    ],
+    "TeamName": "Kometa",
+    "Group": 2,
+    "Basket": 1,
+    "GA": 216365142,
+    "GF": 12,
+    "GP": 6,
+    "Diff": 2,
+    "Points": 18
+  },
+  "Team2": {
+    "Players": [
+      {
+        "Name": "Anthony",
+        "GFbyPlayer": 2,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 4
+      },
+      {
+        "Name": "Paolo",
+        "GFbyPlayer": 3,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 5
+      },
+      {
+        "Name": "Jesse",
+        "GFbyPlayer": 3,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 6
+      },
+      {
+        "Name": "Brad",
+        "GFbyPlayer": 2,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 4
+      },
+      {
+        "Name": "Barack",
+        "GFbyPlayer": 2,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 5
+      },
+      {
+        "Name": "Tim",
+        "GFbyPlayer": 5,
+        "GAbyPlayer": 6,
+        "GPbyPlayer": 9
+      },
+      {
+        "Name": "Philippe",
+        "GFbyPlayer": 3,
+        "GAbyPlayer": 3,
+        "GPbyPlayer": 7
+      },
+      {
+        "Name": "Milan",
+        "GFbyPlayer": 5,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 2
+      },
+      {
+        "Name": "Clarence",
+        "GFbyPlayer": 23,
+        "GAbyPlayer": 4,
+        "GPbyPlayer": 2
+      }
+    ],
+    "TeamName": "Praha Team",
+    "Group": 2,
+    "Basket": 3,
+    "GA": 12,
+    "GF": 14,
+    "GP": 15,
+    "Diff": 0,
+    "Points": 10
+  },
+  "Played": true
+}

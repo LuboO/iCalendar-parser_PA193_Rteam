@@ -1,0 +1,12 @@
+﻿/* Invalid UTF8*/
+"Name": "ð‚‚¬ Doe",
+
+/* Out of bounds reading */
+"Name": "\\
+
+/* Rejected valid input */
+"GPbyPlayer": 2},
+
+/* Newline in name */
+"Name": "\
+",
