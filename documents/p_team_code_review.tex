@@ -123,14 +123,14 @@ language=C++
 \frametitle{Style}
 
 \begin{itemize}
-\item \textbf{Project} inconsistent method naming
-\item \textbf{Project} hardcoded strings, lots of magic constants depending on these strings
-\item \textbf{Project} using exit(1) - code can't be modified to parse multiple files
-\item \textbf{Team.cpp, Player.cpp} code duplicity
-\item \textbf{Player.h} public methods that should be private
-\item \textbf{Team.cpp} not using initializer section
-\item \textbf{Team.cpp} double comparison in if statements
-\item \textbf{main.cpp} hardcoded output file name
+\item \textbf{Project} -- inconsistent method naming
+\item \textbf{General} -- hardcoded strings, lots of magic constants depending on these strings
+\item \textbf{General} -- using exit(1) inside functions -- code can't be modified to parse multiple files
+\item \textbf{Team.cpp, Player.cpp} -- code duplicity
+\item \textbf{Player.h} -- public methods that should be private
+\item \textbf{Team.cpp} -- not using initializer section
+\item \textbf{Team.cpp} -- double comparison in if statements
+\item \textbf{main.cpp} -- hardcoded output file name
 \end{itemize}
 
 \end{frame}
@@ -171,12 +171,12 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 \frametitle{Performance/Portability issues}
 
 \begin{itemize}
-\item \textbf{Project} \#pragma once is not standard
-\item \textbf{Project} input is loaded into string first
-\item \textbf{Project} too many substrings are unnecessary copied
-\item \textbf{Team.h} wrong case in \#include, wouldn't build on *NIX systems
-\item \textbf{Team.h} wrong use of quotes vs angle brackets in \#include
-\item \textbf{Team.cpp} use of std::stoi - part of C++11, yet project report doesn't mention it
+\item \textbf{General} -- \#pragma once is not standard
+\item \textbf{General} -- whole input is loaded into string first
+\item \textbf{General} -- too many substrings are unnecessary copied
+\item \textbf{Team.h} -- wrong case in \#include, wouldn't build on *NIX systems
+\item \textbf{Team.h} -- wrong use of quotes vs angle brackets in \#include
+\item \textbf{Team.cpp} -- use of std::stoi -- part of C++11, yet project report doesn't mention it
 \end{itemize}
 
 \end{frame}
@@ -187,13 +187,13 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 \frametitle{Bugs and crashes}
 
 \begin{itemize}
-\item \textbf{UTF.h} Overlong byte sequences that should be rejected are not (3 byte character padded with zeroes to 4 bytes)
-\item \textbf{Player.cpp, Team.cpp} checkString - no bound checking for string, certain inputs will cause reading after the buffer and thus crashing
-\item \textbf{Player.cpp, Team.cpp} checkString - wrong character escaping - will allow e.g. \textbackslash 0 or \textbackslash n in strings
-\item \textbf{Player.cpp, Team.cpp} checkString - unescaped / is rejected, yet JSON allows it
-\item \textbf{Player.cpp, Team.cpp} checkString - \textbackslash uXXXX escape allowed by JSON is ignored
-\item \textbf{Player.cpp} Parse - will reject any valid input if it doesn't have whitespace before curly bracket
-\item \textbf{main.cpp} bad\_alloc exception is not handled while parsing
+\item \textbf{UTF.h} -- some UTF-8 byte sequences that should be rejected are not (e. g. codepoint U+0024 must be encoded as 1 byte, but the parser also accepts the two- or more-byte version)
+\item \textbf{Player.cpp, Team.cpp} -- checkString -- no bound checking for string, certain inputs will cause reading after the buffer and thus crashing
+\item \textbf{Player.cpp, Team.cpp} -- checkString -- wrong character escaping -- will allow e. g. \textbackslash 0 or \textbackslash n in strings
+\item \textbf{Player.cpp, Team.cpp} -- checkString -- unescaped / is rejected, yet JSON allows it
+\item \textbf{Player.cpp, Team.cpp} -- checkString -- \textbackslash uXXXX escape allowed by JSON is not handled
+\item \textbf{Player.cpp} -- Parse -- will reject any valid input if it doesn't have whitespace before curly bracket
+\item \textbf{main.cpp} -- bad\_alloc exception is not handled while parsing
 \end{itemize}
 
 \end{frame}
@@ -223,16 +223,30 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 
 \end{frame}
 
+\begin{frame}{Tools \& methods}
+\begin{itemize}
+\item \textbf{cppcheck} -- detected minor issues (e. g. the duplicate comparison)
+\item \textbf{zzuf, radamsa} (fuzzers) -- mostly generated invalid files, did not cause crashes
+\item \textbf{custom fuzzing}
+	\begin{itemize}
+	\item cut off bytes from the end of a valid file one-by-one
+	\item this approach helped discover some crashes/memory corruptions
+	\end{itemize}
+\item \textbf{valgrind} -- used together with fuzzers to detect memory issues
+\item \textbf{manual review} -- most of the issues were found by manual review
+\end{itemize}
+\end{frame}
+
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{The End}
 
 \begin{center}
-\begin{Huge}
+\begin{huge}
 Thank you for your attention. \\
 Questions?
-\end{Huge}
+\end{huge}
 \end{center}
 
 \end{frame}
