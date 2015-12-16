@@ -1,0 +1,114 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[slovak]{babel}
+\usepackage[IL2]{fontenc}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\hypersetup{
+  colorlinks,
+  linkcolor={red!50!black},
+  citecolor={green!50!black},
+  urlcolor={blue!80!black}  
+}
+
+\author{Ondrej Mosnáček, Lenka Kuníková and Ľubomír Obrátil}
+\title{Project -- Second part, code check of an open-source project}
+
+\begin{document}
+\maketitle
+
+\section*{The project}
+\begin{itemize}
+\item \textbf{ZeroTier One} (\url{https://github.com/zerotier/ZeroTierOne}) -- a secure network virtualization project.
+\item $\sim$55 000 lines of code
+\end{itemize}
+\section*{CppCheck}
+\subsection*{Statistics}
+\begin{tabular}{lr}
+\textbf{Errors:} & 4 \\
+\textbf{Warnings:} & 80 \\
+\textbf{Style warnings:} & 218 \\
+\textbf{Portability warnings:} & 1 \\
+\textbf{Performance warnings:} & 3 \\
+\textbf{Information messages:} & 130
+\end{tabular}
+
+\subsection*{Errors}
+\begin{itemize}
+\item \verb|controller/SqliteNetworkController.cpp:1012| -- Exception thrown in function declared not to throw exceptions.
+\item \verb|osdep/UPNPClient.cpp:100| -- Exception thrown in function declared not to throw exceptions.
+\item \verb|osdep/WindowsEthernetTap.cpp:876| -- Exception thrown in function declared not to throw exceptions.
+\item \verb|service/OneService.cpp| -- Used file that is not opened.
+\end{itemize}
+
+\subsection*{Warnings}
+\begin{itemize}
+\item Member variable '...' is not initialized in the constructor.
+\item \verb|operator=| should check for assignment to self to ensure that each block of dynamically allocated memory is owned and managed by only one instance of the class.
+\item Member variable \verb|_Bucket::next| is not assigned a value in \verb|_Bucket::operator=|.
+\item \verb|%d| in format string (no. 2) requires \verb|int| but the argument type is \verb|unsigned int|.
+\item Repositioning operation performed on a file opened in append mode has no effect.
+\item Either the condition \verb|p && intClient| is redundant or there is possible null pointer dereference: \verb|intClient|.
+\item The return value of \verb|std::unique()| is ignored. This function returns an iterator to the end of the range containing those elements that should be kept. Elements past new end remain valid but with unspecified values. Use the erase method of the container to delete them.
+\item \verb|%llx| in format string (no. 1) requires \verb|unsigned long long| but the argument type is \verb|unsigned int|.
+\end{itemize}
+
+\subsection*{Portability warnings}
+\begin{itemize}
+\item Using \verb|memset()| on union which contains a floating point number. This is not portable because \verb|memset()| sets each byte of a block of memory to a specific value and the actual representation of a floating-point value is implementation defined. Note: In case of an IEEE754-1985 compatible implementation setting all bits to zero results in the value 0.0.
+\end{itemize}
+
+\subsection*{Performance warnings}
+\begin{itemize}
+\item When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list. You could avoid assigning '...' a value by passing the value to the constructor in the initialization list.
+\end{itemize}
+
+\subsection*{Style warnings}
+\begin{itemize}
+\item The scope of the variable '...' can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops.
+\item Variable '...' is assigned a value that is never used.
+\item Class '...' has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided.
+\item The unsigned variable '...' will never be negative so it is either pointless or an error to check if it is.
+\item struct member '...' is never used.
+\item Suspicious calculation. Please use parentheses to clarify the code. The code \verb|a & b ? c : d| should be written as either \verb|(a & b) ? c : d| or \verb|a & (b ? c : d)|.
+\item Unused variable: ...
+\item C-style pointer casting detected. C++ offers four different kinds of casts as replacements: \verb|static_cast|, \verb|const_cast|, \verb|dynamic_cast| and \verb|reinterpret_cast|. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected. See also: \url{https://www.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not+use+C-style+casts}.
+\item class \verb|Cluster| does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
+\item Defensive programming: The variable \verb|k| is used as an array index before it is checked that it is within limits. This can mean that the array might be accessed out of bounds. Reorder conditions such as \verb|(a[i] && i < 10)| to \verb|(i < 10 && a[i])|. That way the array will not be accessed if the index is out of limits.
+\item Consecutive return, break, continue, goto or throw statements are unnecessary. The second statement can never be executed, and so should be removed.
+\item The exception is caught by value. It could be caught as a (const) reference which is usually recommended in C++.
+\end{itemize}
+
+\section*{MSVC}
+\subsection*{Statistics}
+\begin{tabular}{lr}
+\textbf{Errors:} & 1 \\
+\textbf{Warnings:} & 154
+\end{tabular}
+
+(All only in external libraries.)
+
+\subsection*{Errors}
+\begin{itemize}
+\item \verb|ext/miniupnpc/minissdpc.c:535| -- error C4996: \verb|inet_addr|: Use \verb|inet_pton()| or \verb|InetPton()| instead or define [...] to disable deprecated API warnings
+\end{itemize}
+
+\subsection*{Warnings}
+\begin{itemize}
+\item C4245 - conversion from \verb|int| to \verb|unsigned int| in return statement
+\item C4204 - nonstandard extension used: non-constant aggregate initializer
+\item C4132 - const object should be initialized
+\item C4100 - unreferenced function parameter
+\item C4244 - conversion from \verb|unsigned int| to \verb|char| (possible loss of information)
+\item C4706 - assignment within conditional expression
+\end{itemize}
+
+\section*{PREfast}
+Detected nothing.
+
+\end{document}
