@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+\usepackage{listings}
+
+\usepackage{color}
+
+\definecolor{mygray}{rgb}{0.4,0.4,0.4}
+\definecolor{myorange}{rgb}{1.0,0.4,0}
+
+\lstset{
+basicstyle=\tiny\sffamily\color{black},
+commentstyle=\color{mygray},
+frame=single,
+keywordstyle=\color{blue},
+showspaces=false,
+showstringspaces=false,
+stringstyle=\color{myorange},
+tabsize=2,
+language=C++
+}
+
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[ZeroTierOne code review]{ZeroTierOne code review} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author[R Team]{Ondrej Mosnáček , Lenka Kuníková , Ľubomír Obrátil} % Your name
+\date{17.12.2015} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{ZeroTierOne}
+\begin{itemize}
+\item Network virtualisation service
+\item Provides encryption, authentication, access control, network management
+\item Source \url{https://github.com/zerotier/ZeroTierOne}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Cppcheck}
+\begin{itemize}
+\item 4 errors
+\item 80 warnings
+\item 218 style warnings
+\item 3 performance warnings
+\item 1 portability warning
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Cppcheck - errors}
+\begin{itemize}
+\item Exception thrown in function declared not to throw exceptions
+\begin{itemize}
+\item 3x - use of their own function snprintf() which throws an exception if the output buffer is too short
+\end{itemize}
+\item Used file that is not opened.
+\end{itemize}
+\begin{lstlisting}
+fclose(pkg);
+FILE *bash = fopen(bashp,"w");
+if (!bash) {
+fclose(pkg);
+...
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Cppcheck - warnings}
+\begin{itemize}
+\item \%d in format string requires 'int' but the argument type is 'unsigned int'
+\item Member variable not initialized in the constructor
+\item 'operator=' should check for assignment to self 
+\item Repositioning operation performed on a file opened in append mode has no effect
+\begin{lstlisting}
+FILE *f = fopen(reportSavePath.c_str(),"a");
+		if (!f)
+			return;
+		fseek(f,0,SEEK_END);
+\end{lstlisting}
+\item (Portability) Using memset() on union which contains a floating point number
+\item (Performance)  Variables are assigned in constructor body
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Cppcheck - style}
+\begin{itemize}
+\item The scope of variables can be reduced
+\item Variable is assigned a value that is never used.
+\item Unused variables
+\item missing copy constructor in a class that contains a pointer to allocated memory
+\item The variable 'k' is used as an array index before it is checked that is within limits
+\begin{lstlisting}
+while ((!ip[k])&&(k < 15)) ++k;
+\end{lstlisting}
+\item Consecutive throw and return statements are unnecessary
+\begin{lstlisting}
+	if (ioctl(sock,SIOCSIFHWADDR,(void *)&ifr) < 0) {
+		...
+		throw std::runtime_error("unable to configure TAP hardware (MAC) address");
+		return;
+	}
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{MSVC}
+\begin{itemize}
+\item 1 error - use of deprecated function inet\_addr()
+\item Warnings:
+\begin{itemize}
+\item conversion from unsigned int to char
+\item nonstandard extension used: non-constant aggregate initializer
+\item const object should be initialized
+\item unreferenced function parameter
+\item assignment within conditional expression
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+
+\end{document} 
