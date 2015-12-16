@@ -183,16 +183,17 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks=0.8]
 \frametitle{Bugs and crashes}
 
 \begin{itemize}
 \item \textbf{UTF.h} -- some UTF-8 byte sequences that should be rejected are not (e. g. codepoint U+0024 must be encoded as 1 byte, but the parser also accepts the two- or more-byte version)
 \item \textbf{UTF.h} -- IsForbiddenUTF8Char -- unclear purpose; \textbf{all comparisons here are always false} (char variable compared to a constant $>$ 0x7F)
+\item \textbf{Team.cpp} -- parse, findAndCheck -- end of string is not checked anywhere, causes unhandled exception/crash on some inputs
 \item \textbf{Player.cpp, Team.cpp} -- checkString -- no bound checking for string, certain inputs will cause reading after the buffer and thus crashing
 \item \textbf{Player.cpp, Team.cpp} -- checkString -- wrong character escaping -- will allow e. g. \textbackslash 0 or \textbackslash n in strings
 \item \textbf{Player.cpp, Team.cpp} -- checkString -- unescaped / is rejected, yet JSON allows it
-\item \textbf{Player.cpp, Team.cpp} -- checkString -- \textbackslash uXXXX escape allowed by JSON is not handled
+\item \textbf{Player.cpp, Team.cpp} -- checkString -- \textbackslash uXXXX escape allowed by JSON is not validated (e. g. allows "\textbackslash uHello"; should be only hexadecimal digits)
 \item \textbf{Player.cpp} -- Parse -- will reject any valid input if it doesn't have whitespace before curly bracket
 \item \textbf{main.cpp} -- bad\_alloc exception is not handled while parsing
 \end{itemize}
