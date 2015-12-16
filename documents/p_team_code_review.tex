@@ -188,6 +188,7 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 
 \begin{itemize}
 \item \textbf{UTF.h} -- some UTF-8 byte sequences that should be rejected are not (e. g. codepoint U+0024 must be encoded as 1 byte, but the parser also accepts the two- or more-byte version)
+\item \textbf{UTF.h} -- IsForbiddenUTF8Char -- unclear purpose; \textbf{all comparisons here are always false} (char variable compared to a constant $>$ 0x7F)
 \item \textbf{Player.cpp, Team.cpp} -- checkString -- no bound checking for string, certain inputs will cause reading after the buffer and thus crashing
 \item \textbf{Player.cpp, Team.cpp} -- checkString -- wrong character escaping -- will allow e. g. \textbackslash 0 or \textbackslash n in strings
 \item \textbf{Player.cpp, Team.cpp} -- checkString -- unescaped / is rejected, yet JSON allows it
@@ -226,6 +227,7 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 \begin{frame}{Tools \& methods}
 \begin{itemize}
 \item \textbf{cppcheck} -- detected minor issues (e. g. the duplicate comparison)
+\item \textbf{PREfast} -- detected nothing
 \item \textbf{zzuf, radamsa} (fuzzers) -- mostly generated invalid files, did not cause crashes
 \item \textbf{custom fuzzing}
 	\begin{itemize}
@@ -233,6 +235,7 @@ if(player[index + 1] == '/' || player[index + 1] == '\b' || player[index + 1] ==
 	\item this approach helped discover some crashes/memory corruptions
 	\end{itemize}
 \item \textbf{valgrind} -- used together with fuzzers to detect memory issues
+\item \textbf{gcc, clang, MSVC} -- all detected the tautological comparisons with all warnings enabled + some minor issues
 \item \textbf{manual review} -- most of the issues were found by manual review
 \end{itemize}
 \end{frame}
