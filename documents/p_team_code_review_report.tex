@@ -1,0 +1,102 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[slovak]{babel}
+\usepackage[IL2]{fontenc}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\hypersetup{
+  colorlinks,
+  linkcolor={red!50!black},
+  citecolor={green!50!black},
+  urlcolor={blue!80!black}  
+}
+
+\author{Ondrej Mosnáček, Lenka Kuníková and Ľubomír Obrátil}
+\title{Team P code review report}
+\date{17.12.2015}
+
+\begin{document}
+\maketitle
+
+\section*{Style issues}
+\begin{itemize}
+	\item \textbf{Player.h}
+	\begin{itemize}
+		\item Methods used only by class are public (should be private).
+	\end{itemize}
+	\item \textbf{Player.cpp}
+	\begin{itemize}
+		\item Use of exit(1) - parser can't be used with other interface/inside other application.
+		\item Code duplication in methods checkString and readInt - same methods are in Team.cpp.
+		\item Heavy use of hardcoded strings and magic constants - bad readability and prone to errors.
+	\end{itemize}
+	\item \textbf{Team.cpp}
+	\begin{itemize}
+		\item Use of exit(1), code duplication, magic numbers.
+		\item All error messages are almost same, need for manual stepping over application to find out where an error is issued.
+		\item Members of class are initialized in the body of constructor instead of initializer section.
+		\item Duplicate comparisons in elaborate if's
+	\end{itemize}
+	\item \textbf{Match.cpp}
+	\begin{itemize}
+		\item Same issues as in Player.cpp and Team.cpp.
+	\end{itemize}
+	\item \textbf{main.cpp}
+	\begin{itemize}
+		\item Hardcoded output file name.
+	\end{itemize}
+\end{itemize}
+
+\section*{Performance and portability issues}
+\begin{itemize}
+	\item \textbf{General}
+	\begin{itemize}
+		\item Using \#pragma once even though it's not standard.
+		\item Extensive unnecessary substring copying.
+	\end{itemize}
+	\item \textbf{Team.h}
+	\begin{itemize}
+		\item Wrong case in \#include directives, can't be built on *nix system.
+		\item Wrong usage of angle brackets vs. quotes in includes.
+	\end{itemize}
+	\item \textbf{Team.cpp}
+	\begin{itemize}
+		\item Use of function std::stoi (part of C++11 standard), yet project report doesn't mention use of C++11
+	\end{itemize}
+	\item \textbf{main.cpp}
+	\begin{itemize}
+		\item Program will work only for files, not for other streams or I/O devices.
+	\end{itemize}
+\end{itemize}
+
+\section*{Bugs and crashes}
+\begin{itemize}
+	\item \textbf{UTF.h}
+	\begin{itemize}
+		\item Some byte sequences that should be rejected are accepted (2 byte characters can be padded to 3 bytes and are still accepted)
+		\item IsForbiddenUTF8Char method has no purpose as all comparisons will be always false. Char variable is compared to constants that are bigger than 0x7F.
+	\end{itemize}
+	\item \textbf{Player.cpp} 
+	\begin{itemize}
+		\item In method findAndCheck - end of string is never checked, some inputs will cause reading behind buffer, parser will either crash or raise exception.
+		\item Method parse will reject any valid input that has no whitespace before curly brackets
+	\end{itemize}
+	\item \textbf{Team.cpp}
+	\begin{itemize}
+		\item Again, no bound checking for index and direct access of string elements through this index - causes crashes and exceptions in method findAndCheck.
+		\item Method checkString should reject unescaped control character but won't do so. Will accept binary zero (or other characters) in any string, will accept newline character if it is preceeded by backslash - this has no effect, newline is still there. The \textbackslash uXXXX escape defined by JSON standard is completely ignored. Forward slash is rejected but shouldn't be.
+	\end{itemize}
+	\item \textbf{main.cpp}
+	\begin{itemize}
+		\item bad\_alloc is not handled if it is raised during parsing
+	\end{itemize}
+\end{itemize}
+
+\section*{Overall}
+Even though parser is fairly short (+-500 lines), it contains a lot of potentially dangerous bugs. Big portions of this bugs could be avoided by more thorough testing on malformed inputs. Code alone is rather hard to read as it features a lot of inconsistencies, conditions and hardcoded values.
+\end{document}
